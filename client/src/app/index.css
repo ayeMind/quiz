@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+@layer utilities {
+    @variants {
+      .bg-gradient-dark {
+        background: -webkit-linear-gradient(180deg, #282f45,#040c25);
+        background: linear-gradient(180deg, #282f45,#040c25);
+        color: rgb(255 255 255 / .7);
+
+    }
+
+      .bg-gradient-light {
+        background: -webkit-linear-gradient(180deg, #edf2fb,#e2eafc,#d7e3fc,#c1d3fe);
+        background: linear-gradient(180deg, #edf2fb,#e2eafc,#d7e3fc,#c1d3fe);
+      }
+    }
+  }
