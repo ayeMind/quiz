@@ -19,5 +19,10 @@
         background: -webkit-linear-gradient(180deg, #edf2fb,#e2eafc,#d7e3fc,#c1d3fe);
         background: linear-gradient(180deg, #edf2fb,#e2eafc,#d7e3fc,#c1d3fe);
       }
-    }
+
+      .gradient-blue {
+        background: -webkit-linear-gradient(180deg, #f2feff,#e8ffff);
+        background: linear-gradient(180deg, #f2feff,#e8ffff);
+      }
   }
+}

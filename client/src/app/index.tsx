@@ -3,6 +3,10 @@ import Cookies from 'universal-cookie'
 import Menu from "../pages/Menu";
 import PageNotFound from "../pages/PageNotFound";
 import globalStore from "./globalStore";
+import CreateQuiz from "../pages/CreateQuiz";
+import LogIn from "../pages/Login";
+import SignUp from "../pages/SignUp";
+import Quiz from "../pages/Quiz";
 
 function App() {
 
@@ -19,6 +23,11 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Menu />} />
+
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/create" element={<CreateQuiz />} />
+          <Route path='/quiz' element={<Quiz />} />
 
           <Route path='*' element={<PageNotFound />} />
         </Routes>
