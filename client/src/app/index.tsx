@@ -1,10 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Cookies from 'universal-cookie'
+import globalStore from "./globalStore";
+
+// pages
 import Menu from "../pages/Menu";
 import PageNotFound from "../pages/PageNotFound";
-import globalStore from "./globalStore";
 import CreateQuiz from "../pages/CreateQuiz";
-import LogIn from "../pages/Login";
+import LogIn from "../pages/LogIn";
 import SignUp from "../pages/SignUp";
 import Quiz from "../pages/Quiz";
 

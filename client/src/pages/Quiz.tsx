@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import { PageLayout } from "../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
+import { Link } from "react-router-dom";
 
 const questions = [
     {
@@ -73,7 +75,7 @@ const Quiz = observer(() => {
             }
 
             return (
-                <button className="hover:scale-[1.1] px-[124px] bg-white dark:bg-slate-800 rounded-3xl"
+                <button className="hover:scale-105 px-[84px] bg-white dark:bg-[#060E24] rounded-3xl"
                         onClick={() => handleClick()}
                         key={answerIndex}>
                     {answer}
@@ -82,18 +84,35 @@ const Quiz = observer(() => {
         })
     
         return (  
-            <div className="flex flex-col items-center justify-center gap-[32px] w-screen h-screen"
+            <div className="flex flex-col items-center justify-center gap-[16px] h-screen w-1/2"
                  key={questionIndex}>
-                <h1 className="sm:static lg:absolute top-[54px] left-1/2 lg:-translate-x-1/2 font-bold text-center">Вопрос {currentQuestionIndex + 1}</h1>
-                <h2 className="sm:static lg:absolute top-[128px] left-1/2 lg:-translate-x-1/2 font-bold text-center">{question.question}</h2>
-                {answers}
+                <h1 className="font-bold text-center break-words select-none">Вопрос {currentQuestionIndex + 1}</h1>
+                <h2 className="font-bold text-center select-none mb-[64px]">{question.question}</h2>
+                <div className="flex flex-col items-center justify-center gap-[32px]">
+                    {answers}
+                </div>
             </div>
         )
     })
 
+
+    const calculateProgressBar = (currentIndex: number, questionsAmount: number) => {
+        const onePart = 100 / questionsAmount
+        return onePart * currentIndex
+    }
+
   return (
     <PageLayout showHeader={false}>
-        {quizQuestion[currentQuestionIndex]}
+        <Link to='/' className="absolute top-4 left-4 text-[24px] flex justify-center items-center hover:scale-105 hover:underline gap-1">
+            <ArrowLeft /> 
+            <p>На главную</p>
+        </Link>
+        <div className='flex justify-center'>
+            {quizQuestion[currentQuestionIndex]}
+        </div>
+        <div className="absolute bottom-0 w-screen h-2 bg-white dark:bg-slate-700">
+            <div className="absolute bottom-0 h-2 bg-lime-400 dark:bg-white dark:opacity-70" style={{'width': `${calculateProgressBar(currentQuestionIndex, questions.length)}%`}} />   
+        </div>
     </PageLayout>
   );
 });
