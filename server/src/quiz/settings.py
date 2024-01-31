@@ -5,6 +5,9 @@ class Settings(BaseSettings):
     server_port: int = 8000
     database_url: str = "postgresql://quizuser:secretpassword@localhost:5432/quizdb"
 
+    SECRET_KEY: str
+    ALGORITHM: str = "HS256" 
+
 settings = Settings(
     _env_file='.env',
     _env_file_encoding='utf-8'

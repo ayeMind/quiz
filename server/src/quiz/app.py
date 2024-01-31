@@ -4,8 +4,8 @@ from fastapi import FastAPI
 # from .tables import Base
 # Base.metadata.create_all(engine)
 
-app = FastAPI()
+app = FastAPI(docs_url=None)
 
 @app.get('/')
 def root():
-    return {'message': 'aboba'},
+    return {'message': 'nothing here'},
