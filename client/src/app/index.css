@@ -6,11 +6,16 @@
     font-family: 'Roboto', sans-serif;
 }
 
+:root {
+    --light-blue: #282f45;
+    --dark-blue: #040c25;
+}
+
 @layer utilities {
     @variants {
       .bg-gradient-dark {
-        background: -webkit-linear-gradient(180deg, #282f45,#040c25);
-        background: linear-gradient(180deg, #282f45,#040c25);
+        background: -webkit-linear-gradient(180deg, var(--light-blue), var(--dark-blue));
+        background: linear-gradient(180deg, var(--light-blue), var(--dark-blue));
         color: rgb(255 255 255 / .7);
 
     }

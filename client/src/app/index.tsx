@@ -12,8 +12,8 @@ import Quiz from "../pages/Quiz";
 
 function App() {
 
-  const cookies = new Cookies(null, { path: '/' });  
-
+  const cookies = new Cookies(null, { path: '/', secure: true, sameSite: "none" });
+  
   if (cookies.get("theme") === 'light' && globalStore.theme !== 'light') {
     const root = document.getElementById("root");
     root?.classList.remove("dark")
