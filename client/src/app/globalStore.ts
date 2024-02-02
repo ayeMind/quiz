@@ -5,7 +5,9 @@ function createGlobalStore() {
         theme: 'dark',
         changeTheme() {
             this.theme = this.theme === 'light' ? 'dark' : 'light';
-        }
+        },
+
+        user: 'guest',
     })
 }
 

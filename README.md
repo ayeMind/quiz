@@ -4,10 +4,9 @@
 
 Сайт для создания и прохождения викторин, с возможностью мультиплеера
 
-Планируемый стек: React, MobX, FastAPI, GraphQL, SQLAlchemy (PostrgeSQL)
+Планируемый стек: React, MobX, FastAPI, SQLAlchemy (PostrgeSQL)
 
-
-![изображение](https://github.com/ayeMind/quiz/assets/119005871/752f2be9-c392-4ad6-9521-efe40f3dcc7c)	
+![изображение](https://github.com/ayeMind/quiz/assets/119005871/752f2be9-c392-4ad6-9521-efe40f3dcc7c)
 
 ---
 
