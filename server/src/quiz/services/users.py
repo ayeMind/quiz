@@ -12,3 +12,10 @@ class UsersService:
     def get_list(self) -> List[tables.User]:
         users = self.session.query(tables.User).all()
         return users
+    
+    def get_user(self, user_id: int) -> tables.User:
+        user = self.session.query(tables.User).get(user_id)
+        if not user:
+            raise ValueError('User not found')
+        return user
+    

@@ -5,8 +5,10 @@ class Settings(BaseSettings):
     server_port: int = 8000
     database_url: str = "postgresql://quizuser:secretpassword@localhost:5432/quizdb"
 
-    SECRET_KEY: str
-    ALGORITHM: str = "HS256" 
+    jwt_secret: str
+    jwt_algorithm: str = "HS256" 
+    jwt_expiration: int = 3600
+
 
 settings = Settings(
     _env_file='.env',
