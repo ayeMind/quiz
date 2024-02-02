@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useId } from "react";
 import { PageLayout } from "../shared/ui/layouts/page-layout";
 import verifyUser from "../shared/api/verifyUser";
+import { useNavigate } from "react-router";
+import globalStore from "../app/globalStore";
 
 export default function LogIn() {
   const hintLoginId = useId();
@@ -11,6 +13,8 @@ export default function LogIn() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  const navigate = useNavigate();
 
   function validateEmail(email: string) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -22,7 +26,7 @@ export default function LogIn() {
     return passwordRegex.test(password);
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     // Валидация email
@@ -45,11 +49,17 @@ export default function LogIn() {
 
     // Отправка данных на сервер 
 
-    verifyUser(email, password)
-    console.log("Email:", email);
-    console.log("Password:", password);
+    const { success, data } = await verifyUser(email, password)
 
+    if (success) {
+      console.log('Успешная авторизация:', data);
+      globalStore.autorize()
+      navigate('/');      
+    } else {
+      console.error('Ошибка авторизации:', data);
+    }
   }
+      
 
   return (
     <PageLayout>

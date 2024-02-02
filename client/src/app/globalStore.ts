@@ -8,6 +8,10 @@ function createGlobalStore() {
         },
 
         user: 'guest',
+        isAutorized: false,
+        autorize() {
+            this.isAutorized = true;
+        }
     })
 }
 
