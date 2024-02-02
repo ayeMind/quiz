@@ -12,3 +12,10 @@ Session = sessionmaker(
     autoflush=False,
     autocommit=False,
 )
+
+def get_session() -> Session:
+    session = Session()
+    try:
+        yield session
+    finally:
+        session.close()

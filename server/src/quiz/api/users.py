@@ -1,8 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from typing import List
 
-from ..database import Session
-from .. import tables
+from ..services.users import UsersService
 from ..models.users import User
 
 router = APIRouter(
@@ -10,9 +9,6 @@ router = APIRouter(
 )
 
 @router.get('/', response_model=List[User])
-def get_users():
-    session = Session() 
-    users = session.query(tables.User).all()
-
-    return users
+def get_users(service:  UsersService = Depends()):
+    return service.get_list()
 
