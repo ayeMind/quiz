@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useId } from "react";
 import { PageLayout } from "../shared/ui/layouts/page-layout";
+import verifyUser from "../shared/api/verifyUser";
 
 export default function LogIn() {
   const hintLoginId = useId();
@@ -43,6 +44,8 @@ export default function LogIn() {
     }
 
     // Отправка данных на сервер 
+
+    verifyUser(email, password)
     console.log("Email:", email);
     console.log("Password:", password);
 
