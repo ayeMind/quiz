@@ -4,6 +4,11 @@ class User(BaseModel):
     id: int
     user_name: str
     email: str
-    password: str
     avatar: str
 
+
+class UserCreate(BaseModel):
+    id: int
+    user_name: str
+    email: str
+    password: str

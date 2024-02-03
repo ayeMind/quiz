@@ -9,7 +9,7 @@ from pydantic import ValidationError
 from ..database import  get_session
 
 from .. import tables
-from ..models.users import User
+from ..models.users import User, UserCreate
 from ..models.auth import Token, User_auth
 from ..settings import settings
 
@@ -74,12 +74,18 @@ class AuthService:
     def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
-    def register_new_user(self, user_data: User) -> Token:
+    def register_new_user(self, user_data: UserCreate) -> Token:
         user = tables.User(
             email=user_data.email,
             user_name=user_data.user_name,
             password=self.hashed_password(user_data.password),
-            avatar=user_data.avatar
+            avatar='default.png',
+
+            created_quizzes_ids=[],
+            number_of_quizzes=0,
+            completed_quizzes=0
+
+
         )
 
         self.session.add(user)
