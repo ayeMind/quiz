@@ -4,6 +4,7 @@ import { PageLayout } from "../shared/ui/layouts/page-layout";
 import verifyUser from "../shared/api/verifyUser";
 import { useNavigate } from "react-router";
 import globalStore from "../app/globalStore";
+import getUserInfo from "../shared/api/getUserInfo";
 
 export default function LogIn() {
   const hintLoginId = useId();
@@ -54,6 +55,16 @@ export default function LogIn() {
     if (success) {
       console.log('Успешная авторизация:', data);
       globalStore.autorize()
+      globalStore.setToken(data.token)
+
+      const { success_user , user_data } = await getUserInfo(data.token)
+
+      if (success_user) {
+        console.log('Успешное получение данных пользователя:', user_data);
+      } else {
+        console.error('Ошибка получения данных пользователя:', user_data);
+      }
+
       navigate('/');      
     } else {
       console.error('Ошибка авторизации:', data);

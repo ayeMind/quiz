@@ -11,6 +11,11 @@ function createGlobalStore() {
         isAutorized: false,
         autorize() {
             this.isAutorized = true;
+        },
+        
+        token: '',
+        setToken(token: string) {
+            this.token = token;
         }
     })
 }
