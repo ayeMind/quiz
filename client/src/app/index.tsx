@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { setUserInfo } from "../actions/setUserInfo";
 import Cookies from 'universal-cookie'
 import globalStore from "./globalStore";
+import getUserInfo from "../shared/api/getUserInfo";
 
 // pages
 import Menu from "../pages/Menu";
@@ -27,10 +28,17 @@ function App() {
   }
 
   if (cookies.get("auth_token") && !globalStore.isAutorized) {
-    const token = cookies.get("auth_token");
-    globalStore.autorize();
-    globalStore.setToken(token);
-    setUserInfo(token);
+  
+    try {
+      getUserInfo(cookies.get("auth_token"))
+      const token = cookies.get("auth_token");
+      globalStore.autorize();
+      globalStore.setToken(token);
+      setUserInfo(token);
+    } catch (error) {
+      console.log("Ошибка авторизации по кешу:", error);
+      cookies.remove("auth_token");
+    }
   }
 
   return ( 

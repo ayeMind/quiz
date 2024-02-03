@@ -4,3 +4,9 @@ export interface User {
     email: string;
     avatar: string;
 }
+
+export interface createUserData {
+    user_name: string;
+    email: string;
+    password: string;
+}

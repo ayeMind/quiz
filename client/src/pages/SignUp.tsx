@@ -1,6 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useId } from "react";
 import { PageLayout } from "../shared/ui/layouts/page-layout";
+
+import { User } from "../app/interfaces";
+
+import Cookies from "universal-cookie";
+
+import { setUserInfo } from "../actions/setUserInfo";
+import getAllUsers from "../shared/api/getAllUsers";
+import createUser from "../shared/api/createUser";
+import globalStore from "../app/globalStore";
+import { useNavigate } from "react-router-dom";
 
 export default function LogIn() {
   const hintUserNameId = useId();
@@ -14,6 +24,13 @@ export default function LogIn() {
   const [userNameError, setUserNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  const navigate = useNavigate();
+
+  const cookies = new Cookies(null, { path: '/', secure: true, sameSite: "none" });
+
+  let userNames: string[];
+  let emails: string[];
 
   function validateUserName(userName: string) {
     const userNameRegex = /^[a-zA-Z0-9]{3,}$/;
@@ -30,18 +47,36 @@ export default function LogIn() {
     return passwordRegex.test(password);
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    const { success_users, users_data } = await getAllUsers();
+    
+    if (success_users) {
+      // console.log("Успешное получение данных:", users_data);
+      userNames = users_data.map((user: User) => user.user_name);
+      emails = users_data.map((user: User) => user.email);
+    } else {
+      alert("Что-то пошло не так при получении данных с сервера!");
+    }
 
     // Валидация username
     if (!validateUserName(userName)) {
       setUserNameError("Username должен быть длиной не менее 3 символов и содержать только латинские буквы или цифры");
       return;
+    } else if (userNames.includes(userName)) {
+      setUserNameError("Такое имя уже занято");
+      return;
+    } else {
+      setUserNameError("");
     }
 
     // Валидация email
     if (!validateEmail(email)) {
       setEmailError("Введите корректный email");
+      return;
+    } else if (emails.includes(email)) {
+      setEmailError("Такой email уже занят");
       return;
     } else {
       setEmailError("");
@@ -58,8 +93,28 @@ export default function LogIn() {
     }
 
     // Отправка данных на сервер 
-    console.log("Email:", email);
-    console.log("Password:", password);
+    const { success_create, token } = await createUser({
+      user_name: userName,
+      email: email,
+      password: password,
+    });
+
+    if (success_create) {
+      const access_token = token.access_token;
+      
+      try {
+        setUserInfo(access_token);
+        globalStore.autorize();
+        globalStore.setToken(access_token);
+        cookies.set("auth_token", access_token, { path: "/", secure: true, sameSite: "none" });
+        navigate("/");
+      } catch (error) {
+        console.log("Ошибка авторизации:", error);
+      }
+    } else {
+      alert("Что-то пошло не так при регистрации!");
+    }
+    
 
   }
 
