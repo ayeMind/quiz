@@ -57,10 +57,11 @@ export default function LogIn() {
       globalStore.autorize()
       globalStore.setToken(data.token)
 
-      const { success_user , user_data } = await getUserInfo(data.token)
+      const { success_user , user_data } = await getUserInfo(data.access_token)
 
       if (success_user) {
-        console.log('Успешное получение данных пользователя:', user_data);
+        console.log('Успешное получение данных пользователя:');
+        globalStore.setUser(user_data)
       } else {
         console.error('Ошибка получения данных пользователя:', user_data);
       }

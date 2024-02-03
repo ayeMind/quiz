@@ -8,7 +8,7 @@ export default function getUserInfo(token: string) {
     return fetch(url, { headers })
         .then(response => response.json())
         .then(data => {
-            if (data.username) {
+            if (data.user_name) {
                 return { success_user: true, user_data: data };
             } else {
                 return { success_user: false, user_data: data};

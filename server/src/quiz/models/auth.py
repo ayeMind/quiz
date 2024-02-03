@@ -6,6 +6,9 @@ class Token(BaseModel):
 
 class User_auth(BaseModel):
     id: int
+    user_name: str
+    email: str
+    avatar: str
 
     class Config:
         from_attributes = True

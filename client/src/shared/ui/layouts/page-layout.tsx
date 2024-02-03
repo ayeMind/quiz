@@ -2,21 +2,31 @@ import { ForwardedRef, ReactNode, forwardRef } from "react";
 import { twMerge } from 'tailwind-merge';
 import { Link } from 'react-router-dom'; 
 import ThemeButton from "../buttons/theme-button";
+import  globalStore  from "../../../app/globalStore.ts"
 
 interface PageLayoutProps {
   children?: ReactNode;
   className?: string;
   showHeader?: boolean;
+  isAutorized?: boolean;
 }
+
+
 
 export const PageLayout = forwardRef(function PageLayout(
   {
     children,
     className,
     showHeader = true,
+    isAutorized = globalStore.isAutorized,
   }: PageLayoutProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
+
+  const handleExit = () => {
+    globalStore.exit()
+  }
+
   return (
     <div  
       ref={ref}
@@ -36,11 +46,22 @@ export const PageLayout = forwardRef(function PageLayout(
           <Link to="/catalog"></Link>
         </div>
 
-        <div className='flex items-center gap-6 text-[24px]'>
-          <Link to="/signup">Регистрация</Link>
-          <Link to="/login">Вход</Link>
-          <ThemeButton />
-        </div>
+        {
+          isAutorized ? (
+            <div className='flex items-center gap-6 text-[24px]'>
+              <Link to="/profile">Профиль</Link>
+              <Link onClick={handleExit} to="/">Выход</Link>
+              <ThemeButton />
+            </div>
+          ) : (
+            <div className='flex items-center gap-6 text-[24px]'>
+              <Link to="/signup">Регистрация</Link>
+              <Link to="/login">Вход</Link>
+              <ThemeButton />
+            </div>
+          )
+        }
+    
       </header>
       ) : (
         <span className="fixed flex items-center top-5 right-4">
