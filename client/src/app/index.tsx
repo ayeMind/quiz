@@ -9,15 +9,24 @@ import CreateQuiz from "../pages/CreateQuiz";
 import LogIn from "../pages/LogIn";
 import SignUp from "../pages/SignUp";
 import Quiz from "../pages/Quiz";
+import { setUserInfo } from "../actions/setUserInfo";
 
 function App() {
 
   const cookies = new Cookies(null, { path: '/', secure: true, sameSite: "none" });
+
   
   if (cookies.get("theme") === 'light' && globalStore.theme !== 'light') {
     const root = document.getElementById("root");
     root?.classList.remove("dark")
     globalStore.changeTheme();
+  }
+
+  if (cookies.get("auth_token") && !globalStore.isAutorized) {
+    const token = cookies.get("auth_token");
+    globalStore.autorize();
+    globalStore.setToken(token);
+    setUserInfo(token);
   }
 
   return (

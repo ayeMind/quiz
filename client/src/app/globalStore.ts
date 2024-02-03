@@ -32,6 +32,9 @@ function createGlobalStore() {
         exit() {
             this.isAutorized = false;
             this.token = '';
+            this.user = 'guest';
+            this.email = '';
+            this.avatar = 'guest.png';
         }
     })
 }

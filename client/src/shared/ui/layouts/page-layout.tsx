@@ -1,4 +1,4 @@
-import { ForwardedRef, ReactNode, forwardRef } from "react";
+import { ForwardedRef, ReactNode, forwardRef, useState } from "react";
 import { twMerge } from 'tailwind-merge';
 import { Link } from 'react-router-dom'; 
 import ThemeButton from "../buttons/theme-button";
@@ -8,7 +8,6 @@ interface PageLayoutProps {
   children?: ReactNode;
   className?: string;
   showHeader?: boolean;
-  isAutorized?: boolean;
 }
 
 
@@ -18,14 +17,17 @@ export const PageLayout = forwardRef(function PageLayout(
     children,
     className,
     showHeader = true,
-    isAutorized = globalStore.isAutorized,
   }: PageLayoutProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
+  
+  const [isAutorized, setIsAutorized] = useState(globalStore.isAutorized)
 
   const handleExit = () => {
     globalStore.exit()
+    setIsAutorized(false)
   }
+
 
   return (
     <div  
