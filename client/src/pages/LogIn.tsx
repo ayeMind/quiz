@@ -62,8 +62,11 @@ export default function LogIn() {
       setUserInfo(token);
 
       navigate("/");
+    } else if (data.detail === "Incorrect username or password") {
+      setPasswordError("Incorrect username or password")
     } else {
-      console.error("Ошибка авторизации:", data);
+      setPasswordError("Что-то пошло не так...")
+      console.error(data)
     }
   }
 
@@ -75,6 +78,8 @@ export default function LogIn() {
       // Нажата клавиша ENTER, устанавливаем фокус на поле ввода пароля
       if (validateEmail(email)) {
       document.getElementById("passwordInput")?.focus();
+      } else {
+        setEmailError("Введите корректный email");
       }
     }
   }
@@ -102,7 +107,7 @@ export default function LogIn() {
             value={email}
             onKeyUp={(e) => handleEmailKeyUp(e)}
             onKeyDown={(e) => handleEmailKeyDown(e)}
-            onChange={(e) => {
+            onChange={(e) => { 
               setEmail(e.target.value);
               setEmailError("");
             }}
