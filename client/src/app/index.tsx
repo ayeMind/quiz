@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { setUserInfo } from "../actions/setUserInfo";
-import Cookies from 'universal-cookie'
+import { observer } from "mobx-react-lite";
+import Cookies from "universal-cookie";
 import globalStore from "./globalStore";
-import getUserInfo from "../shared/api/getUserInfo";
 
 // pages
 import Menu from "../pages/Menu";
@@ -15,33 +14,26 @@ import MyQuizzes from "../pages/MyQuizzes/MyQuizzes";
 import Catalog from "../pages/Catalog";
 import Online from "../pages/Online/Online";
 import Profile from "../pages/Profile";
+import { useEffect } from "react";
 
-function App() {
+const App = observer(() => {
 
-  const cookies = new Cookies(null, { path: '/', secure: true, sameSite: "none" });
+  useEffect(() => {
+    const cookies = new Cookies(null, {
+      path: "/",
+      secure: true,
+      sameSite: "none",
+    });
 
-  
-  if (cookies.get("theme") === 'light' && globalStore.theme !== 'light') {
-    const root = document.getElementById("root");
-    root?.classList.remove("dark")
-    globalStore.changeTheme();
-  }
-
-  if (cookies.get("auth_token") && !globalStore.isAutorized) {
-  
-    try {
-      getUserInfo(cookies.get("auth_token"))
-      const token = cookies.get("auth_token");
-      globalStore.autorize();
-      globalStore.setToken(token);
-      setUserInfo(token);
-    } catch (error) {
-      console.log("Ошибка авторизации по кешу:", error);
-      cookies.remove("auth_token");
+    if (cookies.get("theme") === "dark") {
+      const root = document.getElementById("root");
+      root?.classList.add("dark");
+      globalStore.changeTheme();
     }
-  }
 
-  return ( 
+  }, []);
+
+  return (
     <div>
       <Router>
         <Routes>
@@ -49,18 +41,18 @@ function App() {
 
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/my-quizzes' element={<MyQuizzes />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/my-quizzes" element={<MyQuizzes />} />
           <Route path="/create" element={<CreateQuiz />} />
-          <Route path='/quiz' element={<Quiz />} />
-          <Route path='/catalog' element={<Catalog />} />
-          <Route path='/online' element={<Online />} />
+          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/catalog" element={<Catalog />} />
+          <Route path="/online" element={<Online />} />
 
-          <Route path='*' element={<PageNotFound />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
     </div>
   );
-}
+});
 
 export default App;

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import Cookies from 'universal-cookie'
 
 const ThemeButton = observer(() => {
-  const cookies = new Cookies(null, { path: '/' });
+  const cookies = new Cookies(null, { path: '/', secure: true, sameSite: "none"});
 
   function changeTheme() {
     const root = document.getElementById('root');
@@ -21,10 +21,10 @@ const ThemeButton = observer(() => {
 
   return (
     <button onClick={changeTheme}>
-      {globalStore.theme === 'dark' ? (
-        <Sun color='#f3f3f3' opacity={0.7} />
+      {globalStore.theme === 'light' ? (
+         <SunMoon color='#000000' />
       ) : (
-        <SunMoon color='#000000' />
+        <Sun color='#f3f3f3' opacity={0.7} />
       )}
     </button>
   ); 

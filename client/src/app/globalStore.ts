@@ -3,9 +3,9 @@ import { User } from "./interfaces";
 
 function createGlobalStore() {
     return makeAutoObservable({
-        theme: 'dark',
+        theme: 'light',
         changeTheme() {
-            this.theme = this.theme === 'light' ? 'dark' : 'light';
+            this.theme = (this.theme === 'light' ? 'dark' : 'light');
         },
         
         token: '',
