@@ -30,7 +30,6 @@ export const PageLayout = observer(forwardRef(function PageLayout(
       setIsAuthorized(globalStore.isAutorized);
     });
 
-    // Cleanup the observer when the component is unmounted
     return () => disposer();
   }, []);
 

@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import Cookies from "universal-cookie";
-import globalStore from "./globalStore";
 
 // pages
 import Menu from "../pages/Menu";
@@ -28,7 +27,6 @@ const App = observer(() => {
     if (cookies.get("theme") === "dark") {
       const root = document.getElementById("root");
       root?.classList.add("dark");
-      globalStore.changeTheme();
     }
 
   }, []);

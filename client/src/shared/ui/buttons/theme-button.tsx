@@ -9,10 +9,10 @@ const ThemeButton = observer(() => {
   function changeTheme() {
     const root = document.getElementById('root');
 
-    if (globalStore.theme === 'dark') {
-      root?.classList.remove('dark');
-    } else {
+    if (globalStore.theme === 'light') {
       root?.classList.add('dark');
+    } else {
+      root?.classList.remove('dark');
     }
 
     globalStore.changeTheme();

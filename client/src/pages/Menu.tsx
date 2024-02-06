@@ -34,9 +34,9 @@ const Menu = observer(() => {
 
 
   return (
-    <PageLayout>
-      <div className='bg-[#DBE6FE] dark:bg-[#141A30] h-2/3 w-screen flex items-center'>
-        <div className='w-2/5 pl-[74px]'>
+    <PageLayout className="h-auto min-h-screen">
+      <div className='bg-[#DBE6FE] dark:bg-[#141A30] h-[66.7vh] w-screen flex items-center'>
+        <div className='w-[40vw] pl-[74px]'>
           <p className="text-[42px]">
             Проходите уже сделанные другими пользователями викторины или создавайте свои
           </p>

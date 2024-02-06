@@ -1,9 +1,12 @@
 import { makeAutoObservable } from "mobx"
 import { User } from "./interfaces";
+import Cookies from "universal-cookie";
+
+const cookie = new Cookies();
 
 function createGlobalStore() {
     return makeAutoObservable({
-        theme: 'light',
+        theme: cookie.get("theme") || 'light',
         changeTheme() {
             this.theme = (this.theme === 'light' ? 'dark' : 'light');
         },

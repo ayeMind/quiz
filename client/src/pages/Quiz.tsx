@@ -3,7 +3,6 @@ import { ArrowLeft } from "lucide-react";
 import { PageLayout } from "../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
-import { set } from "mobx";
 
 const questions = [
     {
