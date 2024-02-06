@@ -4,11 +4,11 @@ import { PageLayout } from "../../../shared/ui/layouts/page-layout";
 import FormMain from "../../../shared/ui/components/FormMain";
 
 export default function CreateQuiz() {
-  const [questions, setQuestions] = useState(['']);
+  const [questions, setQuestions] = useState([0]);
 
-  const questionForms = questions.map((_, index) => {
+  const questionForms = questions.map((question, index) => {
     return (
-      <FormCell key={index} />
+      <FormCell index={index} />
     )
   })
 
@@ -23,7 +23,7 @@ export default function CreateQuiz() {
 
   const handleCreateQuestion = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
-    setQuestions([...questions, '']);
+    setQuestions([...questions, questions.length]);
   }
 
   return (
