@@ -9,7 +9,7 @@ export const setUserInfo = async (token: string) => {
     const { success_user, user_data } = await getUserInfo(token);
 
       if (success_user) {
-        console.log("Успешное получение данных пользователя:");
+        // console.log("Успешное получение данных пользователя");
         globalStore.setUser(user_data);
         cookies.set("auth_token", token, { path: "/", secure: true, sameSite: "none" });
       } else {

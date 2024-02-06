@@ -19,13 +19,11 @@ const Menu = observer(() => {
     if (cookies.get("auth_token") && !globalStore.isAutorized) {
       try {
         getUserInfo(cookies.get("auth_token"));
-        console.log('Получил');
         
         const token = cookies.get("auth_token");
         globalStore.autorize();
         globalStore.setToken(token);
         setUserInfo(token);
-        console.log('Установил');
         
       } catch (error) {
         console.log("Ошибка авторизации по кешу:", error);

@@ -3,6 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { PageLayout } from "../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
+import { set } from "mobx";
 
 const questions = [
     {
@@ -61,23 +62,52 @@ const questions = [
 
 const Quiz = observer(() => {
     
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [btnIsClicked, setBtnIsClicked] = useState(false);
+    const [isFinished, setIsFinished] = useState(false);
 
     const quizQuestion = questions.map((question, questionIndex) => {
 
         const answers = question.answers.map((answer, answerIndex) => {
 
             const handleClick = () => {
-                if (currentQuestionIndex >= questions.length - 1) {
-                    console.log('Вопросы кончились!');
+
+                setBtnIsClicked(true);
+
+                const buttons = document.querySelectorAll('.btn');
+                buttons.forEach(btn => {
+                    btn.classList.add('pointer-events-none');
+                });
+                
+                const btn = document.getElementById(answerIndex.toString());
+                
+                if (answerIndex === question.correctAnswer) {
+                    btn?.classList.add('bg-green-400', 'dark:bg-green-400');
+                } else {
+                    btn?.classList.add('bg-red-400', 'dark:bg-red-400');
+
+                    const correctBtn = document.getElementById(question.correctAnswer.toString());
+                    correctBtn?.classList.add('bg-green-400', 'dark:bg-green-400');
                 }
-                setCurrentQuestionIndex(prev => prev + 1)
+                
+                setTimeout(() => {
+                    if (currentQuestionIndex < questions.length - 1) {
+                        setBtnIsClicked(false);
+                        setCurrentQuestionIndex(currentQuestionIndex + 1);
+                    } else {
+                        setIsFinished(true);
+                    }
+                }, 1000);
+
+               
+                
             }
 
             return (
-                <button className="hover:scale-105 px-[84px] bg-white dark:bg-[#060E24] rounded-3xl"
+                <button className="btn hover:scale-105 px-[84px] bg-white dark:bg-[#060E24] rounded-3xl"
                         onClick={() => handleClick()}
-                        key={answerIndex}>
+                        key={answerIndex}
+                        id={answerIndex.toString()}>
                     {answer}
                 </button>
             )
@@ -91,14 +121,23 @@ const Quiz = observer(() => {
                 <div className="flex flex-col items-center justify-center gap-[32px]">
                     {answers}
                 </div>
+
+                {isFinished && 
+                    <Link to="/quiz/results" className="absolute bottom-[48px] hover:scale-105 rounded-3xl">
+                        Посмотреть результат
+                    </Link>
+                }
             </div>
         )
     })
 
 
     const calculateProgressBar = (currentIndex: number, questionsAmount: number) => {
-        const onePart = 100 / questionsAmount
-        return onePart * currentIndex
+        if (btnIsClicked) {
+            return 100 / questionsAmount * (currentIndex + 1)
+        }
+
+        return 100 / questionsAmount * currentIndex;
     }
 
   return (

@@ -43,7 +43,7 @@ const App = observer(() => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/my-quizzes" element={<MyQuizzes />} />
-          <Route path="/create" element={<CreateQuiz />} />
+          <Route path="/my-quizzes/create" element={<CreateQuiz />} />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/online" element={<Online />} />
