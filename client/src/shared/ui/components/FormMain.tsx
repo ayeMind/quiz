@@ -128,7 +128,7 @@ export default function FormMain() {
           id="tags"
           type="text"
           className="w-full h-12 px-2 bg-transparent outline-none dark:text-white"
-          placeholder="Введите теги"
+          placeholder="Введите теги (через Enter)"
           onKeyDown={handleCreateTag}
         />
       </span>

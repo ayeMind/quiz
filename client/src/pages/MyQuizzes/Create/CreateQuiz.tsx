@@ -7,24 +7,24 @@ export default function CreateQuiz() {
   const [questions, setQuestions] = useState([0]);
 
   const questionForms = questions.map((question, index) => {
-    return (
-      <FormCell index={index} />
-    )
-  })
-
+    return <FormCell index={index} />;
+  });
 
   const endOfPageRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     if (endOfPageRef.current) {
       endOfPageRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [questions]);
 
-  const handleCreateQuestion = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleCreateQuestion = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
+    if (questions.length >= 50) return;
     setQuestions([...questions, questions.length]);
-  }
+  };
 
   return (
     <PageLayout className="h-auto min-h-screen">
@@ -33,15 +33,16 @@ export default function CreateQuiz() {
         <div className="flex flex-col gap-3 py-3">
           <FormMain />
           {questionForms}
-          <button onClick={handleCreateQuestion}>
-            Добавить вопрос
-          </button>
+          {questions.length < 50 && (
+            <button onClick={handleCreateQuestion}>Добавить вопрос</button>
+          )}
+
           <label className="opacity-45 text-[18px] text-center">
             Викторина не может содержать меньше 3 и больше 50 вопровов
           </label>
           <div ref={endOfPageRef} />
         </div>
       </div>
-    </PageLayout> 
-  )
+    </PageLayout>
+  );
 }
