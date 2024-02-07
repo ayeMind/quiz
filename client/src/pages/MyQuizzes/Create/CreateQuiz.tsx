@@ -30,14 +30,17 @@ export default function CreateQuiz() {
     <PageLayout className="h-auto min-h-screen">
       <div className="flex flex-col items-center w-screen">
         <p>Создай свою собственную викторину!</p>
-        <form className="flex flex-col gap-3 py-3">
+        <div className="flex flex-col gap-3 py-3">
           <FormMain />
           {questionForms}
           <button onClick={handleCreateQuestion}>
             Добавить вопрос
           </button>
+          <label className="opacity-45 text-[18px] text-center">
+            Викторина не может содержать меньше 3 и больше 50 вопровов
+          </label>
           <div ref={endOfPageRef} />
-        </form>
+        </div>
       </div>
     </PageLayout> 
   )
