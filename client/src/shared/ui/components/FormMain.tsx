@@ -2,8 +2,7 @@ import { XCircle } from "lucide-react";
 import { useState } from "react";
 
 export default function FormMain() {
-
-  const [tags, setTags] = useState<string[]>([])
+  const [tags, setTags] = useState<string[]>([]);
   const [hoveredIndex, setHoveredIndex] = useState<number>(-1); // Состояние для отслеживания индекса тега, над которым находится курсор
 
   const handleMouseEnter = (index: number) => {
@@ -15,23 +14,21 @@ export default function FormMain() {
   };
 
   const handleCreateTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
-
-    if (e.key === 'Enter') {
-      const target = e.target as HTMLInputElement
-      const value = target.value.toUpperCase().trim()
+    if (e.key === "Enter") {
+      const target = e.target as HTMLInputElement;
+      const value = target.value.toUpperCase().trim();
       if (value.length < 3) return;
       if (tags.includes(value)) return;
 
-      setTags([...tags, value])      
-      target.value = ''
-
+      setTags([...tags, value]);
+      target.value = "";
     }
-  }
+  };
 
   const handleDeleteTag = (index: number) => {
-    const newTags = tags.filter((tag, i) => i !== index)
-    setTags(newTags)
-  }
+    const newTags = tags.filter((tag, i) => i !== index);
+    setTags(newTags);
+  };
 
   const showTags = () => {
     return tags.map((tag, index) => {
@@ -57,13 +54,24 @@ export default function FormMain() {
   };
 
   const handleTitleInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      const nextField = document.getElementById('description')
-      nextField?.focus()
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const nextField = document.getElementById("description");
+      nextField?.focus();
     }
-  }
+  };
 
+  const imagePreview = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const preview = document.getElementById("preview") as HTMLImageElement;
+        preview.src = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div className="bg-white dark:bg-[#2d3449] h-auto min-h-[50vh] w-[50vw] rounded-2xl text-[22px] p-2 flex flex-col gap-6">
@@ -77,8 +85,13 @@ export default function FormMain() {
         />
         <hr />
       </span>
-      <span className='relative'>
-        <label htmlFor="description" className={`absolute -translate-y-1/2 top-[75%] text-[4vh] right-5 opacity-25 select-none`}>Описание</label>
+      <span className="relative">
+        <label
+          htmlFor="description"
+          className={`absolute -translate-y-1/2 top-[75%] text-[4vh] right-5 opacity-25 select-none`}
+        >
+          Описание
+        </label>
         <textarea
           id="description"
           className="w-full px-2 overflow-y-auto bg-transparent outline-none resize-none h-[10vh] dark:text-white"
@@ -86,18 +99,30 @@ export default function FormMain() {
         />
         <hr />
       </span>
-      <span className="relative flex flex-col gap-6">
-        <label htmlFor="fileInput" className={`absolute -translate-y-1/2 top-1/2 text-[4vh] right-5 opacity-25 select-none`}>Превью</label>
+      <span className="relative flex flex-col">
+        <label
+          htmlFor="fileInput"
+          className={`absolute -translate-y-1/2 top-1/2 text-[4vh] right-5 opacity-25 select-none`}
+        >
+          Превью (400x400)
+        </label>
         <input
-          id='fileInput'
+          id="fileInput"
           type="file"
-          className="px-2 bg-transparent outline-none dark:text-white"
+          className="px-2 bg-transparent outline-none dark:text-white aspect-square h-[7vh] w-[10vw]"
+          onChange={imagePreview}
           accept="image/*"
         />
+        <img id="preview" className="w-[400px] h-[400px] object-cover mb-4" />
         <hr />
       </span>
       <span className="relative">
-        <label htmlFor="tags" className={`absolute -translate-y-1/2 top-1/2 text-[4vh] right-5 opacity-25 select-none`}>Теги</label>
+        <label
+          htmlFor="tags"
+          className={`absolute -translate-y-1/2 top-1/2 text-[4vh] right-5 opacity-25 select-none`}
+        >
+          Теги
+        </label>
         <input
           id="tags"
           type="text"
@@ -107,9 +132,7 @@ export default function FormMain() {
         />
         <hr />
       </span>
-      <div className="flex flex-wrap gap-2">
-        {showTags()}
-      </div>
+      <div className="flex flex-wrap gap-2">{showTags()}</div>
     </div>
   );
 }
