@@ -68,6 +68,7 @@ export default function FormMain() {
       reader.onload = (e) => {
         const preview = document.getElementById("preview") as HTMLImageElement;
         preview.src = e.target?.result as string;
+        preview.classList.remove("invisible");
       };
       reader.readAsDataURL(file);
     }
@@ -83,7 +84,7 @@ export default function FormMain() {
           placeholder="Введите название викторины"
           onKeyDown={handleTitleInput}
         />
-        <hr />
+        <hr className="dark:border-gray-500" />
       </span>
       <span className="relative">
         <label
@@ -97,7 +98,7 @@ export default function FormMain() {
           className="w-full px-2 overflow-y-auto bg-transparent outline-none resize-none h-[10vh] dark:text-white"
           placeholder="Введите описание викторины"
         />
-        <hr />
+        <hr className="dark:border-gray-500" />
       </span>
       <span className="relative flex flex-col">
         <label
@@ -109,12 +110,12 @@ export default function FormMain() {
         <input
           id="fileInput"
           type="file"
-          className="px-2 bg-transparent outline-none dark:text-white aspect-square h-[7vh] w-[10vw]"
+          className="px-2 bg-transparent outline-none dark:text-white aspect-square h-[7vh] w-[30vw]"
           onChange={imagePreview}
           accept="image/*"
         />
-        <img id="preview" className="w-[400px] h-[400px] object-cover mb-4" />
-        <hr />
+        <img id="preview" className="w-[400px] h-[400px] mb-4 invisible ml-2" />
+        <hr className="dark:border-gray-500" />
       </span>
       <span className="relative">
         <label
@@ -130,9 +131,8 @@ export default function FormMain() {
           placeholder="Введите теги"
           onKeyDown={handleCreateTag}
         />
-        <hr />
       </span>
-      <div className="flex flex-wrap gap-2">{showTags()}</div>
+      <div className="flex flex-wrap gap-2 mb-2">{showTags()}</div>
     </div>
   );
 }

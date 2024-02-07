@@ -28,6 +28,7 @@ class Quiz(Base):
     title = Column(String, nullable=False)
     description = Column(String, nullable=False, server_default='')
     tags = Column(ARRAY(String), nullable=False)
+    preview = Column(String, nullable=False, server_default='default.png')
     questions = Column(ARRAY(JSON), nullable=False)
     author_id = Column(Integer, nullable=False)
     created_at = Column(TIMESTAMP, nullable=False, server_default=func.now())
