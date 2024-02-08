@@ -4,10 +4,15 @@ import { PageLayout } from "../../../shared/ui/layouts/page-layout";
 import FormMain from "../../../shared/ui/components/FormMain";
 
 export default function CreateQuiz() {
-  const [questions, setQuestions] = useState([0]);
+  const [questions, setQuestions] = useState([Math.random().toString()]);
+
+  const handleDeleteQuestion = (questionId: string) => {
+    const newQuestions = questions.filter((question) => question !== questionId);
+    setQuestions(newQuestions);
+  }
 
   const questionForms = questions.map((question, index) => {
-    return <FormCell index={index} />;
+    return <FormCell key={question} index={index} questionId={question} onDelete={handleDeleteQuestion} />
   });
 
   const endOfPageRef = useRef<HTMLDivElement>(null);
@@ -23,8 +28,11 @@ export default function CreateQuiz() {
   ) => {
     event.preventDefault();
     if (questions.length >= 50) return;
-    setQuestions([...questions, questions.length]);
+    setQuestions([...questions, Math.random().toString()]);
   };
+
+
+
 
   return (
     <PageLayout className="h-auto min-h-screen">

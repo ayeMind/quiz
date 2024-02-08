@@ -1,11 +1,22 @@
+import { XCircle } from "lucide-react";
 import { useState } from "react";
 
-export default function FormCell({ index }: { index: number }) {
+export default function FormCell({
+  index,
+  questionId,
+  onDelete,
+}: {
+  index: number;
+  questionId: string;
+  onDelete: (questionId: string) => void;
+}) {
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  const [answerOptions, setAnswerOptions] = useState<{ text: string; isCorrect: boolean }[]>([
+  const [answerOptions, setAnswerOptions] = useState<
+    { text: string; isCorrect: boolean }[]
+  >([
     { text: "", isCorrect: false },
     { text: "", isCorrect: false },
-    { text: "", isCorrect: false }
+    { text: "", isCorrect: false },
   ]);
 
   const handleAddOption = () => {
@@ -41,19 +52,20 @@ export default function FormCell({ index }: { index: number }) {
 
   return (
     <div
-      className={`relative bg-white dark:bg-[#2d3449] h-[10vh]  w-[50vw] rounded-2xl text-[22px] p-2 flex items-center transition-all
-      ${isHovered && 'min-h-[30vh] h-auto items-start pt-5'}`}
+      className={`relative bg-white dark:bg-[#2d3449] h-[10vh] w-[50vw] rounded-2xl text-[22px] p-2 flex transition-all flex-col
+      ${isHovered && "min-h-[30vh] h-auto items-start pt-5"}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setTimeout(() => setIsHovered(false), 100)}
     >
+      <input
+        id="question"
+        type="text"
+        className="w-full h-full px-2 bg-transparent outline-none dark:text-white"
+        placeholder="Введите вопрос"
+      />
+      
       {!isHovered ? (
         <div>
-          <input
-            id="question"
-            type="text"
-            className="w-full h-full px-2 bg-transparent outline-none dark:text-white"
-            placeholder="Введите вопрос"
-          />
           <label
             htmlFor="question"
             className={`absolute -translate-y-1/2 top-1/2 text-[5vh] right-5 opacity-25 select-none`}
@@ -63,11 +75,9 @@ export default function FormCell({ index }: { index: number }) {
         </div>
       ) : (
         <div className="w-[80%]">
-          <input
-            id="question"
-            type="text"
-            className="w-full h-full px-2 bg-transparent outline-none dark:text-white"
-            placeholder="Введите вопрос"
+          <XCircle
+            className="absolute text-red-700 cursor-pointer top-3 right-3 delete-btn"
+            onClick={() => onDelete(questionId)}
           />
           <label
             htmlFor="question"
@@ -77,7 +87,9 @@ export default function FormCell({ index }: { index: number }) {
           </label>
           <hr className="mb-6 dark:border-gray-500" />
 
-          <p className="my-2 ml-6 opacity-75">Напишите от 3 до 6 вариантов ответа и выберите верный</p>
+          <p className="my-2 ml-6 opacity-75">
+            Напишите от 3 до 6 вариантов ответа и выберите верный
+          </p>
           {answerOptions.map((option, optionIndex) => (
             <div key={optionIndex} className="flex items-center">
               <input
@@ -91,7 +103,9 @@ export default function FormCell({ index }: { index: number }) {
                 className="w-full h-full px-2 mb-2 ml-2 bg-transparent outline-none dark:text-white"
                 placeholder={`Вариант ответа ${optionIndex + 1}`}
                 value={option.text}
-                onChange={(e) => handleOptionChange(optionIndex, e.target.value)}
+                onChange={(e) =>
+                  handleOptionChange(optionIndex, e.target.value)
+                }
               />
               {isHovered && (
                 <button
