@@ -5,7 +5,7 @@ import Cookies from "universal-cookie";
 // pages
 import Menu from "../pages/Menu";
 import PageNotFound from "../pages/PageNotFound";
-import CreateQuiz from "../pages/MyQuizzes/Create/CreateQuiz";
+import {CreateQuiz} from "../pages/MyQuizzes/Create/CreateQuiz";
 import LogIn from "../pages/LogIn";
 import SignUp from "../pages/SignUp";
 import Quiz from "../pages/Quiz";

@@ -2,6 +2,8 @@ import { XCircle } from "lucide-react";
 import { useState } from "react";
 
 export default function FormMain() {
+  const [title, setTitle] = useState<string>(""); 
+  const [description, setDescription] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
   const [hoveredIndex, setHoveredIndex] = useState<number>(-1); // Состояние для отслеживания индекса тега, над которым находится курсор
 
@@ -82,6 +84,8 @@ export default function FormMain() {
           type="text"
           className="w-full h-12 px-2 bg-transparent outline-none dark:text-white"
           placeholder="Введите название викторины"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           onKeyDown={handleTitleInput}
         />
         <hr className="dark:border-gray-500" />
@@ -97,6 +101,8 @@ export default function FormMain() {
           id="description"
           className="w-full px-2 overflow-y-auto bg-transparent outline-none resize-none h-[10vh] dark:text-white"
           placeholder="Введите описание викторины"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
         <hr className="dark:border-gray-500" />
       </span>

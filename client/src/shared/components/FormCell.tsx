@@ -1,7 +1,9 @@
 import { XCircle } from "lucide-react";
 import { useState } from "react";
+import { observer } from "mobx-react-lite";
+import newQuizStore from "../../pages/MyQuizzes/Create/newQuizStore";
 
-export default function FormCell({
+export const FormCell = observer(({
   index,
   questionId,
   onDelete,
@@ -9,46 +11,32 @@ export default function FormCell({
   index: number;
   questionId: string;
   onDelete: (questionId: string) => void;
-}) {
-  const [isHovered, setIsHovered] = useState<boolean>(false);
-  const [answerOptions, setAnswerOptions] = useState<
-    { text: string; isCorrect: boolean }[]
-  >([
-    { text: "", isCorrect: false },
-    { text: "", isCorrect: false },
-    { text: "", isCorrect: false },
-  ]);
+}) => {
 
+
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  
   const handleAddOption = () => {
-    if (answerOptions.length < 6) {
-      setAnswerOptions([...answerOptions, { text: "", isCorrect: false }]);
+    if (newQuizStore.questions[index].options.length < 6) {
+      newQuizStore.addOption(index);
+      console.log(newQuizStore.questions[index].options);
+      
     }
   };
 
-  const handleDeleteOption = (index: number) => {
-    if (answerOptions.length === 3) return;
-    const updatedOptions = [...answerOptions];
-    updatedOptions.splice(index, 1);
-    setAnswerOptions(updatedOptions);
+  const handleDeleteOption = (optionIndex: number) => {
+    if (newQuizStore.questions[index].options.length === 3) return;
+    newQuizStore.deleteOption(index, optionIndex);
   };
 
-  const handleOptionChange = (index: number, value: string) => {
-    const updatedOptions = [...answerOptions];
-    updatedOptions[index].text = value;
-    setAnswerOptions(updatedOptions);
+  const handleOptionChange = (optionIndex: number, value: string) => {
+    newQuizStore.changeOption(index, optionIndex, value);
   };
 
-  const handleCheckboxChange = (index: number) => {
-    const updatedOptions = [...answerOptions];
-    updatedOptions.forEach((option, i) => {
-      if (i === index) {
-        option.isCorrect = true;
-      } else {
-        option.isCorrect = false;
-      }
-    });
-    setAnswerOptions(updatedOptions);
+  const handleCheckboxChange = (optionIndex: number) => {
+    newQuizStore.changeAnswer(index, optionIndex);
   };
+
 
   return (
     <div
@@ -62,6 +50,8 @@ export default function FormCell({
         type="text"
         className="w-full h-full px-2 bg-transparent outline-none dark:text-white"
         placeholder="Введите вопрос"
+        value={newQuizStore.questions[index].question}
+        onChange={e => newQuizStore.changeQuestionText(index, e.target.value)}
       />
       
       {!isHovered ? (
@@ -90,11 +80,11 @@ export default function FormCell({
           <p className="my-2 ml-6 opacity-75">
             Напишите от 3 до 6 вариантов ответа и выберите верный
           </p>
-          {answerOptions.map((option, optionIndex) => (
+          {newQuizStore.questions[index].options.map((option, optionIndex) => (
             <div key={optionIndex} className="flex items-center">
               <input
                 type="checkbox"
-                checked={option.isCorrect}
+                checked={optionIndex === newQuizStore.questions[index].answer}
                 onChange={() => handleCheckboxChange(optionIndex)}
                 className="ml-2"
               />
@@ -102,7 +92,7 @@ export default function FormCell({
                 type="text"
                 className="w-full h-full px-2 mb-2 ml-2 bg-transparent outline-none dark:text-white"
                 placeholder={`Вариант ответа ${optionIndex + 1}`}
-                value={option.text}
+                value={option}
                 onChange={(e) =>
                   handleOptionChange(optionIndex, e.target.value)
                 }
@@ -118,7 +108,7 @@ export default function FormCell({
             </div>
           ))}
 
-          {answerOptions.length < 6 && (
+          {newQuizStore.questions[index].options.length < 6 && (
             <button
               className="p-2 ml-4 rounded-md bg-slate-200"
               onClick={handleAddOption}
@@ -131,3 +121,4 @@ export default function FormCell({
     </div>
   );
 }
+)

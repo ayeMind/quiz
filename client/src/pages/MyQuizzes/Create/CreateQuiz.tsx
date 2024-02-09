@@ -1,24 +1,28 @@
 import { useState, useRef, useEffect } from "react";
-import FormCell from "../../../shared/components/FormCell";
+import { FormCell } from "../../../shared/components/FormCell";
 import { PageLayout } from "../../../shared/ui/layouts/page-layout";
+import { observer } from "mobx-react-lite";
+
+import newQuizStore from "./newQuizStore";
 import FormMain from "../../../shared/components/FormMain";
-import createQuiz from "../../../shared/api/createQuiz";
 
-export default function CreateQuiz() {
-  const [questions, setQuestions] = useState([Math.random().toString(), Math.random().toString(), Math.random().toString()]);
+export const CreateQuiz = observer(() => {
 
-  const handleDeleteQuestion = (questionId: string) => {
+  const [questions, setQuestions] = useState(newQuizStore.questions.map(() => Math.random().toString()));
+  
+  const handleDeleteQuestion = (index: number) => {
     if (questions.length === 3) {
       alert("Викторина должна содержать минимум 3 вопроса");
       return;
     }
-    const newQuestions = questions.filter((question) => question !== questionId);
+    newQuizStore.deleteQuestion(index);
+    const newQuestions = questions.filter((_, i) => i !== index);
     setQuestions(newQuestions);
-  }
+  };
 
-  const questionForms = questions.map((question, index) => {
-    return <FormCell key={question} index={index} questionId={question} onDelete={handleDeleteQuestion} />
-  });
+  const questionForms = questions.map((question, index) => (
+    <FormCell key={question} index={index} questionId={question} onDelete={() => handleDeleteQuestion(index)} />
+  ));
 
   const endOfPageRef = useRef<HTMLDivElement>(null);
 
@@ -33,6 +37,15 @@ export default function CreateQuiz() {
   ) => {
     event.preventDefault();
     if (questions.length >= 50) return;
+
+    const newQuestionIndex = questions.length;
+    newQuizStore.addQuestion({
+      index: newQuestionIndex,
+      question: "",
+      options: ["", "", ""],
+      answer: 0,
+    });
+
     setQuestions([...questions, Math.random().toString()]);
   };
 
@@ -49,11 +62,13 @@ export default function CreateQuiz() {
           )}
 
           <label className="opacity-45 text-[18px] text-center">
-            Викторина не может содержать меньше 3 и больше 50 вопровов
+            Викторина не может содержать меньше 3 и больше 50 вопросов
           </label>
           <div ref={endOfPageRef} />
         </div>
       </div>
     </PageLayout>
   );
-}
+});
+
+export default CreateQuiz;

@@ -11,16 +11,24 @@ export interface createUserData {
     password: string;
 }
 
+export interface MainInfo {
+    title: string;
+    description: string;
+    preview: string;
+    tags: string[];
+}
+
 export interface Question {
+    index: number;
     question: string;
     options: string[];
     answer: number;
 }
-
 export interface Quiz {
+    id: number;
     title: string;
     description: string;
-    preview: string;
+    category: string;
     tags: string[];
     questions: Question[];
 }
