@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import FormCell from "../../../shared/ui/components/FormCell";
+import FormCell from "../../../shared/components/FormCell";
 import { PageLayout } from "../../../shared/ui/layouts/page-layout";
-import FormMain from "../../../shared/ui/components/FormMain";
+import FormMain from "../../../shared/components/FormMain";
+import createQuiz from "../../../shared/api/createQuiz";
 
 export default function CreateQuiz() {
   const [questions, setQuestions] = useState([Math.random().toString(), Math.random().toString(), Math.random().toString()]);
@@ -34,8 +35,6 @@ export default function CreateQuiz() {
     if (questions.length >= 50) return;
     setQuestions([...questions, Math.random().toString()]);
   };
-
-
 
 
   return (
