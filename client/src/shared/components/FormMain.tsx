@@ -1,10 +1,11 @@
 import { XCircle } from "lucide-react";
 import { useState } from "react";
+import { observer } from "mobx-react-lite";
 
-export default function FormMain() {
-  const [title, setTitle] = useState<string>(""); 
-  const [description, setDescription] = useState<string>("");
-  const [tags, setTags] = useState<string[]>([]);
+import newQuizStore from "../../pages/MyQuizzes/Create/newQuizStore";
+
+export const FormMain = observer(() => {
+
   const [hoveredIndex, setHoveredIndex] = useState<number>(-1); // Состояние для отслеживания индекса тега, над которым находится курсор
 
   const handleMouseEnter = (index: number) => {
@@ -20,20 +21,19 @@ export default function FormMain() {
       const target = e.target as HTMLInputElement;
       const value = target.value.toUpperCase().trim();
       if (value.length < 3) return;
-      if (tags.includes(value)) return;
+      if (newQuizStore.mainInfo.tags.includes(value)) return;
 
-      setTags([...tags, value]);
+      newQuizStore.addTag(value);
       target.value = "";
     }
   };
 
   const handleDeleteTag = (index: number) => {
-    const newTags = tags.filter((tag, i) => i !== index);
-    setTags(newTags);
+    newQuizStore.deleteTag(index);
   };
 
   const showTags = () => {
-    return tags.map((tag, index) => {
+    return (newQuizStore.mainInfo.tags.map((tag, index) => {
       return (
         <span
           key={index}
@@ -52,7 +52,7 @@ export default function FormMain() {
           )}
         </span>
       );
-    });
+    }));
   };
 
   const handleTitleInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -72,6 +72,7 @@ export default function FormMain() {
         preview.src = e.target?.result as string;
         preview.classList.remove("invisible");
       };
+      newQuizStore.changePreview(file);       
       reader.readAsDataURL(file);
     }
   };
@@ -84,8 +85,8 @@ export default function FormMain() {
           type="text"
           className="w-full h-12 px-2 bg-transparent outline-none dark:text-white"
           placeholder="Введите название викторины"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={newQuizStore.mainInfo.title}
+          onChange={(e) => newQuizStore.changeTitle(e.target.value)}
           onKeyDown={handleTitleInput}
         />
         <hr className="dark:border-gray-500" />
@@ -101,8 +102,8 @@ export default function FormMain() {
           id="description"
           className="w-full px-2 overflow-y-auto bg-transparent outline-none resize-none h-[10vh] dark:text-white"
           placeholder="Введите описание викторины"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={newQuizStore.mainInfo.description}
+          onChange={(e) => newQuizStore.changeDescription(e.target.value)}
         />
         <hr className="dark:border-gray-500" />
       </span>
@@ -141,4 +142,4 @@ export default function FormMain() {
       <div className="flex flex-wrap gap-2 mb-2">{showTags()}</div>
     </div>
   );
-}
+});

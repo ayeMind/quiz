@@ -25,7 +25,10 @@ export const FormCell = observer(({
   };
 
   const handleDeleteOption = (optionIndex: number) => {
-    if (newQuizStore.questions[index].options.length === 3) return;
+    if (newQuizStore.questions[index].options.length === 3) {
+      alert("Вопрос должен содержать минимум 3 варианта ответа");
+      return;
+    }
     newQuizStore.deleteOption(index, optionIndex);
   };
 

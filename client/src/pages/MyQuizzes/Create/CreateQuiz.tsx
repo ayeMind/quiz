@@ -4,7 +4,7 @@ import { PageLayout } from "../../../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
 
 import newQuizStore from "./newQuizStore";
-import FormMain from "../../../shared/components/FormMain";
+import {FormMain} from "../../../shared/components/FormMain";
 
 export const CreateQuiz = observer(() => {
 
@@ -43,7 +43,7 @@ export const CreateQuiz = observer(() => {
       index: newQuestionIndex,
       question: "",
       options: ["", "", ""],
-      answer: 0,
+      answer: -1,
     });
 
     setQuestions([...questions, Math.random().toString()]);

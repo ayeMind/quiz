@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { MainInfo, Question } from "../../../app/interfaces";
+import { Question } from "../../../app/interfaces";
 
 function createNewQuizStore() {
   return makeAutoObservable({
@@ -33,9 +33,32 @@ function createNewQuizStore() {
       },
     ] as Question[],
 
-    setMainInfo(data: MainInfo) {
-      this.mainInfo = data;
+    // ----------------- MainInfo -----------------
+
+
+    deleteTag(index: number) {
+      this.mainInfo.tags.splice(index, 1);
     },
+
+    addTag(tag: string) {
+      this.mainInfo.tags.push(tag);
+    },
+
+    changeTitle(title: string) {
+      this.mainInfo.title = title;
+    },
+
+    changeDescription(description: string) {
+      this.mainInfo.description = description;
+    },
+
+    changePreview(preview: File) {
+      this.mainInfo.preview = preview.toString();
+    },
+
+
+
+    // ----------------- Question -----------------
 
     addQuestion(question: Question) {
       this.questions.push(question);
@@ -71,23 +94,6 @@ function createNewQuizStore() {
     changeAnswer(index: number, answer: number) {
       this.questions[index].answer = answer;
     },
-
-    changeTags(tags: string[]) {
-      this.mainInfo.tags = tags;
-    },
-
-    changeTitle(title: string) {
-      this.mainInfo.title = title;
-    },
-
-    changeDescription(description: string) {
-      this.mainInfo.description = description;
-    },
-
-    changePreview(preview: string) {
-      this.mainInfo.preview = preview;
-    },
-
 
     changeQuestion(index: number, question: Question) {
       this.questions[index] = question;
