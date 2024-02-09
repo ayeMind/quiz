@@ -4,9 +4,13 @@ import { PageLayout } from "../../../shared/ui/layouts/page-layout";
 import FormMain from "../../../shared/ui/components/FormMain";
 
 export default function CreateQuiz() {
-  const [questions, setQuestions] = useState([Math.random().toString()]);
+  const [questions, setQuestions] = useState([Math.random().toString(), Math.random().toString(), Math.random().toString()]);
 
   const handleDeleteQuestion = (questionId: string) => {
+    if (questions.length === 3) {
+      alert("Викторина должна содержать минимум 3 вопроса");
+      return;
+    }
     const newQuestions = questions.filter((question) => question !== questionId);
     setQuestions(newQuestions);
   }
