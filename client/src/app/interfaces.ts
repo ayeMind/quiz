@@ -25,10 +25,9 @@ export interface Question {
     answer: number;
 }
 export interface Quiz {
-    id: number;
     title: string;
     description: string;
-    category: string;
+    preview: string;
     tags: string[];
     questions: Question[];
 }

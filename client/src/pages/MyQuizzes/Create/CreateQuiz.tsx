@@ -2,9 +2,11 @@ import { useState, useRef, useEffect } from "react";
 import { FormCell } from "../../../shared/components/FormCell";
 import { PageLayout } from "../../../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
-
-import newQuizStore from "./newQuizStore";
 import {FormMain} from "../../../shared/components/FormMain";
+
+import createQuiz from "../../../shared/api/createQuiz";
+import newQuizStore from "./newQuizStore";
+
 
 export const CreateQuiz = observer(() => {
 
@@ -49,6 +51,37 @@ export const CreateQuiz = observer(() => {
     setQuestions([...questions, Math.random().toString()]);
   };
 
+  function isCorrectFilled() {
+    const quiz = newQuizStore.quiz;
+
+    if (quiz.title === "" || quiz.description === "") {
+      return false;
+    }
+
+    for (let i = 0; i < quiz.questions.length; i++) {
+      if (quiz.questions[i].question.length < 5 || quiz.questions[i].options.includes("") || quiz.questions[i].answer === -1) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+    
+
+  function handleCreateQuiz() {
+    newQuizStore.createQuiz();
+
+    const quiz = newQuizStore.quiz;
+
+    if (!isCorrectFilled()) {
+      alert("Вы что-то недозаполнили!\nКаждый вопрос должен состоять не менее, чем из 5 символов!")
+    }
+
+    createQuiz(quiz)
+
+    
+  }
+
 
   return (
     <PageLayout className="h-auto min-h-screen">
@@ -66,6 +99,9 @@ export const CreateQuiz = observer(() => {
           </label>
           <div ref={endOfPageRef} />
         </div>
+
+        <button className="p-2 mb-4 text-white bg-blue-500 rounded-2xl hover:bg-blue-700" 
+          onClick={handleCreateQuiz}>Создать викторину</button>
       </div>
     </PageLayout>
   );

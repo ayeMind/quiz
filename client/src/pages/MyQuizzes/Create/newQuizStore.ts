@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { Question } from "../../../app/interfaces";
+import { Question, Quiz } from "../../../app/interfaces";
 
 function createNewQuizStore() {
   return makeAutoObservable({
@@ -32,6 +32,8 @@ function createNewQuizStore() {
         answer: -1,
       },
     ] as Question[],
+
+    quiz: {} as Quiz,
 
     // ----------------- MainInfo -----------------
 
@@ -97,8 +99,22 @@ function createNewQuizStore() {
 
     changeQuestion(index: number, question: Question) {
       this.questions[index] = question;
+    },
+
+    
+    createQuiz() {
+      const quiz = {
+        title: this.mainInfo.title,
+        description: this.mainInfo.description,
+        preview: this.mainInfo.preview,
+        tags: this.mainInfo.tags,
+        questions: this.questions,
+      };
+
+      this.quiz = quiz;
     }
   });
+
 }
 
 
