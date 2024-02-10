@@ -1,3 +1,15 @@
+
+#### Предварительно заполните .env файл
+
+```.env
+SERVER_HOST = 
+SERVER_PORT =
+DATABASE_URL =
+JWT_SECRET =
+JWT_ALGORITHM =
+```
+
+
 #### *Для запуска базы данных (5432 порт) и pgadmin (82:80 порты) использовать команду:*
 
 ```powershell

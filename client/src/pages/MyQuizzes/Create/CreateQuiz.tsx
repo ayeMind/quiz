@@ -69,17 +69,26 @@ export const CreateQuiz = observer(() => {
     
 
   function handleCreateQuiz() {
+    
     newQuizStore.createQuiz();
 
     const quiz = newQuizStore.quiz;
+
 
     if (!isCorrectFilled()) {
       alert("Вы что-то недозаполнили!\nКаждый вопрос должен состоять не менее, чем из 5 символов!")
     }
 
     createQuiz(quiz)
-
-    
+      .then((response) => {
+        if (response.status === 201) {
+          alert("Викторина успешно создана!");
+        }
+      })
+      .catch((error) => {
+        alert("Ошибка при создании викторины");
+        console.error(error);
+      });
   }
 
 

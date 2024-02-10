@@ -8,21 +8,29 @@ from ..database import get_session
 from ..models import quiz as quiz_model
 
 
-def create_quiz(
-    quiz: quiz_model.QuizCreate,
-    session: Session = Depends(get_session),
-) -> quiz_model.Quiz:
-    new_quiz = tables.Quiz(
-        author_id=quiz.author_id,
-        title=quiz.title,
-        description=quiz.description,
-        preview=quiz.preview,
-        tags=quiz.tags,
-        questions=[tables.Question(**q.dict()) for q in quiz.questions],
-        created_at = datetime.utcnow(),
-        updated_at = datetime.utcnow()
-    )
-    session.add(new_quiz)
-    session.commit()
-    session.refresh(new_quiz)
-    return quiz_model.Quiz.from_orm(new_quiz)
+class CreateQuizService:
+    def __init__(self, session: Session = Depends(get_session)):
+        self.session = session
+
+    def create_quiz(self, quiz: quiz_model.QuizCreate) -> quiz_model.ServerQuiz:
+        new_quiz = tables.Quiz(
+    
+            path=f'quiz/{quiz.title.lower().replace(" ", "-")}/{quiz.author_id}/',
+            settings={},
+            author_id=quiz.author_id,
+            title=quiz.title,
+            description=quiz.description,
+            preview=quiz.preview,
+            tags=quiz.tags,
+            questions=quiz.questions,
+
+            created_at=datetime.utcnow(),
+            updated_at=datetime.utcnow(),
+            number_of_completions = 0,
+        )
+
+        self.session.add(new_quiz)
+        self.session.commit()
+        self.session.refresh(new_quiz)
+
+        return quiz_model.ServerQuiz.from_orm(new_quiz)

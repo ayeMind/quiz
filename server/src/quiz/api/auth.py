@@ -12,18 +12,6 @@ router = APIRouter(
     prefix='/auth',
 )
 
-@router.post('/sign-up')
-def sign_up():
-    pass
-
-@router.post('/sign-in')
-def sign_in():
-    pass
-
-router = APIRouter(
-    prefix='/auth',
-)
-
 @router.post('/sign-up/', response_model=Token)
 def sign_up(user_data: UserCreate, service: AuthService = Depends()):
     return service.register_new_user(user_data)

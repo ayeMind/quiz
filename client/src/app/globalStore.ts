@@ -16,11 +16,13 @@ function createGlobalStore() {
             this.token = token;
         },
 
+        user_id: -1,
         user: 'guest',
         email: '',
         avatar: 'guest.png',
 
         setUser(data: User) {
+            this.user_id = data.id || -1;
             this.user = data.user_name || 'guest';
             this.email = data.email || '';
             this.avatar = data.avatar || 'guest.png';

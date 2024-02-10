@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { Question, Quiz } from "../../../app/interfaces";
+import globalStore from "../../../app/globalStore";
 
 function createNewQuizStore() {
   return makeAutoObservable({
@@ -104,10 +105,11 @@ function createNewQuizStore() {
     
     createQuiz() {
       const quiz = {
+        author_id: globalStore.user_id,
         title: this.mainInfo.title,
         description: this.mainInfo.description,
         preview: this.mainInfo.preview,
-        tags: this.mainInfo.tags,
+        tags: this.mainInfo.tags.filter((tag) => tag !== ""),
         questions: this.questions,
       };
 
