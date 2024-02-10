@@ -3,6 +3,7 @@ import { twMerge } from 'tailwind-merge';
 import { Link } from 'react-router-dom'; 
 import { observer } from "mobx-react-lite";
 import { autorun } from "mobx";
+import Cookies from "universal-cookie";
 import ThemeButton from "../buttons/theme-button";
 import globalStore from "../../../app/globalStore.ts"
 
@@ -33,10 +34,12 @@ export const PageLayout = observer(forwardRef(function PageLayout(
     return () => disposer();
   }, []);
 
+  const cookies = new Cookies(null, { path: "/", secure: true, sameSite: "none" });
   
   const handleExit = () => {
     globalStore.exit()
     setIsAuthorized(false)
+    cookies.remove('auth_token')
   }
 
   return (

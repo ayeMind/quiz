@@ -1,6 +1,6 @@
 import { PageLayout } from "../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
-import { redirect } from "react-router";
+import { useNavigate } from "react-router";
 
 import globalStore from "../app/globalStore";
 import { getQuizzes } from "../shared/api/getQuizzes";
@@ -11,23 +11,25 @@ export const Catalog = observer(() => {
 
   const [quizzes, setQuizzes] = useState([] as Quiz[]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (!globalStore.isAutorized) {
-      redirect("/login");
+      navigate("/login");
+      return;
     }
 
     getQuizzes(0, 10).then((quizzes) => {
       setQuizzes(quizzes.data);
     });
 
-  });
+  }, []);
 
 
   const quizElements = quizzes.map((quiz) => {
     return (
       <div key={quiz.id}>
         <h2>{quiz.title}</h2>
-        <p>{quiz.description}</p>
       </div>
     );
   });

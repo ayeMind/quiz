@@ -7,7 +7,25 @@ from .api import router
 # from .tables import Base
 # Base.metadata.create_all(engine)
 
-app = FastAPI()
+tags_metadata = [
+    {
+        "name": "auth",
+        "description": "Authentication operations, including getting a token of a new user",
+    },
+    {
+        "name": "users",
+        "description": "Operations with users. Nothing else.",
+    },
+    {
+        "name": "quiz",
+        "description": "Operations with quizzes. Nothing else.",
+    },
+]
+
+app = FastAPI(
+    title="Quiz API",
+    openapi_tags=tags_metadata,
+)
 
 origins = [
     "http://localhost",

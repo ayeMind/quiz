@@ -10,7 +10,7 @@ import {CreateQuiz} from "../pages/MyQuizzes/Create/CreateQuiz";
 import LogIn from "../pages/LogIn";
 import SignUp from "../pages/SignUp";
 import Quiz from "../pages/Quiz";
-import MyQuizzes from "../pages/MyQuizzes/MyQuizzes";
+import {MyQuizzes} from "../pages/MyQuizzes/MyQuizzes";
 import {Catalog} from "../pages/Catalog";
 import Online from "../pages/Online/Online";
 import Profile from "../pages/Profile";
