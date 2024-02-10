@@ -21,14 +21,12 @@ class User(Base):
 class Quiz(Base):
     __tablename__ = 'quiz'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    path = Column(String, nullable=False, unique=True)
+    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
     settings = Column(JSON, nullable=False)
 
     title = Column(String, nullable=False)
     description = Column(String, nullable=False, server_default='')
     tags = Column(ARRAY(String), nullable=False)
-    preview = Column(String, nullable=False, server_default='default.png')
     questions = Column(ARRAY(JSON), nullable=False)
     author_id = Column(Integer, nullable=False)
     created_at = Column(TIMESTAMP, nullable=False, server_default=func.now())

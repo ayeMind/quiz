@@ -18,11 +18,8 @@ class ServerQuiz(BaseModel):
     author_id: int
     title: str
     description: str
-    preview: str
     tags: list
     questions: list
-    created_at: datetime
-    updated_at: datetime
 
 
     class Config:

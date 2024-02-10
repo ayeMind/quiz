@@ -80,10 +80,8 @@ export const CreateQuiz = observer(() => {
     }
 
     createQuiz(quiz)
-      .then((response) => {
-        if (response.status === 201) {
-          alert("Викторина успешно создана!");
-        }
+      .then(() => {
+          alert("Викторина успешно создана!")
       })
       .catch((error) => {
         alert("Ошибка при создании викторины");
