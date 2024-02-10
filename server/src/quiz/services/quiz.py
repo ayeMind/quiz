@@ -1,6 +1,7 @@
-import json
+import io
 from typing import List
 from fastapi import Depends
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from datetime import datetime
 
@@ -30,9 +31,13 @@ class QuizService:
         self.session.commit()
         self.session.refresh(new_quiz)
 
+        # Download preview image to the server
+        previewPath = f'../files/previews/{new_quiz.id}.png'
+        with open(previewPath, 'wb') as f:  
+            f.write(quiz.preview)
+
         return new_quiz
 
-    
 
     def get_quiz(self, quiz_id: int) -> quiz_model.ServerQuiz:
         quiz = self.session.query(tables.Quiz).filter_by(id=quiz_id).first()
@@ -67,3 +72,27 @@ class QuizService:
         })
         self.session.commit()
         return self.get_quiz(quiz_id)
+    
+
+    def get_preview(self, quiz_id: int):
+        
+        with open(f'../files/previews/{quiz_id}.png', 'rb') as preview_file:
+            preview_bytes = preview_file.read()
+            return StreamingResponse(io.BytesIO(preview_bytes), media_type="image/png")
+        
+    def get_all_preview(self):
+        previews = []
+        for quiz in self.get_all_quizzes():
+            with open(f'../files/previews/{quiz.id}.png', 'rb') as preview_file:
+                preview_bytes = preview_file.read()
+                png = io.BytesIO(preview_bytes)
+                previews.append({
+                    "id": quiz.id,
+                    "preview": png
+                })
+        return previews
+    
+    def delete_quiz(self, quiz_id: int):
+        self.session.query(tables.Quiz).filter_by(id=quiz_id).delete()
+        self.session.commit()
+        return {"message": "Quiz deleted successfully"}

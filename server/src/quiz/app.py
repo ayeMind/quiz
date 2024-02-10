@@ -9,15 +9,15 @@ from .api import router
 
 tags_metadata = [
     {
-        "name": "auth",
+        "name": "AUTH",
         "description": "Authentication operations, including getting a token of a new user",
     },
     {
-        "name": "users",
+        "name": "USERS",
         "description": "Operations with users. Nothing else.",
     },
     {
-        "name": "quiz",
+        "name": "QUIZ",
         "description": "Operations with quizzes. Nothing else.",
     },
 ]

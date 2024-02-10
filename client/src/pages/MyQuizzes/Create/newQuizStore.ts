@@ -7,7 +7,7 @@ function createNewQuizStore() {
     mainInfo: {
       title: "",
       description: "",
-      preview: "",
+      preview: {} as File,
       tags: [""],
     },
 
@@ -56,7 +56,7 @@ function createNewQuizStore() {
     },
 
     changePreview(preview: File) {
-      this.mainInfo.preview = preview.toString();
+      this.mainInfo.preview = preview;
     },
 
 
@@ -105,12 +105,9 @@ function createNewQuizStore() {
     
     createQuiz() {
       const quiz = {
-        author_id: globalStore.user_id,
-        title: this.mainInfo.title,
-        description: this.mainInfo.description,
-        preview: this.mainInfo.preview,
-        tags: this.mainInfo.tags.filter((tag) => tag !== ""),
+        ...this.mainInfo,
         questions: this.questions,
+        author_id: globalStore.user_id
       };
 
       this.quiz = quiz;

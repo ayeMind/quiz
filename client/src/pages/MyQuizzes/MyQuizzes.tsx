@@ -21,6 +21,8 @@ export const MyQuizzes = observer(() => {
 
     getQuizzesByUserId(globalStore.user_id.toString()).then((quizzes) => {
       setQuizzes(quizzes.data);
+      console.log(quizzes.data);
+      
     });
 
   }, []);
