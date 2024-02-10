@@ -4,7 +4,6 @@ const headers = {
 
 export function getPreviewByQuizId(id: number) {
     return fetch(`http://localhost:8000/quiz/preview/${id}`, { headers })
-        .then(response => response.json())
         .then(data => {
             if (data) {
                 return { success: true, file: data };
@@ -20,13 +19,8 @@ export function getPreviewByQuizId(id: number) {
 
 export function getAllPreviews() {
     return fetch('http://localhost:8000/quiz/preview/', { headers })
-        .then(response => response.json())
         .then(data => {
-            if (data.length > 0) {
-                return { success: true, data: data };
-            } else {
-                return { success: false, data: data};
-            }
+            return { success: true, data: data };
         })
         .catch(previews_data => {
             console.error('Ошибка при отправке запроса:', previews_data);
