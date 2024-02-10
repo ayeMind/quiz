@@ -3,63 +3,9 @@ import { ArrowLeft } from "lucide-react";
 import { PageLayout } from "../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
+import { Question } from "../app/interfaces";
 
-const questions = [
-    {
-        question: 'Какой химический элемент обозначается символом "O" в периодической таблице Менделеева?',
-        answers: ['Кислород', 'Азот', 'Углерод', 'Гелий'],
-        correctAnswer: 0 // Кислород
-    },
-    {
-        question: 'Кто написал "Войну и мир"?',
-        answers: ['Лев Толстой', 'Федор Достоевский', 'Иван Тургенев', 'Антон Чехов'],
-        correctAnswer: 0 // Лев Толстой
-    },
-    {
-        question: 'Какое крупнейшее озеро на планете Земля?',
-        answers: ['Каспийское море', 'Озеро Байкал', 'Озеро Виктория', 'Мичиган'],
-        correctAnswer: 1 // Озеро Байкал
-    },
-    {
-        question: 'Какой год считается началом эры компьютеров?',
-        answers: [1950, 1960, 1970, 1980],
-        correctAnswer: 2 // 1970
-    },
-    {
-        question: 'Какое количество планет в Солнечной системе?',
-        answers: [7, 8, 9, 10],
-        correctAnswer: 1 // 8
-    },
-    {
-        question: 'Кто является автором "Гамлета"?',
-        answers: ['Уильям Шекспир', 'Чарльз Диккенс', 'Жюль Верн', 'Федор Достоевский'],
-        correctAnswer: 0 // Уильям Шекспир
-    },
-    {
-        question: 'Какой язык программирования был разработан в 1995 году компанией Sun Microsystems?',
-        answers: ['Java', 'C++', 'Python', 'Ruby'],
-        correctAnswer: 0 // Java
-    },
-    {
-        question: 'Какое событие считается началом Первой мировой войны?',
-        answers: ['Убийство Архидука Франца Фердинанда', 'Подписание Третьего Рейха', 'Большевистская революция', 'Война во Вьетнаме'],
-        correctAnswer: 0 // Убийство Архидука Франца Фердинанда
-    },
-    {
-        question: 'Как называется самая длинная река в мире?',
-        answers: ['Амазонка', 'Нил', 'Янцзы', 'Миссисипи'],
-        correctAnswer: 1 // Нил
-    },
-    {
-        question: 'Кто был первым человеком, отправившимся в космос?',
-        answers: ['Юрий Гагарин', 'Нил Армстронг', 'Лаика', 'Юрий Долгорукий'],
-        correctAnswer: 0 // Юрий Гагарин
-    },
-];
-
-
-
-const Quiz = observer(() => {
+const Quiz = observer((questions: Question[]) => {
     
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [btnIsClicked, setBtnIsClicked] = useState(false);
@@ -67,7 +13,7 @@ const Quiz = observer(() => {
 
     const quizQuestion = questions.map((question, questionIndex) => {
 
-        const answers = question.answers.map((answer, answerIndex) => {
+        const options = question.options.map((option, optionIndex) => {
 
             const handleClick = () => {
 
@@ -78,14 +24,14 @@ const Quiz = observer(() => {
                     btn.classList.add('pointer-events-none');
                 });
                 
-                const btn = document.getElementById(answerIndex.toString());
+                const btn = document.getElementById(optionIndex.toString());
                 
-                if (answerIndex === question.correctAnswer) {
+                if (optionIndex === question.answer) {
                     btn?.classList.add('bg-green-400', 'dark:bg-green-400');
                 } else {
                     btn?.classList.add('bg-red-400', 'dark:bg-red-400');
 
-                    const correctBtn = document.getElementById(question.correctAnswer.toString());
+                    const correctBtn = document.getElementById(question.answer.toString());
                     correctBtn?.classList.add('bg-green-400', 'dark:bg-green-400');
                 }
                 
@@ -105,9 +51,9 @@ const Quiz = observer(() => {
             return (
                 <button className="btn hover:scale-105 px-[84px] bg-white dark:bg-[#060E24] rounded-3xl"
                         onClick={() => handleClick()}
-                        key={answerIndex}
-                        id={answerIndex.toString()}>
-                    {answer}
+                        key={optionIndex.toString()}
+                        id={optionIndex.toString()}>
+                    {option}
                 </button>
             )
         })
@@ -118,7 +64,7 @@ const Quiz = observer(() => {
                 <h1 className="font-bold text-center break-words select-none">Вопрос {currentQuestionIndex + 1}</h1>
                 <h2 className="font-bold text-center select-none mb-[64px]">{question.question}</h2>
                 <div className="flex flex-col items-center justify-center gap-[32px]">
-                    {answers}
+                    {options}
                 </div>
 
                 {isFinished && 

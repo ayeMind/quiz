@@ -10,6 +10,13 @@ import globalStore from "../app/globalStore";
 export const Catalog = observer(() => {
 
   const [quizzes, setQuizzes] = useState([] as Quiz[]);
+  const [search, setSearch] = useState("");
+  const [filteredQuizzes, setFilteredQuizzes] = useState([] as Quiz[]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    setFilteredQuizzes(quizzes.filter((quiz) => quiz.title.toLowerCase().trim().includes(e.target.value.toLowerCase().trim())));
+  }
 
   const navigate = useNavigate();
 
@@ -21,6 +28,7 @@ export const Catalog = observer(() => {
 
     getQuizzes(0, 10).then((quizzes) => {
       setQuizzes(quizzes.data);
+      setFilteredQuizzes(quizzes.data);
     }).catch((error) => {
       console.log(error);
     });
@@ -29,18 +37,12 @@ export const Catalog = observer(() => {
   }, []);
 
 
-  const quizElements = quizzes.map((quiz) => {
+  const quizElements = filteredQuizzes.map((quiz) => {
 
-    const img = document.getElementById(quiz.id.toString());
-    if (img) {
-      img.setAttribute('src', 'http://localhost:8000/quiz/preview/' + quiz.id);
-      img.classList.remove('invisible');
-    }
-    
     return (
       <div key={quiz.id} className="flex flex-col text-center">
         <h2>{quiz.title}</h2>
-        <img id={quiz.id.toString()} className="invisible h-[256px] rounded-md"/>
+        <img id={quiz.id.toString()} src={`http://localhost:8000/quiz/preview/${quiz.id}`} className="h-[256px] rounded-md hover:opacity-95 cursor-pointer"/>
       </div>
     );
   });
@@ -48,7 +50,9 @@ export const Catalog = observer(() => {
   return (
     <PageLayout className="flex flex-col items-center h-auto min-h-screen">
       <div className="flex items-center gap-2">
-        <input type="text" placeholder="Поиск" className="w-[512px] h-[64px] rounded-md text-[24px] px-4 bg-slate-50 dark:bg-slate-700"/>
+        <input type="text" placeholder="Поиск"
+               value={search} onChange={handleSearch} 
+               className="w-[512px] h-[64px] rounded-md text-[24px] px-4 bg-slate-50 dark:bg-slate-700"/>
         <a href="#" className="text-[24px]">Теги</a>
       </div>
       
