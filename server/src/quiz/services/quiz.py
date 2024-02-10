@@ -43,7 +43,15 @@ class QuizService:
         quizzes = self.session.query(tables.Quiz).offset(skip).limit(limit).all()
         return [quiz_model.ServerQuiz.from_orm(quiz) for quiz in quizzes]
     
-
+    def get_all_quizzes(self) -> List[quiz_model.ServerQuiz]:
+        quizzes = self.session.query(tables.Quiz).all()
+        return [quiz_model.ServerQuiz.from_orm(quiz) for quiz in quizzes]
+    
+    def get_quizzes_by_tags(self, tags: str) -> List[quiz_model.ServerQuiz]:
+        tag_list = tags.split(',')
+        quizzes = self.session.query(tables.Quiz).filter(tables.Quiz.tags.contains(tag_list)).all()
+        return [quiz_model.ServerQuiz.from_orm(quiz) for quiz in quizzes]
+    
     def get_user_quizzes(self, user_id: int) -> List[quiz_model.ServerQuiz]:
         quizzes = self.session.query(tables.Quiz).filter_by(author_id=user_id).all()
         return [quiz_model.ServerQuiz.from_orm(quiz) for quiz in quizzes]

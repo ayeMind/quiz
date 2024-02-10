@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { Question, Quiz } from "../../../app/interfaces";
+import { Question, CreateQuiz } from "../../../app/interfaces";
 import globalStore from "../../../app/globalStore";
 
 function createNewQuizStore() {
@@ -34,7 +34,7 @@ function createNewQuizStore() {
       },
     ] as Question[],
 
-    quiz: {} as Quiz,
+    quiz: {} as CreateQuiz,
 
     // ----------------- MainInfo -----------------
 

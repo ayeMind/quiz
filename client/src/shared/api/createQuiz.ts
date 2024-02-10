@@ -1,6 +1,6 @@
-import { Quiz } from "../../app/interfaces"
+import { CreateQuiz } from "../../app/interfaces"
 
-export default function createQuiz(quiz: Quiz) {
+export default function createQuiz(quiz: CreateQuiz) {
   return fetch('http://localhost:8000/quiz/create/', {
     method: 'POST',
     headers: {

@@ -25,6 +25,15 @@ export interface Question {
     answer: number;
 }
 export interface Quiz {
+    id: number;
+    title: string;
+    description: string;
+    preview: string;
+    tags: string[];
+    questions: Question[];
+}
+
+export interface CreateQuiz {
     title: string;
     description: string;
     preview: string;

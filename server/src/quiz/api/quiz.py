@@ -27,3 +27,13 @@ def get_user_quizzes(user_id: int, service: QuizService = Depends()):
 @router.put('/{quiz_id}', response_model=quiz_model.ServerQuiz)
 def update_quiz(quiz_id: int, quiz: quiz_model.QuizCreate, service: QuizService = Depends()):
     return service.update_quiz(quiz_id, quiz)
+
+@router.get('/all', response_model=list[quiz_model.ServerQuiz])
+def get_all_quizzes(service: QuizService = Depends()):
+    return service.get_all_quizzes()
+
+
+
+@router.get('/tags/{tags}', response_model=list[quiz_model.ServerQuiz])
+def get_quizzes_by_tags(tags: str, service: QuizService = Depends()):
+    return service.get_quizzes_by_tags(tags)

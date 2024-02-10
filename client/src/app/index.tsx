@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
 import Cookies from "universal-cookie";
 
 // pages
@@ -10,10 +11,9 @@ import LogIn from "../pages/LogIn";
 import SignUp from "../pages/SignUp";
 import Quiz from "../pages/Quiz";
 import MyQuizzes from "../pages/MyQuizzes/MyQuizzes";
-import Catalog from "../pages/Catalog";
+import {Catalog} from "../pages/Catalog";
 import Online from "../pages/Online/Online";
 import Profile from "../pages/Profile";
-import { useEffect } from "react";
 
 const App = observer(() => {
 
