@@ -69,7 +69,7 @@ export const FormCell = observer(({
       ) : (
         <div className="w-[80%]">
           <XCircle
-            className="absolute text-red-700 cursor-pointer top-3 right-3 delete-btn"
+            className="absolute text-red-700 cursor-pointer hover:text-red-800 top-3 right-3 delete-btn dark:text-red-500 dark:hover:text-red-700"
             onClick={() => onDelete(questionId)}
           />
           <label
@@ -78,7 +78,7 @@ export const FormCell = observer(({
           >
             {index + 1}
           </label>
-          <hr className="mb-6 dark:border-gray-500" />
+          <hr className="mb-6 dark:border-gray-600" />
 
           <p className="my-2 ml-6 opacity-75">
             Напишите от 3 до 6 вариантов ответа и выберите верный
@@ -102,7 +102,7 @@ export const FormCell = observer(({
               />
               {isHovered && (
                 <button
-                  className="ml-2 text-red-600"
+                  className="ml-2 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-600"
                   onClick={() => handleDeleteOption(optionIndex)}
                 >
                   Удалить
@@ -113,7 +113,7 @@ export const FormCell = observer(({
 
           {newQuizStore.questions[index].options.length < 6 && (
             <button
-              className="p-2 ml-4 rounded-md bg-slate-200"
+              className="p-2 ml-4 rounded-md bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700"
               onClick={handleAddOption}
             >
               Добавить
