@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { PageLayout } from "../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
@@ -8,11 +8,13 @@ import { getQuizById } from "../shared/api/getQuizzes";
 import { Question } from "../app/interfaces";
 
 const Quiz = observer(() => {
-
+    
     const navigate = useNavigate()
     const [questions, setQuestions] = useState<Question[]>([]); 
     const { quizId } = useParams();
 
+    useEffect(() => {
+        
     quizId && getQuizById(quizId).then((res) => {
         if (!res.success) {
             navigate('/PageNotFound');
@@ -20,6 +22,10 @@ const Quiz = observer(() => {
             setQuestions(res.data.questions);
         }
     });
+    
+    }, []);
+
+    
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [btnIsClicked, setBtnIsClicked] = useState(false);
