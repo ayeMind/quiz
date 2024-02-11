@@ -1,12 +1,26 @@
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { PageLayout } from "../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
-import { Link } from "react-router-dom";
+
+import { getQuizById } from "../shared/api/getQuizzes";
 import { Question } from "../app/interfaces";
 
-const Quiz = observer((questions: Question[]) => {
-    
+const Quiz = observer(() => {
+
+    const navigate = useNavigate()
+    const [questions, setQuestions] = useState<Question[]>([]); 
+    const { quizId } = useParams();
+
+    quizId && getQuizById(quizId).then((res) => {
+        if (!res.success) {
+            navigate('/PageNotFound');
+        } else {
+            setQuestions(res.data.questions);
+        }
+    });
+
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [btnIsClicked, setBtnIsClicked] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
@@ -21,6 +35,7 @@ const Quiz = observer((questions: Question[]) => {
 
                 const buttons = document.querySelectorAll('.btn');
                 buttons.forEach(btn => {
+                    
                     btn.classList.add('pointer-events-none');
                 });
                 
@@ -28,13 +43,16 @@ const Quiz = observer((questions: Question[]) => {
                 
                 if (optionIndex === question.answer) {
                     btn?.classList.add('bg-green-400', 'dark:bg-green-400');
+                    btn?.classList.remove('bg-white', 'dark:bg-[#060E24]');
                 } else {
                     btn?.classList.add('bg-red-400', 'dark:bg-red-400');
+                    btn?.classList.remove('bg-white', 'dark:bg-[#060E24]');
 
                     const correctBtn = document.getElementById(question.answer.toString());
                     correctBtn?.classList.add('bg-green-400', 'dark:bg-green-400');
+                    correctBtn?.classList.remove('bg-white', 'dark:bg-[#060E24]');
                 }
-                
+                                
                 setTimeout(() => {
                     if (currentQuestionIndex < questions.length - 1) {
                         setBtnIsClicked(false);

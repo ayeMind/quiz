@@ -1,9 +1,11 @@
+import { Quiz } from "../../app/interfaces";
+
 const url = 'http://localhost:8000/quiz/';
 const headers = {
     'accept': 'application/json'
 };
  
-export function getQuizzes(skip: number, limit: number) {
+export function getQuizzes(skip: number, limit: number): Promise<{ success: boolean, data: Quiz[] }>{
     return fetch(url + `?skip=${skip}&limit=${limit}`, { headers })
         .then(response => response.json())
         .then(data => {
@@ -19,7 +21,7 @@ export function getQuizzes(skip: number, limit: number) {
         });
 }
 
-export function getQuizById(id: string) {
+export function getQuizById(id: string): Promise<{ success: boolean, data: Quiz }>{
     return fetch(url + id, { headers })
         .then(response => response.json())
         .then(data => {
@@ -35,7 +37,7 @@ export function getQuizById(id: string) {
         });
 }
 
-export function getQuizzesByUserId(id: string) {
+export function getQuizzesByUserId(id: string): Promise<{ success: boolean, data: Quiz[] }>{
     return fetch(url + `user/${id}`, { headers })
         .then(response => response.json())
         .then(data => {

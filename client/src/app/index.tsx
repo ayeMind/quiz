@@ -42,7 +42,9 @@ const App = observer(() => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/my-quizzes" element={<MyQuizzes />} />
           <Route path="/my-quizzes/create" element={<CreateQuiz />} />
-          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/quiz">
+            <Route path=":quizId" element={<Quiz />} />
+          </Route>
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/online" element={<Online />} />
 
