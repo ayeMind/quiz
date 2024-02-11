@@ -8,6 +8,13 @@ import globalStore from "../app/globalStore";
 import { setUserInfo } from "../actions/setUserInfo";
 
 export default function LogIn() {
+  
+  const navigate = useNavigate();
+  
+  if (globalStore.isAutorized) {
+    navigate("/");
+  }
+
   const hintLoginId = useId();
   const hintPasswordId = useId();
 
@@ -16,7 +23,6 @@ export default function LogIn() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const navigate = useNavigate();
   
   function validateEmail(email: string) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

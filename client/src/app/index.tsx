@@ -2,6 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import Cookies from "universal-cookie";
+import globalStore from "./globalStore";
+import getUserInfo from "../shared/api/getUserInfo";
+import { setUserInfo } from "../actions/setUserInfo";
 
 // pages
 import Menu from "../pages/Menu";
@@ -27,6 +30,21 @@ const App = observer(() => {
     if (cookies.get("theme") === "dark") {
       const root = document.getElementById("root");
       root?.classList.add("dark");
+    }
+
+    if (cookies.get("auth_token") && !globalStore.isAutorized) {
+      try {
+        getUserInfo(cookies.get("auth_token"));
+        
+        const token = cookies.get("auth_token");
+        globalStore.autorize();
+        globalStore.setToken(token);
+        setUserInfo(token);
+        
+      } catch (error) {
+        console.log("Ошибка авторизации по кешу:", error);
+        cookies.remove("auth_token");
+      }
     }
 
   }, []);

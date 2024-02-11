@@ -14,10 +14,10 @@ export const MyQuizzes = observer(() => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!globalStore.isAutorized) {
-      navigate("/login");
-      return;
-    }
+   setTimeout(() => {
+      if (!globalStore.isAutorized) {
+        navigate("/login");
+      }}, 0);
 
     getQuizzesByUserId(globalStore.user_id.toString()).then((quizzes) => {
       setQuizzes(quizzes.data);

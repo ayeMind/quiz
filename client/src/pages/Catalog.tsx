@@ -21,10 +21,10 @@ export const Catalog = observer(() => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!globalStore.isAutorized) {
-      navigate("/login");
-      return;
-    }
+    setTimeout(() => {
+      if (!globalStore.isAutorized) {
+        navigate("/login");
+      }}, 0);
 
     getQuizzes(0, 10).then((quizzes) => {
       setQuizzes(quizzes.data);

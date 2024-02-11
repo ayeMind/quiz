@@ -1,37 +1,7 @@
-import { useEffect } from "react";
 import { PageLayout } from "../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
-import { setUserInfo } from "../actions/setUserInfo";
-import getUserInfo from "../shared/api/getUserInfo";
-import Cookies from "universal-cookie";
-import globalStore from "../app/globalStore";
 
 const Menu = observer(() => {
-
-  useEffect(() => {
-    const cookies = new Cookies(null, {
-      path: "/",
-      secure: true,
-      sameSite: "none",
-    });
-
-
-    if (cookies.get("auth_token") && !globalStore.isAutorized) {
-      try {
-        getUserInfo(cookies.get("auth_token"));
-        
-        const token = cookies.get("auth_token");
-        globalStore.autorize();
-        globalStore.setToken(token);
-        setUserInfo(token);
-        
-      } catch (error) {
-        console.log("Ошибка авторизации по кешу:", error);
-        cookies.remove("auth_token");
-      }
-    }
-  }, []);
-
 
   return (
     <PageLayout className="h-auto min-h-screen">
