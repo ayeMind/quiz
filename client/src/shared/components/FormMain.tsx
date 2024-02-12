@@ -72,7 +72,7 @@ export const FormMain = observer(() => {
         preview.src = e.target?.result as string;
         preview.classList.remove("invisible");
       };
-
+      newQuizStore.changePreviewIsLoaded(); 
       newQuizStore.changePreview(file);
 
       reader.readAsDataURL(file);

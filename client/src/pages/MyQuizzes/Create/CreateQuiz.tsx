@@ -3,15 +3,19 @@ import { FormCell } from "../../../shared/components/FormCell";
 import { PageLayout } from "../../../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
 import {FormMain} from "../../../shared/components/FormMain";
+import { useNavigate } from "react-router";
 
 import { sendPreview } from "../../../shared/api/sendPreview";
 import createQuiz from "../../../shared/api/createQuiz";
 import newQuizStore from "./newQuizStore";
+import globalStore from "../../../app/globalStore";
 
 
 export const CreateQuiz = observer(() => {
 
   const [questions, setQuestions] = useState(newQuizStore.questions.map(() => Math.random().toString()));
+
+  const navigate = useNavigate()
   
   const handleDeleteQuestion = (index: number) => {
     if (questions.length === 3) {
@@ -56,7 +60,7 @@ export const CreateQuiz = observer(() => {
   function isCorrectFilled() {
     const quiz = newQuizStore.quiz;
 
-    if (quiz.title === "" || quiz.description === "") {
+    if (quiz.title === "" || quiz.description === ""  || !newQuizStore.previewIsLoaded) {
       return false;
     }
 
@@ -78,13 +82,24 @@ export const CreateQuiz = observer(() => {
 
 
     if (!isCorrectFilled()) {
-      alert("Вы что-то недозаполнили!\nКаждый вопрос должен состоять не менее, чем из 5 символов!")
+      alert("Вы что-то недозаполнили!\nВсе поля должны быть заполнены, в том числе теги и превью!\nКаждый вопрос должен состоять не менее, чем из 5 символов!")
+      return;
+    }
+
+    if (!globalStore.user_id) {
+      alert("Ошибка авторизации.\nПопробуйте выйти из аккаунта и зайти снова!")
+      return;
     }
 
     createQuiz(quiz)
       .then(() => {
           alert("Викторина успешно создана!")
           sendPreview()
+            .then(response => {
+              console.log(response),
+              newQuizStore.clear()
+              navigate("/my-quizzes")
+            })
           
       })  
       .catch((error) => {

@@ -44,9 +44,9 @@ export const Catalog = observer(() => {
   const quizElements = filteredQuizzes.map((quiz) => {
 
     return (
-      <div key={quiz.id} className="flex flex-col text-center">
+      <div key={quiz.id} className="flex flex-col items-center text-center">
         <h2>{quiz.title}</h2>
-        <img id={quiz.id.toString()} src={`http://localhost:8000/quiz/preview/${quiz.id}`} className="h-[288px] rounded-md hover:opacity-95 cursor-pointer"
+        <img id={quiz.id.toString()} src={`http://localhost:8000/quiz/preview/${quiz.id}`} className="h-[243px] w-[432px] rounded-md hover:opacity-95 cursor-pointer object-center"
              onClick={startQuiz} />
       </div>
     );
@@ -64,6 +64,10 @@ export const Catalog = observer(() => {
       <div className="grid grid-cols-2 gap-[48px] mt-[84px]">
         {quizElements}
       </div>
+
+      <nav>
+        
+      </nav>
     </PageLayout>
   );
 });

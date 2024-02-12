@@ -43,7 +43,9 @@ const App = observer(() => {
         
       } catch (error) {
         console.log("Ошибка авторизации по кешу:", error);
+        globalStore.exit()
         cookies.remove("auth_token");
+
       }
     }
 

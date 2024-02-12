@@ -11,6 +11,7 @@ function createNewQuizStore() {
     },
 
     preview: {} as File,
+    previewIsLoaded: false,
 
     questions: [
       {
@@ -60,6 +61,10 @@ function createNewQuizStore() {
       this.preview = preview;
     },
 
+    changePreviewIsLoaded() {
+      this.previewIsLoaded = this.previewIsLoaded ? false : true
+    },
+
 
 
     // ----------------- Question -----------------
@@ -102,7 +107,6 @@ function createNewQuizStore() {
     changeQuestion(index: number, question: Question) {
       this.questions[index] = question;
     },
-
     
     createQuiz() {
       const quiz = {
@@ -112,8 +116,48 @@ function createNewQuizStore() {
       };
 
       this.quiz = quiz;
-    }
-  });
+    },
+
+    clear() {
+      this.mainInfo = {
+        title: "",
+        description: "",
+        tags: [""],
+      },
+  
+      this.preview = {} as File,
+      this.previewIsLoaded = false,
+
+      this.questions = [
+        {
+          index: 0,
+          question: "",
+          options: ["", "", ""],
+          answer: -1,
+        },
+  
+        {
+          index: 1,
+          question: "",
+          options: ["", "", ""],
+          answer: -1,
+        },
+  
+        {
+          index: 2,
+          question: "",
+          options: ["", "", ""],
+          answer: -1,
+        },
+      ] as Question[],
+  
+            this.quiz = {} as CreateQuiz;
+            
+          },
+
+      });
+
+
 
 }
 
