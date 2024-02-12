@@ -79,6 +79,10 @@ export const MyQuizzes = observer(() => {
         <div className="grid grid-cols-2 gap-[48px] mt-[84px]">
           {quizElements}
         </div>
+
+        <Link to="/my-quizzes/create" className="text-[32px] mt-4 p-2 rounded-xl bg-blue-500 dark:bg-blue-700 hover:bg-blue-600 dark:hover:bg-blue-800">
+            Создать викторину
+        </Link>
       </div>
         
       ) : (

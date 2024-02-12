@@ -12,7 +12,7 @@ export async function sendPreview() {
     formData.append('file', previewFile);
 
     try {
-        const response = await fetch('/quiz/preview/', {
+        const response = await fetch('http://localhost:8000/quiz/preview/', {
             method: 'POST',
             body: formData,
         });

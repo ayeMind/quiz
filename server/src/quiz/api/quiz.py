@@ -59,5 +59,5 @@ async def create_upload_file(file: UploadFile, service: QuizService = Depends())
     return service.create_upload_file(file)
 
 @router.post("/preview/", tags=["QUIZ"])
-async def save_preview(file: UploadFile, service: QuizService = Depends()):
-    return service.save_preview(file)
+async def save_preview(file: UploadFile = File(...), service: QuizService = Depends()):
+    return await service.save_preview(file)

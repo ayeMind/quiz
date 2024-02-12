@@ -31,13 +31,20 @@ class QuizService:
         self.session.commit()
         self.session.refresh(new_quiz)
 
-        return {'message': {'Quiz created successfully'}}
+        return {'message': {'Quiz created success'}}
 
 
 
     def get_quiz(self, quiz_id: int) -> quiz_model.ServerQuiz:
         quiz = self.session.query(tables.Quiz).filter_by(id=quiz_id).first()
         return quiz_model.ServerQuiz.from_orm(quiz)
+    
+    def get_last_quiz_id(self):
+        last_quiz = self.session.query(tables.Quiz).order_by(tables.Quiz.id.desc()).first()
+        if last_quiz:
+            return last_quiz.id
+        else:
+            return None
     
 
     def get_quizzes(self, skip: int = 0, limit: int = 10) -> List[quiz_model.ServerQuiz]:
@@ -70,18 +77,19 @@ class QuizService:
         return self.get_quiz(quiz_id)
     
         
-    async def create_file(file: Annotated[bytes | None, File()] = None):
+    async def create_file(self, file: Annotated[bytes | None, File()] = None):
         if not file:
             return {"message": "No file sent"}
         else:
             return {"file_size": len(file)}
 
 
-    async def save_preview(file: UploadFile | None = None):
+    async def save_preview(self, file: UploadFile | None = None):
         if not file:
             return {"message": "No upload file sent"}
         else:
-            with open(f'../files/previews/{file.filename}', 'wb') as preview_file:
+            file_name = self.get_last_quiz_id()
+            with open(f'../files/previews/{file_name}.png', 'wb') as preview_file:
                 try:
                     preview_file.write(file.file.read())
                     return {"message": "File uploaded successfully"}
@@ -89,8 +97,6 @@ class QuizService:
                     return {"message": str(e)}
         
  
-
-
 
     def get_preview(self, quiz_id: int):
         
