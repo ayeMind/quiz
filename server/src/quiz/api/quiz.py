@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends
+from typing import Annotated
+from fastapi import APIRouter, Depends, File, UploadFile
 
 from ..models import quiz as quiz_model
 from ..services.quiz import QuizService;
@@ -7,7 +8,7 @@ router = APIRouter(
     prefix='/quiz'
 )
 
-@router.post('/create/', response_model=quiz_model.ServerQuiz, tags=["QUIZ"], description="Create a new quiz")
+@router.post('/create/', tags=["QUIZ"], description="Create a new quiz")
 def create_quiz(quiz: quiz_model.QuizCreate, service: QuizService = Depends()):
     return service.create_quiz(quiz)
 
@@ -48,3 +49,15 @@ def get_all_preview(service: QuizService = Depends()):
 @router.delete('/{quiz_id}', tags=["QUIZ"], description="Delete a quiz by id")
 def delete_quiz(quiz_id: int, service: QuizService = Depends()):
     return service.delete_quiz(quiz_id)
+
+@router.post("/files/", tags=["QUIZ"])
+async def create_file(file: Annotated[bytes, File()], service: QuizService = Depends()):
+    return service.create_file(file)
+
+@router.post("/uploadfile/", tags=["QUIZ"])
+async def create_upload_file(file: UploadFile, service: QuizService = Depends()):
+    return service.create_upload_file(file)
+
+@router.post("/preview/", tags=["QUIZ"])
+async def save_preview(file: UploadFile, service: QuizService = Depends()):
+    return service.save_preview(file)

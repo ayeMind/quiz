@@ -114,16 +114,16 @@ export const FormMain = observer(() => {
           htmlFor="fileInput"
           className={`absolute -translate-y-1/2 top-1/2 text-[4vh] right-5 opacity-25 select-none`}
         >
-          Превью (400x400)
+          Превью (16:9)
         </label>
         <input
           id="fileInput"
           type="file"
-          className="px-2 bg-transparent outline-none dark:text-white aspect-square h-[7vh] w-[30vw]"
+          className="px-2 bg-transparent outline-none dark:text-white aspect-video h-[7vh] w-[30vw]"
           onChange={imagePreview}
           accept="image/*"
         />
-        <img id="preview" className="w-[400px] h-[400px] mb-4 invisible ml-2" />
+        <img id="preview" className="w-[512px] h-[288px] mb-4 invisible ml-2" />
         <hr className="dark:border-gray-500" />
       </span>
       <span className="relative">

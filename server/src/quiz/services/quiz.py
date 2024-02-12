@@ -1,6 +1,6 @@
 import io
-from typing import List
-from fastapi import Depends
+from typing import Annotated, List
+from fastapi import Depends, File, UploadFile
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from datetime import datetime
@@ -14,7 +14,7 @@ class QuizService:
     def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
-    def create_quiz(self, quiz: quiz_model.QuizCreate) -> quiz_model.ServerQuiz:
+    def create_quiz(self, quiz: quiz_model.QuizCreate):
 
         new_quiz = tables.Quiz(
     
@@ -31,12 +31,8 @@ class QuizService:
         self.session.commit()
         self.session.refresh(new_quiz)
 
-        # Download preview image to the server
-        previewPath = f'../files/previews/{new_quiz.id}.png'
-        with open(previewPath, 'wb') as f:  
-            f.write(quiz.preview)
+        return {'message': {'Quiz created successfully'}}
 
-        return new_quiz
 
 
     def get_quiz(self, quiz_id: int) -> quiz_model.ServerQuiz:
@@ -73,6 +69,28 @@ class QuizService:
         self.session.commit()
         return self.get_quiz(quiz_id)
     
+        
+    async def create_file(file: Annotated[bytes | None, File()] = None):
+        if not file:
+            return {"message": "No file sent"}
+        else:
+            return {"file_size": len(file)}
+
+
+    async def save_preview(file: UploadFile | None = None):
+        if not file:
+            return {"message": "No upload file sent"}
+        else:
+            with open(f'../files/previews/{file.filename}', 'wb') as preview_file:
+                try:
+                    preview_file.write(file.file.read())
+                    return {"message": "File uploaded successfully"}
+                except Exception as e:
+                    return {"message": str(e)}
+        
+ 
+
+
 
     def get_preview(self, quiz_id: int):
         

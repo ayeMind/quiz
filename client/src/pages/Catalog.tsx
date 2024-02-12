@@ -46,7 +46,7 @@ export const Catalog = observer(() => {
     return (
       <div key={quiz.id} className="flex flex-col text-center">
         <h2>{quiz.title}</h2>
-        <img id={quiz.id.toString()} src={`http://localhost:8000/quiz/preview/${quiz.id}`} className="h-[256px] rounded-md hover:opacity-95 cursor-pointer"
+        <img id={quiz.id.toString()} src={`http://localhost:8000/quiz/preview/${quiz.id}`} className="h-[288px] rounded-md hover:opacity-95 cursor-pointer"
              onClick={startQuiz} />
       </div>
     );

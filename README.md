@@ -1,10 +1,10 @@
 # QUIZ App
 
-На ранней стадии разработки
+Бета-версия. Пока не доступен онлайн, не сделаны все виды викторин, не доделан дизайн
 
 Сайт для создания и прохождения викторин, с возможностью мультиплеера
 
-Планируемый стек: React, MobX, TailwindCSS, FastAPI, SQLAlchemy (Docker PostrgeSQL). Возможно, Flutter для мобильной версии (если дойдут лапки до флаттера)
+Планируемый стек: React, MobX, TailwindCSS, FastAPI, SQLAlchemy (Docker PostrgeSQL). Возможно, мобильная версия (Flutter / Kotlin). За неимением устройств Apple, если она и будет, то скорее всего на Kotlin
 
 ![изображение](https://github.com/ayeMind/quiz/assets/119005871/752f2be9-c392-4ad6-9521-efe40f3dcc7c)
 

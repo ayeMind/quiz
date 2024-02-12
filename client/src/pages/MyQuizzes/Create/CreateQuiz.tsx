@@ -4,6 +4,7 @@ import { PageLayout } from "../../../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
 import {FormMain} from "../../../shared/components/FormMain";
 
+import { sendPreview } from "../../../shared/api/sendPreview";
 import createQuiz from "../../../shared/api/createQuiz";
 import newQuizStore from "./newQuizStore";
 
@@ -29,7 +30,8 @@ export const CreateQuiz = observer(() => {
   const endOfPageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (endOfPageRef.current) {
+
+    if (endOfPageRef.current && questions.length !== 3) {
       endOfPageRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [questions]);
@@ -82,7 +84,9 @@ export const CreateQuiz = observer(() => {
     createQuiz(quiz)
       .then(() => {
           alert("Викторина успешно создана!")
-      })
+          sendPreview()
+          
+      })  
       .catch((error) => {
         alert("Ошибка при создании викторины");
         console.error(error);

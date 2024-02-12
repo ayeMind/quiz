@@ -35,7 +35,6 @@ export interface Quiz {
 export interface CreateQuiz {
     title: string;
     description: string;
-    preview: File;
     tags: string[];
     questions: Question[];
 }

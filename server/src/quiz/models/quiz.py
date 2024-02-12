@@ -1,11 +1,12 @@
 from pydantic import BaseModel
+from typing import Annotated
+from fastapi import File
 
 from datetime import datetime
 class QuizCreate(BaseModel):
     author_id: int
     title: str
     description: str
-    preview: str
     tags: list
     questions: list
 

@@ -7,9 +7,10 @@ function createNewQuizStore() {
     mainInfo: {
       title: "",
       description: "",
-      preview: {} as File,
       tags: [""],
     },
+
+    preview: {} as File,
 
     questions: [
       {
@@ -56,7 +57,7 @@ function createNewQuizStore() {
     },
 
     changePreview(preview: File) {
-      this.mainInfo.preview = preview;
+      this.preview = preview;
     },
 
 
