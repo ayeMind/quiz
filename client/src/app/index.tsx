@@ -26,30 +26,32 @@ const App = observer(() => {
       secure: true,
       sameSite: "none",
     });
-
-    if (cookies.get("theme") === "dark") {
-      const root = document.getElementById("root");
-      root?.classList.add("dark");
-    }
-
-    if (cookies.get("auth_token") && !globalStore.isAutorized) {
-      try {
-        getUserInfo(cookies.get("auth_token"));
-        
-        const token = cookies.get("auth_token");
-        globalStore.autorize();
-        globalStore.setToken(token);
-        setUserInfo(token);
-        
-      } catch (error) {
-        console.log("Ошибка авторизации по кешу:", error);
-        globalStore.exit()
-        cookies.remove("auth_token");
-
+  
+    const initializeApp = async () => {
+      if (cookies.get("theme") === "dark") {
+        const root = document.getElementById("root");
+        root?.classList.add("dark");
       }
-    }
-
+  
+      if (cookies.get("auth_token") && !globalStore.isAutorized) {
+        try {
+          await getUserInfo(cookies.get("auth_token"));
+  
+          const token = cookies.get("auth_token");
+          globalStore.autorize();
+          globalStore.setToken(token);
+          setUserInfo(token);
+        } catch (error) {
+          console.log("Ошибка авторизации по кешу:", error);
+          globalStore.exit();
+          cookies.remove("auth_token");
+        }
+      }
+    };
+  
+    initializeApp();
   }, []);
+  
 
   return (
     <div>
@@ -60,8 +62,10 @@ const App = observer(() => {
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/my-quizzes" element={<MyQuizzes />} />
           <Route path="/my-quizzes/create" element={<CreateQuiz />} />
+          <Route path="/my-quizzes" element={<MyQuizzes />}>
+            <Route path=":page" element={<MyQuizzes />} />
+          </Route>
           <Route path="/quiz">
             <Route path=":quizId" element={<Quiz />} />
           </Route>

@@ -38,7 +38,7 @@ export function getQuizById(id: string): Promise<{ success: boolean, data: Quiz 
 }
 
 export function getQuizzesByUserId(id: string, skip: number, limit: number): Promise<{ success: boolean, data: Quiz[] }>{
-    return fetch(url + `${id}/` + `?skip=${skip}&limit=${limit}`, { headers })
+    return fetch(url + `user/${id}/` + `?skip=${skip}&limit=${limit}`, { headers })
         .then(response => response.json())
         .then(data => {
             if (data.length > 0) {

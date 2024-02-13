@@ -68,4 +68,4 @@ def get_amount(service: QuizService = Depends()):
 
 @router.get("/amount/{user_id}", tags=["QUIZ"], description="Get amount of quizzes by user id")
 def get_user_amount(user_id: int, service: QuizService = Depends()):
-    return service.get_user_quizzes_amount()
+    return service.get_user_quizzes_amount(user_id)

@@ -20,7 +20,7 @@ export default function CatalogNavigate({ currentPage, totalPages }: { currentPa
 
     return (
       <Link
-        to={`/catalog/${page}`}
+        to={`${page}`}
         key={page}
         className={`px-3 py-3 w-[64px] h-[64px] text-center flex items-center justify-center rounded-2xl
          bg-[#f1f1f1] dark:bg-[#3c3f4d] text-black dark:text-white hover:opacity-80
