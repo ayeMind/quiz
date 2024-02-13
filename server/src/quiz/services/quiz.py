@@ -120,3 +120,9 @@ class QuizService:
         self.session.query(tables.Quiz).filter_by(id=quiz_id).delete()
         self.session.commit()
         return {"message": "Quiz deleted successfully"}
+    
+    def get_quizzes_amount(self):
+        return self.session.query(tables.Quiz).count()
+    
+    def get_user_quizzes_amount(self, user_id: int):
+        return self.session.query(tables.Quiz).filter_by(author_id=user_id).count()

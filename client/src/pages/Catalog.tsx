@@ -5,26 +5,17 @@ import { useParams } from "react-router";
 import { getQuizzes } from "../shared/api/getQuizzes";
 import { useEffect, useState } from "react";
 import { Quiz } from "../app/interfaces";
+import { getQuizzesAmount } from "../shared/api/getQuizzesAmount";
 
 import globalStore from "../app/globalStore";
 import CatalogNavigate from "../shared/components/CatalogNavigate";
 
-interface CatalogProps {
-  withParams: boolean;
-}
+export const Catalog = observer(() => {
 
-export const Catalog: React.FC<CatalogProps> = observer(({ withParams }) => {
-
-  const [page, setPage] = useState(0);
-
-  if (withParams) {
-    setPage(Number(useParams().page));
-    console.log(page);
-  } else {
-    console.log("no params");
-  }
+  const param = useParams().page;
+  const [page, setPage] = useState(1);
   
-
+  const [quizzesAmount, setQuizzesAmount] = useState(0);
   const [quizzes, setQuizzes] = useState([] as Quiz[]);
   const [search, setSearch] = useState("");
   const [filteredQuizzes, setFilteredQuizzes] = useState([] as Quiz[]);
@@ -37,12 +28,24 @@ export const Catalog: React.FC<CatalogProps> = observer(({ withParams }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    getQuizzesAmount().then((amount) => {
+      setQuizzesAmount(amount);
+    }).catch((error) => {
+      console.log(error);
+    });
+
+    if (param) {
+      setPage(Number(param));  
+    }
+
     setTimeout(() => {
       if (!globalStore.isAutorized) {
         navigate("/login");
       }}, 0);
 
-    getQuizzes(0, 10).then((quizzes) => {
+    getQuizzes((page - 1) * 10, page*10 ).then((quizzes) => {
+      
       setQuizzes(quizzes.data);
       setFilteredQuizzes(quizzes.data);
     }).catch((error) => {
@@ -50,7 +53,7 @@ export const Catalog: React.FC<CatalogProps> = observer(({ withParams }) => {
     });
 
 
-  }, []);
+  }, [param, page]);
 
   const startQuiz = (e: React.MouseEvent<HTMLImageElement>) => {
     const quizId = e.currentTarget.id;
@@ -81,7 +84,7 @@ export const Catalog: React.FC<CatalogProps> = observer(({ withParams }) => {
         {quizElements}
       </div>
 
-      <CatalogNavigate />
+      <CatalogNavigate currentPage={page} totalPages={quizzesAmount}  />
     </PageLayout>
   );
 });

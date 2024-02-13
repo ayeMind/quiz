@@ -61,3 +61,11 @@ async def create_upload_file(file: UploadFile, service: QuizService = Depends())
 @router.post("/preview/", tags=["QUIZ"])
 async def save_preview(file: UploadFile = File(...), service: QuizService = Depends()):
     return await service.save_preview(file)
+
+@router.get("/amount/", tags=["QUIZ"], description="Get amount of quizzes")
+def get_amount(service: QuizService = Depends()):
+    return service.get_quizzes_amount()
+
+@router.get("/amount/{user_id}", tags=["QUIZ"], description="Get amount of quizzes by user id")
+def get_user_amount(user_id: int, service: QuizService = Depends()):
+    return service.get_user_quizzes_amount()
