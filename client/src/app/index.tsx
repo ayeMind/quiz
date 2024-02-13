@@ -65,7 +65,9 @@ const App = observer(() => {
           <Route path="/quiz">
             <Route path=":quizId" element={<Quiz />} />
           </Route>
-          <Route path="/catalog" element={<Catalog />} />
+          <Route path="/catalog" element={<Catalog withParams={false} />}>
+            <Route path=":page" element={<Catalog withParams={true} />} />
+          </Route>
           <Route path="/online" element={<Online />} />
 
           <Route path="*" element={<PageNotFound />} />

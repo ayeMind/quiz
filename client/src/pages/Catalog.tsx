@@ -1,13 +1,29 @@
 import { PageLayout } from "../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router";
+import { useParams } from "react-router";
 import { getQuizzes } from "../shared/api/getQuizzes";
 import { useEffect, useState } from "react";
 import { Quiz } from "../app/interfaces";
 
 import globalStore from "../app/globalStore";
+import CatalogNavigate from "../shared/components/CatalogNavigate";
 
-export const Catalog = observer(() => {
+interface CatalogProps {
+  withParams: boolean;
+}
+
+export const Catalog: React.FC<CatalogProps> = observer(({ withParams }) => {
+
+  const [page, setPage] = useState(0);
+
+  if (withParams) {
+    setPage(Number(useParams().page));
+    console.log(page);
+  } else {
+    console.log("no params");
+  }
+  
 
   const [quizzes, setQuizzes] = useState([] as Quiz[]);
   const [search, setSearch] = useState("");
@@ -65,9 +81,7 @@ export const Catalog = observer(() => {
         {quizElements}
       </div>
 
-      <nav>
-        
-      </nav>
+      <CatalogNavigate />
     </PageLayout>
   );
 });

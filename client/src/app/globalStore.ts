@@ -27,7 +27,7 @@ function createGlobalStore() {
             } else {
                 this.user_id = data.id  || -1;
             }
-            
+
             this.user = data.user_name || 'guest';
             this.email = data.email || '';
             this.avatar = data.avatar || 'guest.png';
@@ -43,6 +43,7 @@ function createGlobalStore() {
             this.isAutorized = false;
             this.token = '';
             this.user = 'guest';
+            this.user_id = -1;
             this.email = '';
             this.avatar = 'guest.png';
         }
