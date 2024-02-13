@@ -75,7 +75,9 @@ export const MyQuizzes = observer(() => {
       ).then((quizzes) => {
         setQuizzes(quizzes.data);
         setFilteredQuizzes(quizzes.data);
-        setLoading(false); // Устанавливаем состояние загрузки как завершенное
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       });
     }
   }, [globalStore.user_id, page, quizzesAmount, param]);

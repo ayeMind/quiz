@@ -17,7 +17,7 @@ export const Catalog = observer(() => {
   const [quizzes, setQuizzes] = useState([] as Quiz[]);
   const [search, setSearch] = useState("");
   const [filteredQuizzes, setFilteredQuizzes] = useState([] as Quiz[]);
-  const [loading, setLoading] = useState(true); // Состояние загрузки данных
+  const [loading, setLoading] = useState(true)
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -52,14 +52,14 @@ export const Catalog = observer(() => {
       setPage(Number(param));
     }
 
-    setLoading(true); // Установка состояния загрузки в true перед загрузкой данных
+    setLoading(true);
 
     if (page * 10 > quizzesAmount) {
       getQuizzes((page - 1) * 10, quizzesAmount)
         .then((quizzes) => {
           setQuizzes(quizzes.data);
           setFilteredQuizzes(quizzes.data);
-          setLoading(false); // Установка состояния загрузки в false после загрузки данных
+          setLoading(false); 
         })
         .catch((error) => {
           console.log(error);
@@ -69,7 +69,9 @@ export const Catalog = observer(() => {
         .then((quizzes) => {
           setQuizzes(quizzes.data);
           setFilteredQuizzes(quizzes.data);
-          setLoading(false); // Установка состояния загрузки в false после загрузки данных
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
         })
         .catch((error) => {
           console.log(error);
@@ -98,8 +100,8 @@ export const Catalog = observer(() => {
 
   return (
     <PageLayout className="relative flex flex-col items-center h-auto min-h-screen">
-      {loading ? ( // Если данные загружаются, отобразить крутящееся колесо
-        <div className="flex items-center justify-center h-auto">
+      {loading ? ( // Если данные загружаются
+        <div className="flex items-center justify-center h-screen">
           <div className="w-32 h-32 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
         </div>
       ) : (
