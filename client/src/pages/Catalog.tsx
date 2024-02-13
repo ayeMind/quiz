@@ -99,7 +99,7 @@ export const Catalog = observer(() => {
   return (
     <PageLayout className="relative flex flex-col items-center h-auto min-h-screen">
       {loading ? ( // Если данные загружаются, отобразить крутящееся колесо
-        <div className="flex items-center justify-center h-screen">
+        <div className="flex items-center justify-center h-auto">
           <div className="w-32 h-32 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
         </div>
       ) : (

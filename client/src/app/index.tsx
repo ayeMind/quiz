@@ -21,11 +21,7 @@ import Profile from "../pages/Profile";
 const App = observer(() => {
 
   useEffect(() => {
-    const cookies = new Cookies(null, {
-      path: "/",
-      secure: true,
-      sameSite: "none",
-    });
+    const cookies = new Cookies(null, { path: '/', secure: true, sameSite: "none"}) ;
   
     const initializeApp = async () => {
       if (cookies.get("theme") === "dark") {
@@ -33,7 +29,7 @@ const App = observer(() => {
         root?.classList.add("dark");
       }
   
-      if (cookies.get("auth_token") && !globalStore.isAutorized) {
+      if (cookies.get("auth_token")) {
         try {
           await getUserInfo(cookies.get("auth_token"));
   

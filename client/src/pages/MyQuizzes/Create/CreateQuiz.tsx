@@ -14,7 +14,15 @@ import globalStore from "../../../app/globalStore";
 export const CreateQuiz = observer(() => {
 
   const [questions, setQuestions] = useState(newQuizStore.questions.map(() => Math.random().toString()));
+  const [userId, setUserId] = useState(globalStore.user_id);
+  
+  console.log("userId", userId);
+  
+  useEffect(() => {
+    setUserId(globalStore.user_id);
+    console.log("userId", userId);
 
+  }, [globalStore.user_id]);
   const navigate = useNavigate()
   
   const handleDeleteQuestion = (index: number) => {
@@ -79,14 +87,23 @@ export const CreateQuiz = observer(() => {
     newQuizStore.createQuiz();
 
     const quiz = newQuizStore.quiz;
-
+    const errors = [];
 
     if (!isCorrectFilled()) {
-      alert("Вы что-то недозаполнили!\nВсе поля должны быть заполнены, в том числе теги и превью!\nКаждый вопрос должен состоять не менее, чем из 5 символов!")
+      if (quiz.title === "") errors.push("Заголовок");
+      if (quiz.description === "") errors.push("Описание");
+      if (!newQuizStore.previewIsLoaded) errors.push("Превью");
+      for (let i = 0; i < quiz.questions.length; i++) {
+        if (quiz.questions[i].question.length < 5) errors.push(`Вопрос ${i + 1}`);
+        if (quiz.questions[i].options.includes("")) errors.push(`Ответы на вопрос ${i + 1}`);
+        if (quiz.questions[i].answer === -1) errors.push(`Правильный ответ на вопрос ${i + 1}`);
+      }
+
+      alert(`Вы не заполнили следующие поля:\n${errors.join('\n')}`);
       return;
     }
 
-    if (!globalStore.user_id) {
+    if (globalStore.user_id === -1) {
       alert("Ошибка авторизации.\nПопробуйте выйти из аккаунта и зайти снова!")
       return;
     }

@@ -7,7 +7,7 @@ class Settings(BaseSettings):
 
     jwt_secret: str
     jwt_algorithm: str = "HS256" 
-    jwt_expiration: int = 3600
+    jwt_expiration: int = 60 * 60 * 24 * 7
 
 
 settings = Settings(

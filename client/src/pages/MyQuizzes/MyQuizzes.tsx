@@ -118,13 +118,13 @@ export const MyQuizzes = observer(() => {
   });
 
   return (
-    <PageLayout className={hasQuizzes ? "h-auto min-h-screen" : "h-screen"}>
+    <PageLayout>
       {loading ? ( // Если данные загружаются, отобразить крутящееся колесо
         <div className="flex items-center justify-center h-screen">
           <div className="w-32 h-32 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
         </div>
       ) : hasQuizzes ? (
-        <div className="flex flex-col items-center h-auto min-h-screen">
+        <div className="flex flex-col items-center h-auto">
           <Link
             to="/my-quizzes/create"
             className="text-[32px] mb-4 p-2 rounded-xl bg-blue-500 dark:bg-blue-700 hover:bg-blue-600 dark:hover:bg-blue-800"
