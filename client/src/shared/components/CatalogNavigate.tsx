@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
 
 export default function CatalogNavigate({ currentPage, totalPages }: { currentPage: number; totalPages: number }) {
-  let pages: number[];
-
-  console.log("currentPage", currentPage);
-  
+  let pages: number[];  
 
   if (totalPages <= 5) {
     pages = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -25,7 +22,9 @@ export default function CatalogNavigate({ currentPage, totalPages }: { currentPa
       <Link
         to={`/catalog/${page}`}
         key={page}
-        className={`px-3 py-3 w-[64px] h-[64px] text-center flex items-center justify-center rounded-2xl bg-[#f1f1f1] dark:bg-[#3c3f4d] text-black dark:text-white hover:opacity-80`}
+        className={`px-3 py-3 w-[64px] h-[64px] text-center flex items-center justify-center rounded-2xl
+         bg-[#f1f1f1] dark:bg-[#3c3f4d] text-black dark:text-white hover:opacity-80
+         ${(page == currentPage) && 'bg-gray-400 dark:bg-stone-800'}  `}
       >
         {page}
       </Link>
