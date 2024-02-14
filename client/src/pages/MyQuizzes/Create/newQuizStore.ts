@@ -4,6 +4,27 @@ import globalStore from "../../../app/globalStore";
 
 function createNewQuizStore() {
   return makeAutoObservable({
+
+    settings: {
+      ready: false,
+      type: "",
+      withMultiplyAnswers: false,
+    },
+
+    setType(type: string) {
+      this.settings.type = type
+    },
+
+    setMultiplyMode(mode: boolean) {
+      this.settings.withMultiplyAnswers = mode
+    },
+  
+    checkSettings() {
+      if (this.settings.type) {
+        this.settings.ready = true
+      }
+    },
+  
     mainInfo: {
       title: "",
       description: "",

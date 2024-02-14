@@ -20,7 +20,6 @@ export const CreateQuiz = observer(() => {
   
   useEffect(() => {
     setUserId(globalStore.user_id);
-    console.log("userId", userId);
 
   }, [globalStore.user_id]);
   const navigate = useNavigate()
