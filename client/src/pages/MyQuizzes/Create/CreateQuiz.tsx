@@ -42,6 +42,12 @@ export const CreateQuiz = observer(() => {
 
   useEffect(() => {
 
+    setTimeout(() => {
+      if (globalStore.user_id === -1) {
+        navigate('/login')
+      }
+    }, 500)
+
     if (endOfPageRef.current && questions.length !== 3) {
       endOfPageRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -126,7 +132,11 @@ export const CreateQuiz = observer(() => {
 
 
   return (
-    <PageLayout className="h-auto min-h-screen">
+    <PageLayout showHeader={false} className="h-auto min-h-screen">
+      <button className="absolute left-5 top-5">
+        Вернуться к выбору типа викторины
+      </button>
+
       <div className="flex flex-col items-center w-screen">
         <p>Создай свою собственную викторину!</p>
         <div className="flex flex-col gap-3 py-3">
