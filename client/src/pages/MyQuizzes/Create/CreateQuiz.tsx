@@ -1,3 +1,4 @@
+import { ArrowLeft } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { FormCell } from "../../../shared/components/FormCell";
 import { PageLayout } from "../../../shared/ui/layouts/page-layout";
@@ -133,8 +134,11 @@ export const CreateQuiz = observer(() => {
 
   return (
     <PageLayout showHeader={false} className="h-auto min-h-screen">
-      <button className="absolute left-5 top-5">
-        Вернуться к выбору типа викторины
+
+      <button className="absolute top-4 left-4 text-[24px] flex justify-center items-center hover:scale-105 hover:underline gap-1"
+              onClick={() => newQuizStore.clear()}>
+        <ArrowLeft />   
+        <p>Вернуться к выбору типа</p>
       </button>
 
       <div className="flex flex-col items-center w-screen">
