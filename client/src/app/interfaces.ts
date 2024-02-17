@@ -22,7 +22,8 @@ export interface Question {
     index: number;
     question: string;
     options: string[];
-    answer: number;
+    answer: number | number[];
+    type: string;
 }
 export interface Quiz {
     id: number;

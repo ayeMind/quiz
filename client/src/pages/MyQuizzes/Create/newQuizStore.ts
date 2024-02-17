@@ -10,7 +10,7 @@ function createNewQuizStore() {
     },
 
     setType(type: string) {
-      this.settings.type = type
+      this.settings.type = type;
     },
 
 
@@ -29,6 +29,7 @@ function createNewQuizStore() {
         question: "",
         options: ["", "", ""],
         answer: -1,
+        type: "standard",
       },
 
       {
@@ -36,6 +37,7 @@ function createNewQuizStore() {
         question: "",
         options: ["", "", ""],
         answer: -1,
+        type: "standard",
       },
 
       {
@@ -43,6 +45,7 @@ function createNewQuizStore() {
         question: "",
         options: ["", "", ""],
         answer: -1,
+        type: "standard",
       },
     ] as Question[],
 
@@ -110,9 +113,43 @@ function createNewQuizStore() {
       }
     }, 
 
-    changeAnswer(index: number, answer: number) {
-      this.questions[index].answer = answer;
+    changeQuestionType(index: number) {
+      if (this.questions[index].type === "standard") {
+        this.questions[index].type = "multiple";
+        this.questions[index].answer = [] as number[];
+      }
+
+      else if (this.questions[index].type === "multiple") {
+        this.questions[index].type = "standard";
+        this.questions[index].answer = -1;
+      }
     },
+
+    changeAnswer(index: number, answer: number | number[]) {
+      if (this.questions[index].type === "standard") {
+        this.questions[index].answer = answer;
+        return;
+      }
+    
+      if (!Array.isArray(this.questions[index].answer)) {
+        this.questions[index].answer = [] as number[];
+      }
+    
+      const selectedAnswers = this.questions[index].answer as number[];
+    
+      if (Array.isArray(answer)) {
+        this.questions[index].answer = answer;
+      } else {
+        const answerIndex = selectedAnswers.indexOf(answer as number);
+        if (answerIndex === -1) {
+          selectedAnswers.push(answer as number);
+        } else {
+          selectedAnswers.splice(answerIndex, 1);
+        }
+      }
+    },
+
+      
 
     changeQuestion(index: number, question: Question) {
       this.questions[index] = question;
@@ -149,6 +186,7 @@ function createNewQuizStore() {
           question: "",
           options: ["", "", ""],
           answer: -1,
+          type: "standard",
         },
   
         {
@@ -156,6 +194,7 @@ function createNewQuizStore() {
           question: "",
           options: ["", "", ""],
           answer: -1,
+          type: "standard",
         },
   
         {
@@ -163,6 +202,7 @@ function createNewQuizStore() {
           question: "",
           options: ["", "", ""],
           answer: -1,
+          type: "standard",
         },
       ] as Question[],
   

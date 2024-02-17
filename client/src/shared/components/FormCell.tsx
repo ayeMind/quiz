@@ -12,15 +12,11 @@ export const FormCell = observer(({
   questionId: string;
   onDelete: (questionId: string) => void;
 }) => {
-
-
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  
+
   const handleAddOption = () => {
     if (newQuizStore.questions[index].options.length < 6) {
       newQuizStore.addOption(index);
-      console.log(newQuizStore.questions[index].options);
-      
     }
   };
 
@@ -37,14 +33,19 @@ export const FormCell = observer(({
   };
 
   const handleCheckboxChange = (optionIndex: number) => {
-    newQuizStore.changeAnswer(index, optionIndex);
+      newQuizStore.changeAnswer(index, optionIndex);
   };
 
+  const handleModeChange = () => {
+    newQuizStore.changeAnswer(index, -1);
+    newQuizStore.changeQuestionType(index);
+    
+  };
 
   return (
     <div
-      className={`relative bg-white dark:bg-[#2d3449] h-[10vh] w-[50vw] rounded-2xl text-[22px] p-2 flex transition-all flex-col
-      ${isHovered && "min-h-[30vh] h-auto items-start pt-5"}`}
+      className={`relative bg-white dark:bg-[#2d3449] h-auto justify-center transition-all min-h-[10vh] w-[50vw] rounded-2xl text-[22px] p-2 flex flex-col
+      ${isHovered ? "items-start pt-5" : ""}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setTimeout(() => setIsHovered(false), 100)}
     >
@@ -57,7 +58,7 @@ export const FormCell = observer(({
         onChange={e => newQuizStore.changeQuestionText(index, e.target.value)}
       />
       
-      {!isHovered ? (
+      {!isHovered && (
         <div>
           <label
             htmlFor="question"
@@ -66,7 +67,9 @@ export const FormCell = observer(({
             {index + 1}
           </label>
         </div>
-      ) : (
+      )}
+
+      {isHovered && (
         <div className="w-[80%]">
           <XCircle
             className="absolute text-red-700 cursor-pointer hover:text-red-800 top-3 right-3 delete-btn dark:text-red-500 dark:hover:text-red-700"
@@ -86,8 +89,10 @@ export const FormCell = observer(({
           {newQuizStore.questions[index].options.map((option, optionIndex) => (
             <div key={optionIndex} className="flex items-center">
               <input
-                type="checkbox"
-                checked={optionIndex === newQuizStore.questions[index].answer}
+                type={(newQuizStore.questions[index].type === "standard") ? "radio" : "checkbox"}
+                checked={(newQuizStore.questions[index].type === "standard")
+                  ? optionIndex === newQuizStore.questions[index].answer
+                  : newQuizStore.questions[index].answer.includes(optionIndex)}
                 onChange={() => handleCheckboxChange(optionIndex)}
                 className="ml-2"
               />
@@ -119,9 +124,17 @@ export const FormCell = observer(({
               Добавить
             </button>
           )}
+
+          <div className="flex items-center mt-4 ml-2">
+            <input
+              type="checkbox"
+              checked={!(newQuizStore.questions[index].type === "standard")}
+              onChange={handleModeChange}
+            />
+            <span className="ml-2">Множественный выбор</span>
+          </div>
         </div>
       )}
     </div>
   );
-}
-)
+});
