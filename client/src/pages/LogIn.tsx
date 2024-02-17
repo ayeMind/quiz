@@ -56,7 +56,6 @@ export default function LogIn() {
     }
 
     // Отправка данных на сервер
-
     const { success, data } = await verifyUser(email, password);
 
     if (success) {

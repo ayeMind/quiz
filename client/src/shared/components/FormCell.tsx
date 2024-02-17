@@ -92,7 +92,9 @@ export const FormCell = observer(({
                 type={(newQuizStore.questions[index].type === "standard") ? "radio" : "checkbox"}
                 checked={(newQuizStore.questions[index].type === "standard")
                   ? optionIndex === newQuizStore.questions[index].answer
-                  : newQuizStore.questions[index].answer.includes(optionIndex)}
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  : Array.isArray(newQuizStore.questions[index].answer) && newQuizStore.questions[index].answer.includes(optionIndex)}
                 onChange={() => handleCheckboxChange(optionIndex)}
                 className="ml-2"
               />
