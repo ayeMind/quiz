@@ -1,11 +1,12 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { PageLayout } from "../shared/ui/layouts/page-layout";
+import { PageLayout } from "../../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
 
-import { getQuizById } from "../shared/api/getQuizzes";
-import { Question } from "../app/interfaces";
+import { getQuizById } from "../../shared/api/getQuizzes";
+import { Question } from "../../app/interfaces";
+import quizStore from "./quizStore";
 
 const Quiz = observer(() => {
   const navigate = useNavigate();
@@ -13,6 +14,9 @@ const Quiz = observer(() => {
   const { quizId } = useParams();
 
   useEffect(() => {
+  
+    quizStore.resetScore();
+
     quizId &&
       getQuizById(quizId).then((res) => {
         if (!res.success) {
@@ -22,6 +26,8 @@ const Quiz = observer(() => {
         }
       });
   }, []);
+
+  quizStore.setMaxScore(questions.length)
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [btnIsClicked, setBtnIsClicked] = useState(false);
@@ -46,6 +52,7 @@ const Quiz = observer(() => {
               if (optionIndex === question.answer) {
                 btn?.classList.add("bg-green-400", "dark:bg-green-400");
                 btn?.classList.remove("bg-white", "dark:bg-[#060E24]");
+                quizStore.incrementScore();
               } else {
                 btn?.classList.add("bg-red-400", "dark:bg-red-400");
                 btn?.classList.remove("bg-white", "dark:bg-[#060E24]");
@@ -115,10 +122,23 @@ const Quiz = observer(() => {
           <button
             className="mt-[64px] hover:scale-105 px-[84px] bg-white dark:bg-[#060E24] rounded-3xl border-2"
             onClick={() => {
+
+              const answers = question.answer as number[];
+
+              const generalAnswers = multipleAnswers.filter((el) => {
+                return answers.includes(el);
+              });
+
+              if (generalAnswers.length === answers.length) {
+                quizStore.incrementScore();
+              }
                              
               const buttons = document.querySelectorAll(".btn");
               buttons.forEach((btn) => {
+
                 console.log(btn);
+                console.log(question.answer);
+                console.log(multipleAnswers);
                 
                 btn.classList.add("pointer-events-none");
                 if (btn.classList.contains("border-lime-400")) {
@@ -126,17 +146,18 @@ const Quiz = observer(() => {
                   btn.classList.remove("bg-slate-300");
                 }
 
-                const answers = question.answer as number[];
-
                 if (answers.includes(parseInt(btn.id))) {
                   btn.classList.add("bg-green-400", "dark:bg-green-400");
+                  btn.classList.remove("bg-white", "dark:bg-[#060E24]");
                 } else if (multipleAnswers.includes(parseInt(btn.id))) {
                   btn.classList.add("bg-red-400", "dark:bg-red-400");
+                  btn.classList.remove("bg-white", "dark:bg-[#060E24]");
                 }
               });
 
               setTimeout(() => {
                 if (currentQuestionIndex < questions.length - 1) {
+                  setMultipleAnswers([]);
                   setCurrentQuestionIndex(currentQuestionIndex + 1);
                 } else {
                   setIsFinished(true);

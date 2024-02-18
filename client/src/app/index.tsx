@@ -11,15 +11,18 @@ import Menu from "../pages/Menu";
 import PageNotFound from "../pages/PageNotFound";
 import LogIn from "../pages/LogIn";
 import SignUp from "../pages/SignUp";
-import Quiz from "../pages/Quiz";
+import Quiz from "../pages/Quiz/Quiz";
 import {MyQuizzes} from "../pages/MyQuizzes/MyQuizzes";
 import {Catalog} from "../pages/Catalog";
 import Profile from "../pages/Profile";
 import { Create } from "../pages/MyQuizzes/Create/Create";
+import Results from "../pages/Quiz/Results/Results";
 
 const App = observer(() => {
 
   useEffect(() => {
+
+
     const cookies = new Cookies(null, { path: '/', secure: true, sameSite: "none"}) ;
   
     const initializeApp = async () => {
@@ -62,7 +65,8 @@ const App = observer(() => {
             <Route path=":page" element={<MyQuizzes />} />
           </Route>
           <Route path="/quiz">
-            <Route path=":quizId" element={<Quiz />} />
+            <Route path="results" element={<Results />} />
+            <Route path=":quizId" element={<Quiz />} /> 
           </Route>
           <Route path="/catalog" element={<Catalog />}>
             <Route path=":page" element={<Catalog />} />
