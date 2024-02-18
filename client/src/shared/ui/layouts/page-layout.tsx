@@ -57,8 +57,6 @@ export const PageLayout = observer(forwardRef(function PageLayout(
             <Link to="/" className='text-[32px] italic'>QUIZSET</Link>
             <Link to="/my-quizzes">Мои викторины</Link>
             <Link to="/catalog">Каталог</Link>
-            <Link to="/online">Онлайн</Link>
-            <Link to="/catalog"></Link>
           </div>
 
           {

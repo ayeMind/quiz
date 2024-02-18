@@ -6,6 +6,7 @@ import { observer } from "mobx-react-lite";
 
 import { getQuizById } from "../shared/api/getQuizzes";
 import { Question } from "../app/interfaces";
+import newQuizStore from "./MyQuizzes/Create/newQuizStore";
 
 const Quiz = observer(() => {
     
@@ -31,11 +32,12 @@ const Quiz = observer(() => {
     const [btnIsClicked, setBtnIsClicked] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
 
-    const quizQuestion = questions.map((question, questionIndex) => {
+    const quizQuestion =  questions.map((question, questionIndex) => {
 
         const options = question.options.map((option, optionIndex) => {
 
-            const handleClick = () => {
+            // if only one option is correct
+            const handleClick = newQuizStore.questions[questionIndex].type === "standard" ? () => {
 
                 setBtnIsClicked(true);
 
@@ -68,8 +70,43 @@ const Quiz = observer(() => {
                     }
                 }, 1000);
 
-               
-                
+                // if multiple options maybe are correct
+            } : () => {
+                    
+                    const answer = newQuizStore.questions[questionIndex].answer as number[];
+                    const answerIndex = answer.indexOf(optionIndex);
+                    const isCorrect = answerIndex !== -1;
+    
+                    setBtnIsClicked(true);
+    
+                    const buttons = document.querySelectorAll('.btn');
+                    buttons.forEach(btn => {
+                        btn.classList.add('pointer-events-none');
+                    });
+    
+                    const btn = document.getElementById(optionIndex.toString());
+                    if (isCorrect) {
+                        btn?.classList.add('bg-green-400', 'dark:bg-green-400');
+                        btn?.classList.remove('bg-white', 'dark:bg-[#060E24]');
+                    } else {
+                        btn?.classList.add('bg-red-400', 'dark:bg-red-400');
+                        btn?.classList.remove('bg-white', 'dark:bg-[#060E24]');
+    
+                        answer.forEach((answerIndex) => {
+                            const correctBtn = document.getElementById(answerIndex.toString());
+                            correctBtn?.classList.add('bg-green-400', 'dark:bg-green-400');
+                            correctBtn?.classList.remove('bg-white', 'dark:bg-[#060E24]');
+                        });
+                    }
+    
+                    setTimeout(() => {
+                        if (currentQuestionIndex < questions.length - 1) {
+                            setBtnIsClicked(false);
+                            setCurrentQuestionIndex(currentQuestionIndex + 1);
+                        } else {
+                            setIsFinished(true);
+                        }
+                    }, 1000);
             }
 
             return (

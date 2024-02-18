@@ -14,7 +14,6 @@ import SignUp from "../pages/SignUp";
 import Quiz from "../pages/Quiz";
 import {MyQuizzes} from "../pages/MyQuizzes/MyQuizzes";
 import {Catalog} from "../pages/Catalog";
-import Online from "../pages/Online/Online";
 import Profile from "../pages/Profile";
 import { Create } from "../pages/MyQuizzes/Create/Create";
 
@@ -68,7 +67,6 @@ const App = observer(() => {
           <Route path="/catalog" element={<Catalog />}>
             <Route path=":page" element={<Catalog />} />
           </Route>
-          <Route path="/online" element={<Online />} />
 
           <Route path="*" element={<PageNotFound />} />
         </Routes>

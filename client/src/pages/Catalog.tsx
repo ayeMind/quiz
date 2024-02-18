@@ -69,9 +69,7 @@ export const Catalog = observer(() => {
         .then((quizzes) => {
           setQuizzes(quizzes.data);
           setFilteredQuizzes(quizzes.data);
-          setTimeout(() => {
-            setLoading(false);
-          }, 2000);
+          setLoading(false);
         })
         .catch((error) => {
           console.log(error);
