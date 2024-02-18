@@ -17,7 +17,7 @@ function createNewQuizStore() {
     mainInfo: {
       title: "",
       description: "",
-      tags: [""],
+      tags: [] as string[],
     },
 
     preview: {} as File,

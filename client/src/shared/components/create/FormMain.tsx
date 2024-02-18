@@ -2,7 +2,7 @@ import { XCircle } from "lucide-react";
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
 
-import newQuizStore from "../../pages/MyQuizzes/Create/newQuizStore";
+import newQuizStore from "../../../pages/MyQuizzes/Create/newQuizStore";
 
 export const FormMain = observer(() => {
 

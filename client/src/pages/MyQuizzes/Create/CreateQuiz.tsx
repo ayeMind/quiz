@@ -1,9 +1,9 @@
 import { ArrowLeft } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { FormCell } from "../../../shared/components/FormCell";
+import { FormCell } from "../../../shared/components/create/FormCell";
 import { PageLayout } from "../../../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
-import {FormMain} from "../../../shared/components/FormMain";
+import {FormMain} from "../../../shared/components/create/FormMain";
 import { useNavigate } from "react-router";
 
 import { sendPreview } from "../../../shared/api/sendPreview";
