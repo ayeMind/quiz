@@ -55,21 +55,21 @@ export const PageLayout = observer(forwardRef(function PageLayout(
         <header className="w-screen h-[64px] flex justify-between items-center px-4 text-[28px]">
           <div className='flex items-center gap-6 text-[24px]'>
             <Link to="/" className='text-[32px] italic'>QUIZSET</Link>
-            <Link to="/my-quizzes">Мои викторины</Link>
-            <Link to="/catalog">Каталог</Link>
+            <Link to="/my-quizzes" className="hover:opacity-80">Мои викторины</Link>
+            <Link to="/catalog" className="hover:opacity-80">Каталог</Link>
           </div>
 
           {
             isAuthorized ? (
               <div className='flex items-center gap-6 text-[24px]'>
                 <Link to="/profile">Профиль</Link>
-                <Link onClick={handleExit} to="/">Выход</Link>
+                <Link onClick={handleExit} to="/" className="hover:opacity-80">Выход</Link>
                 <ThemeButton />
               </div>
             ) : (
               <div className='flex items-center gap-6 text-[24px]'>
-                <Link to="/signup">Регистрация</Link>
-                <Link to="/login">Вход</Link>
+                <Link to="/signup" className="hover:opacity-80">Регистрация</Link>
+                <Link to="/login" className="hover:opacity-80">Вход</Link>
                 <ThemeButton />
               </div>
             )
