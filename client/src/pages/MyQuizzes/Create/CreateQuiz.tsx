@@ -65,7 +65,7 @@ export const CreateQuiz = observer(() => {
     newQuizStore.addQuestion({
       index: newQuestionIndex,
       question: "",
-      options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
+      options: [{score: "1", text: ""}, {score: "1", text: ""}, {score: "1", text: ""}],
       answer: -1,
       type: "standard",
     });
@@ -86,6 +86,10 @@ export const CreateQuiz = observer(() => {
       }
 
       if (!quiz.questions[i].options.every((option) => option.text !== "")) {
+        return false;
+      }
+
+      if (!quiz.questions[i].options.every((option) => option.score !== "" && !isNaN(Number(option.score)) && (option.score[0] !== "0" || option.score === "0"))) {
         return false;
       }
     }
@@ -113,6 +117,7 @@ export const CreateQuiz = observer(() => {
         if (quiz.questions[i].question.length < 5) errors.push(`Вопрос ${i + 1}`);
         if (!isCorrectOptions(quiz.questions[i])) errors.push(`Варианты ответов на вопрос ${i + 1}`);
         if (quiz.questions[i].answer === -1) errors.push(`Правильный ответ на вопрос ${i + 1}`);
+        if (!quiz.questions[i].options.every((option) => option.score !== "" && !isNaN(Number(option.score)) && (option.score[0] !== "0" || option.score === "0"))) errors.push(`Баллы за вопрос ${i + 1}`)
       }
 
       alert(`Вы не заполнили следующие поля:\n${errors.join('\n')}`);

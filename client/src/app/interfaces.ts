@@ -20,7 +20,7 @@ export interface MainInfo {
 
 
 export  interface Option {
-    score: number;
+    score: string;
     text: string;
 }
 export interface Question {

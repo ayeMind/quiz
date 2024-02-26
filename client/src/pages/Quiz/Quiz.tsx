@@ -130,7 +130,7 @@ const Quiz = observer(() => {
               });
 
               if (generalAnswers.length === answers.length) {
-                quizStore.addScore(1);
+                quizStore.addScore("1");
               }
                              
               const buttons = document.querySelectorAll(".btn");

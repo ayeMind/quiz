@@ -27,7 +27,7 @@ function createNewQuizStore() {
       {
         index: 0,
         question: "",
-        options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
+        options: [{score: "1", text: ""}, {score: "1", text: ""}, {score: "1", text: ""}],
         answer: -1,
         type: "standard",
       },
@@ -35,7 +35,7 @@ function createNewQuizStore() {
       {
         index: 1,
         question: "",
-        options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
+        options: [{score: "1", text: ""}, {score: "!", text: ""}, {score: "1", text: ""}],
         answer: -1,
         type: "standard",
       },
@@ -43,7 +43,7 @@ function createNewQuizStore() {
       {
         index: 2,
         question: "",
-        options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
+        options: [{score: "1", text: ""}, {score: "1", text: ""}, {score: "1", text: ""}],
         answer: -1,
         type: "standard",
       },
@@ -99,12 +99,12 @@ function createNewQuizStore() {
     },
 
     changeScore(index: number, optionIndex: number, value: string) {
-      this.questions[index].options[optionIndex].score = Number(value);
+      this.questions[index].options[optionIndex].score = value;
     },
 
     addOption(index: number) {
       if (this.questions[index].options.length < 6) {
-        this.questions[index].options.push({score: 1, text: ""});
+        this.questions[index].options.push({score: '1', text: ""});
       }
     },
   
@@ -188,7 +188,7 @@ function createNewQuizStore() {
         {
           index: 0,
           question: "",
-          options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
+          options: [{score: "1", text: ""}, {score: "1", text: ""}, {score: "1", text: ""}],
           answer: -1,
           type: "standard",
         },
@@ -196,7 +196,7 @@ function createNewQuizStore() {
         {
           index: 1,
           question: "",
-          options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
+          options: [{score: "1", text: ""}, {score: "!", text: ""}, {score: "1", text: ""}],
           answer: -1,
           type: "standard",
         },
@@ -204,7 +204,7 @@ function createNewQuizStore() {
         {
           index: 2,
           question: "",
-          options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
+          options: [{score: "1", text: ""}, {score: "1", text: ""}, {score: "1", text: ""}],
           answer: -1,
           type: "standard",
         },

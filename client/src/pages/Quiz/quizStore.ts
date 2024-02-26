@@ -11,8 +11,9 @@ function createQuizStore() {
 
     score: 0,
   
-    addScore(value: number) {
-        this.score += value;
+    addScore(value: string) {
+        const score = parseInt(value);
+        this.score += score;
     },
 
     resetScore() {

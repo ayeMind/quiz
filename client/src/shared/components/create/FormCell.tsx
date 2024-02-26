@@ -1,5 +1,5 @@
 import { XCircle } from "lucide-react";
-import { useState, FocusEvent } from "react";
+import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import newQuizStore from "../../../pages/MyQuizzes/Create/newQuizStore";
 
@@ -115,7 +115,6 @@ export const FormCell = observer(
                     <input
                     type="text"
                     className="w-[84px] px-2 mb-2 ml-2 bg-transparent outline-none dark:text-white"
-                    defaultValue={100}
                     value={newQuizStore.questions[index].options[optionIndex].score}
                     onChange={e => newQuizStore.changeScore(index, optionIndex, e.target.value)}
             
@@ -131,10 +130,11 @@ export const FormCell = observer(
                         }
                       }}
 
-                    onBlur={(e: FocusEvent<HTMLInputElement>) => {
-                        if (e.target.value === "") {
-                            e.target.value = "100"
-                    }}}
+                    onBlur={() => {
+                        if (!newQuizStore.questions[index].options[optionIndex].score || newQuizStore.questions[index].options[optionIndex].score === "-") {
+                            newQuizStore.changeScore(index, optionIndex, "0");
+                        }
+                    }}
                     
                 />
                   )}
