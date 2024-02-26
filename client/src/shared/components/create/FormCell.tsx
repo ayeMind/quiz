@@ -1,5 +1,5 @@
 import { XCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, FocusEvent } from "react";
 import { observer } from "mobx-react-lite";
 import newQuizStore from "../../../pages/MyQuizzes/Create/newQuizStore";
 
@@ -113,23 +113,37 @@ export const FormCell = observer(
                     />
                   ) : (
                     <input
-                      type="text"
-                      className="w-[60px] px-2 mb-2 ml-2 bg-transparent outline-none dark:text-white"
-                      defaultValue={100}
-                      maxLength={4}
-                      onKeyDown={(event) => {
-                        if (isNaN(Number(event.key)) && event.key !== "Backspace" || event.key === ' ') {
-                          event.preventDefault();
+                    type="text"
+                    className="w-[84px] px-2 mb-2 ml-2 bg-transparent outline-none dark:text-white"
+                    defaultValue={100}
+                    value={newQuizStore.questions[index].options[optionIndex].score}
+                    onChange={e => newQuizStore.changeScore(index, optionIndex, e.target.value)}
+            
+                    maxLength={5} 
+                    onKeyDown={(event) => {
+                        // Разрешаем вводить цифры и минус (только если это первый символ)
+                        if (
+                            isNaN(Number(event.key)) &&
+                            (event.key !== "Backspace" && event.key !== "ArrowLeft"  && event.key !== "ArrowRight") &&
+                            (event.key !== "-" || event.currentTarget.selectionStart !== 0 || event.currentTarget.value.includes("-"))
+                        ) {
+                            event.preventDefault();
                         }
                       }}
-                    />
+
+                    onBlur={(e: FocusEvent<HTMLInputElement>) => {
+                        if (e.target.value === "") {
+                            e.target.value = "100"
+                    }}}
+                    
+                />
                   )}
 
                   <input
                     type="text"
                     className="w-full h-full px-2 mb-2 ml-2 bg-transparent outline-none dark:text-white"
                     placeholder={`Вариант ответа ${optionIndex + 1}`}
-                    value={option}
+                    value={option.text}
                     onChange={(e) =>
                       handleOptionChange(optionIndex, e.target.value)
                     }

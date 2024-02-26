@@ -18,14 +18,19 @@ export interface MainInfo {
     tags: string[];
 }
 
+
+export  interface option {
+    score: number;
+    text: string;
+}
 export interface Question {
     index: number;
     question: string;
-    options: string[];
+    options: option[];
     answer: number | number[];
     type: string;
-    score: number;
 }
+
 export interface Quiz {
     id: number;
     title: string;

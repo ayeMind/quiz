@@ -27,28 +27,25 @@ function createNewQuizStore() {
       {
         index: 0,
         question: "",
-        options: ["", "", ""],
+        options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
         answer: -1,
         type: "standard",
-        score: 1,
       },
 
       {
         index: 1,
         question: "",
-        options: ["", "", ""],
+        options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
         answer: -1,
         type: "standard",
-        score: 1,
       },
 
       {
         index: 2,
         question: "",
-        options: ["", "", ""],
+        options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
         answer: -1,
         type: "standard",
-        score: 1,
       },
     ] as Question[],
 
@@ -98,12 +95,16 @@ function createNewQuizStore() {
     },
 
     changeOption(index: number, optionIndex: number, value: string) {
-      this.questions[index].options[optionIndex] = value;
+      this.questions[index].options[optionIndex].text = value;
+    },
+
+    changeScore(index: number, optionIndex: number, value: string) {
+      this.questions[index].options[optionIndex].score = Number(value);
     },
 
     addOption(index: number) {
       if (this.questions[index].options.length < 6) {
-        this.questions[index].options.push("");
+        this.questions[index].options.push({score: 1, text: ""});
       }
     },
   
@@ -187,28 +188,25 @@ function createNewQuizStore() {
         {
           index: 0,
           question: "",
-          options: ["", "", ""],
+          options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
           answer: -1,
           type: "standard",
-          score: 1,
         },
   
         {
           index: 1,
           question: "",
-          options: ["", "", ""],
+          options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
           answer: -1,
           type: "standard",
-          score: 1,
         },
   
         {
           index: 2,
           question: "",
-          options: ["", "", ""],
+          options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
           answer: -1,
           type: "standard",
-          score: 1,
         },
       ] as Question[],
   

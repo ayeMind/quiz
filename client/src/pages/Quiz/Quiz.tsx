@@ -52,7 +52,7 @@ const Quiz = observer(() => {
               if (optionIndex === question.answer) {
                 btn?.classList.add("bg-green-400", "dark:bg-green-400");
                 btn?.classList.remove("bg-white", "dark:bg-[#060E24]");
-                quizStore.addScore(question.score);
+                quizStore.addScore(option.score);
               } else {
                 btn?.classList.add("bg-red-400", "dark:bg-red-400");
                 btn?.classList.remove("bg-white", "dark:bg-[#060E24]");
@@ -98,7 +98,7 @@ const Quiz = observer(() => {
           key={optionIndex.toString()}
           id={optionIndex.toString()}
         >
-          {option}
+          {option.text}
         </button>
       );
     });
@@ -130,7 +130,7 @@ const Quiz = observer(() => {
               });
 
               if (generalAnswers.length === answers.length) {
-                quizStore.addScore(question.score);
+                quizStore.addScore(1);
               }
                              
               const buttons = document.querySelectorAll(".btn");

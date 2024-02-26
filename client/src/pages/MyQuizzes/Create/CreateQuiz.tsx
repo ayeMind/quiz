@@ -64,10 +64,9 @@ export const CreateQuiz = observer(() => {
     newQuizStore.addQuestion({
       index: newQuestionIndex,
       question: "",
-      options: ["", "", ""],
+      options: [{score: 1, text: ""}, {score: 1, text: ""}, {score: 1, text: ""}],
       answer: -1,
       type: "standard",
-      score: 1,
     });
 
     setQuestions([...questions, Math.random().toString()]);
@@ -81,7 +80,7 @@ export const CreateQuiz = observer(() => {
     }
 
     for (let i = 0; i < quiz.questions.length; i++) {
-      if (quiz.questions[i].question.length < 5 || quiz.questions[i].options.includes("") || quiz.questions[i].answer === -1) {
+      if (quiz.questions[i].question.length < 5 || quiz.questions[i].answer === -1) {
         return false;
       }
     }
@@ -103,7 +102,7 @@ export const CreateQuiz = observer(() => {
       if (!newQuizStore.previewIsLoaded) errors.push("Превью");
       for (let i = 0; i < quiz.questions.length; i++) {
         if (quiz.questions[i].question.length < 5) errors.push(`Вопрос ${i + 1}`);
-        if (quiz.questions[i].options.includes("")) errors.push(`Ответы на вопрос ${i + 1}`);
+        // if (quiz.questions[i].options.includes("")) errors.push(`Ответы на вопрос ${i + 1}`);
         if (quiz.questions[i].answer === -1) errors.push(`Правильный ответ на вопрос ${i + 1}`);
       }
 
