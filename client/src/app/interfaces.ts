@@ -19,14 +19,14 @@ export interface MainInfo {
 }
 
 
-export  interface option {
+export  interface Option {
     score: number;
     text: string;
 }
 export interface Question {
     index: number;
     question: string;
-    options: option[];
+    options: Option[];
     answer: number | number[];
     type: string;
 }

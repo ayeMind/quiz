@@ -10,6 +10,7 @@ import { sendPreview } from "../../../shared/api/sendPreview";
 import createQuiz from "../../../shared/api/createQuiz";
 import newQuizStore from "./newQuizStore";
 import globalStore from "../../../app/globalStore";
+import { Question, Option } from "../../../app/interfaces";
 
 
 export const CreateQuiz = observer(() => {
@@ -83,6 +84,10 @@ export const CreateQuiz = observer(() => {
       if (quiz.questions[i].question.length < 5 || quiz.questions[i].answer === -1) {
         return false;
       }
+
+      if (!quiz.questions[i].options.every((option) => option.text !== "")) {
+        return false;
+      }
     }
 
     return true;
@@ -96,13 +101,17 @@ export const CreateQuiz = observer(() => {
     const quiz = newQuizStore.quiz;
     const errors = [];
 
+    const isCorrectOptions = (question: Question) => {
+      return question.options.every((option: Option) => option.text !== "");
+    };
+
     if (!isCorrectFilled()) {
       if (quiz.title === "") errors.push("Заголовок");
       if (quiz.description === "") errors.push("Описание");
       if (!newQuizStore.previewIsLoaded) errors.push("Превью");
       for (let i = 0; i < quiz.questions.length; i++) {
         if (quiz.questions[i].question.length < 5) errors.push(`Вопрос ${i + 1}`);
-        // if (quiz.questions[i].options.includes("")) errors.push(`Ответы на вопрос ${i + 1}`);
+        if (!isCorrectOptions(quiz.questions[i])) errors.push(`Варианты ответов на вопрос ${i + 1}`);
         if (quiz.questions[i].answer === -1) errors.push(`Правильный ответ на вопрос ${i + 1}`);
       }
 
