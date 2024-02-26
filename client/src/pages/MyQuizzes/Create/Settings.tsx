@@ -5,12 +5,12 @@ import newQuizStore from "./newQuizStore";
 
 export const Settings = observer(() => {
   const handleSetType = (e: React.MouseEvent<HTMLElement>) => {
-    const type = e.currentTarget.id;
-    newQuizStore.setType(type);
+    const mode = e.currentTarget.id;
+    newQuizStore.setMode(mode);
   };
 
 
-  if (!newQuizStore.settings.type) {
+  if (!newQuizStore.settings.mode) {
     return (
       <PageLayout>
         <div className="flex flex-col items-center justify-center h-full gap-5">
@@ -25,7 +25,7 @@ export const Settings = observer(() => {
             Стандартный
           </SettingsButton>
           <SettingsButton
-            id="extend"
+            id="extended"
             onClick={handleSetType}
             subText="произвольные очки за каждый ответ"
           >

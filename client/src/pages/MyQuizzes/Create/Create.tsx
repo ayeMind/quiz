@@ -5,7 +5,7 @@ import { Settings } from "./Settings";
 
 export const Create = observer(() => {
 
-    if (newQuizStore.settings.type) {
+    if (newQuizStore.settings.mode) {
         return (
             <CreateQuiz />
         )

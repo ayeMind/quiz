@@ -52,7 +52,7 @@ const Quiz = observer(() => {
               if (optionIndex === question.answer) {
                 btn?.classList.add("bg-green-400", "dark:bg-green-400");
                 btn?.classList.remove("bg-white", "dark:bg-[#060E24]");
-                quizStore.incrementScore();
+                quizStore.addScore(question.score);
               } else {
                 btn?.classList.add("bg-red-400", "dark:bg-red-400");
                 btn?.classList.remove("bg-white", "dark:bg-[#060E24]");
@@ -130,7 +130,7 @@ const Quiz = observer(() => {
               });
 
               if (generalAnswers.length === answers.length) {
-                quizStore.incrementScore();
+                quizStore.addScore(question.score);
               }
                              
               const buttons = document.querySelectorAll(".btn");

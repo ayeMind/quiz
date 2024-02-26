@@ -6,11 +6,11 @@ function createNewQuizStore() {
   return makeAutoObservable({
 
     settings: {
-      type: "",
+      mode: ""   // "standard" or "extended"
     },
 
-    setType(type: string) {
-      this.settings.type = type;
+    setMode(mode: string) {
+      this.settings.mode = mode;
     },
 
 
@@ -30,6 +30,7 @@ function createNewQuizStore() {
         options: ["", "", ""],
         answer: -1,
         type: "standard",
+        score: 1,
       },
 
       {
@@ -38,6 +39,7 @@ function createNewQuizStore() {
         options: ["", "", ""],
         answer: -1,
         type: "standard",
+        score: 1,
       },
 
       {
@@ -46,6 +48,7 @@ function createNewQuizStore() {
         options: ["", "", ""],
         answer: -1,
         type: "standard",
+        score: 1,
       },
     ] as Question[],
 
@@ -168,7 +171,7 @@ function createNewQuizStore() {
     clear() {
 
      this.settings = {
-      type: ''
+      mode: '',
      },
 
       this.mainInfo = {
@@ -187,6 +190,7 @@ function createNewQuizStore() {
           options: ["", "", ""],
           answer: -1,
           type: "standard",
+          score: 1,
         },
   
         {
@@ -195,6 +199,7 @@ function createNewQuizStore() {
           options: ["", "", ""],
           answer: -1,
           type: "standard",
+          score: 1,
         },
   
         {
@@ -203,6 +208,7 @@ function createNewQuizStore() {
           options: ["", "", ""],
           answer: -1,
           type: "standard",
+          score: 1,
         },
       ] as Question[],
   

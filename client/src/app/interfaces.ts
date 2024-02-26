@@ -24,6 +24,7 @@ export interface Question {
     options: string[];
     answer: number | number[];
     type: string;
+    score: number;
 }
 export interface Quiz {
     id: number;

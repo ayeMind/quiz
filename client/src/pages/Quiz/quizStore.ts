@@ -10,10 +10,7 @@ function createQuizStore() {
     },
 
     score: 0,
-    incrementScore() {
-        this.score++;
-    },
-
+  
     addScore(value: number) {
         this.score += value;
     },

@@ -67,6 +67,7 @@ export const CreateQuiz = observer(() => {
       options: ["", "", ""],
       answer: -1,
       type: "standard",
+      score: 1,
     });
 
     setQuestions([...questions, Math.random().toString()]);
