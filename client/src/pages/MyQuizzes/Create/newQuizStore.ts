@@ -35,7 +35,7 @@ function createNewQuizStore() {
       {
         index: 1,
         question: "",
-        options: [{score: "1", text: ""}, {score: "!", text: ""}, {score: "1", text: ""}],
+        options: [{score: "1", text: ""}, {score: "1", text: ""}, {score: "1", text: ""}],
         answer: -1,
         type: "standard",
       },
@@ -196,7 +196,7 @@ function createNewQuizStore() {
         {
           index: 1,
           question: "",
-          options: [{score: "1", text: ""}, {score: "!", text: ""}, {score: "1", text: ""}],
+          options: [{score: "1", text: ""}, {score: "1", text: ""}, {score: "1", text: ""}],
           answer: -1,
           type: "standard",
         },

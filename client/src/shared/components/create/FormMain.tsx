@@ -20,7 +20,7 @@ export const FormMain = observer(() => {
     if (e.key === "Enter") {
       const target = e.target as HTMLInputElement;
       const value = target.value.toUpperCase().trim();
-      if (value.length < 3) return;
+      if (value.length < 3) return alert("Тег должен содержать минимум 3 символа");
       if (newQuizStore.mainInfo.tags.includes(value)) return;
 
       newQuizStore.addTag(value);
@@ -34,6 +34,12 @@ export const FormMain = observer(() => {
 
   const showTags = () => {
     return (newQuizStore.mainInfo.tags.map((tag, index) => {
+
+      if (tag === "") {
+        newQuizStore.deleteTag(index);
+        return ""
+      }
+
       return (
         <span
           key={index}

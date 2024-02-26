@@ -62,7 +62,7 @@ export const PageLayout = observer(forwardRef(function PageLayout(
           {
             isAuthorized ? (
               <div className='flex items-center gap-6 text-[24px]'>
-                <Link to="/profile">Профиль</Link>
+                <Link to="/profile" className="hover:opacity-80">Профиль</Link>
                 <Link onClick={handleExit} to="/" className="hover:opacity-80">Выход</Link>
                 <ThemeButton />
               </div>
