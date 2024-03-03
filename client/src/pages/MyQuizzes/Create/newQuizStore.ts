@@ -163,7 +163,8 @@ function createNewQuizStore() {
       const quiz = {
         ...this.mainInfo,
         questions: this.questions,
-        author_id: globalStore.user_id
+        author_id: globalStore.user_id,
+        mode: this.settings.mode,
       };
 
       this.quiz = quiz;

@@ -8,14 +8,17 @@ import { getQuizById } from "../../shared/api/getQuizzes";
 import { Question } from "../../app/interfaces";
 import quizStore from "./quizStore";
 
+
 const Quiz = observer(() => {
   const navigate = useNavigate();
   const [questions, setQuestions] = useState<Question[]>([]);
   const { quizId } = useParams();
+  const [quizMode, setQuizMode] = useState("");
 
   useEffect(() => {
   
     quizStore.resetScore();
+
 
     quizId &&
       getQuizById(quizId).then((res) => {
@@ -23,11 +26,20 @@ const Quiz = observer(() => {
           navigate("/PageNotFound");
         } else {
           setQuestions(res.data.questions);
+          setQuizMode(res.data.mode);
         }
       });
+
+      
+  if (quizMode === "standard") {
+    quizStore.setMaxScore(questions.length);
+  } else {
+    quizStore.setMaxScore(0);
+  }
+  
   }, []);
 
-  quizStore.setMaxScore(questions.length)
+
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [btnIsClicked, setBtnIsClicked] = useState(false);
@@ -35,8 +47,10 @@ const Quiz = observer(() => {
   const [multipleAnswers, setMultipleAnswers] = useState([] as number[]);
 
   const quizQuestion = questions.map((question, questionIndex) => {
+
     const options = question.options.map((option, optionIndex) => {
-      // if only one option is correct
+
+      // if only one option is correct  
       const handleClick =
         question.type === "standard"
           ? () => {
@@ -49,38 +63,55 @@ const Quiz = observer(() => {
 
               const btn = document.getElementById(optionIndex.toString());
 
-              if (optionIndex === question.answer) {
-                btn?.classList.add("bg-green-400", "dark:bg-green-400");
-                btn?.classList.remove("bg-white", "dark:bg-[#060E24]");
-                quizStore.addScore(option.score);
-              } else {
-                btn?.classList.add("bg-red-400", "dark:bg-red-400");
-                btn?.classList.remove("bg-white", "dark:bg-[#060E24]");
 
-                const correctBtn = document.getElementById(
-                  question.answer.toString()
-                );
-                correctBtn?.classList.add("bg-green-400", "dark:bg-green-400");
-                correctBtn?.classList.remove("bg-white", "dark:bg-[#060E24]");
-              }
-
-              setTimeout(() => {
+              const finishQuestion = () => {
                 if (currentQuestionIndex < questions.length - 1) {
                   setBtnIsClicked(false);
                   setCurrentQuestionIndex(currentQuestionIndex + 1);
                 } else {
                   setIsFinished(true);
                 }
+              }
+
+              if (quizMode === "standard") {
+                
+                if (optionIndex === question.answer) {
+                  btn?.classList.add("bg-green-400", "dark:bg-green-400");
+                  btn?.classList.remove("bg-white", "dark:bg-[#060E24]");
+                  quizStore.addScore(option.score);
+                } else {
+                  btn?.classList.add("bg-red-400", "dark:bg-red-400");
+                  btn?.classList.remove("bg-white", "dark:bg-[#060E24]");
+  
+                  const correctBtn = document.getElementById(
+                    question.answer.toString()
+                  );
+                  correctBtn?.classList.add("bg-green-400", "dark:bg-green-400");
+                  correctBtn?.classList.remove("bg-white", "dark:bg-[#060E24]");
+                }
+                
+              } else {
+                const questionOptionsScore = question.options.map((el) => parseInt(el.score));
+                const maxQuestionScore = Math.max(...questionOptionsScore);
+
+                quizStore.setMaxScore(quizStore.maxScore + maxQuestionScore);
+                quizStore.addScore(option.score);
+                finishQuestion();
+              }
+
+              setTimeout(() => {
+                finishQuestion()
               }, 1000);
 
-              // if multiple options maybe are correct
             }
+            // if multiple options maybe are correct
           : () => {
               const selectedBtn = document.getElementById(
                 optionIndex.toString()
               );
               selectedBtn?.classList.toggle("border-lime-400");
-              selectedBtn?.classList.toggle("bg-slate-300");
+              selectedBtn?.classList.toggle("bg-[#98FB98]");
+              selectedBtn?.classList.toggle("opacity-70");
 
               if (multipleAnswers.includes(optionIndex)) {
                 setMultipleAnswers(
@@ -149,6 +180,7 @@ const Quiz = observer(() => {
                 if (answers.includes(parseInt(btn.id))) {
                   btn.classList.add("bg-green-400", "dark:bg-green-400");
                   btn.classList.remove("bg-white", "dark:bg-[#060E24]");
+                  btn.classList.toggle("opacity-70")
                 } else if (multipleAnswers.includes(parseInt(btn.id))) {
                   btn.classList.add("bg-red-400", "dark:bg-red-400");
                   btn.classList.remove("bg-white", "dark:bg-[#060E24]");

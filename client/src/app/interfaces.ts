@@ -37,6 +37,7 @@ export interface Quiz {
     description: string;
     tags: string[];
     questions: Question[];
+    mode: string;
 }
 
 export interface CreateQuiz {
@@ -44,4 +45,5 @@ export interface CreateQuiz {
     description: string;
     tags: string[];
     questions: Question[];
+    mode: string;
 }

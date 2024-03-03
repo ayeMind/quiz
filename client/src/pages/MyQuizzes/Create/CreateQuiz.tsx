@@ -81,7 +81,7 @@ export const CreateQuiz = observer(() => {
     }
 
     for (let i = 0; i < quiz.questions.length; i++) {
-      if (quiz.questions[i].question.length < 5 || quiz.questions[i].answer === -1) {
+      if ((quiz.questions[i].question.length < 5 || quiz.questions[i].answer === -1) && newQuizStore.settings.mode !== "extended") {
         return false;
       }
 
@@ -116,7 +116,7 @@ export const CreateQuiz = observer(() => {
       for (let i = 0; i < quiz.questions.length; i++) {
         if (quiz.questions[i].question.length < 5) errors.push(`Вопрос ${i + 1}`);
         if (!isCorrectOptions(quiz.questions[i])) errors.push(`Варианты ответов на вопрос ${i + 1}`);
-        if (quiz.questions[i].answer === -1) errors.push(`Правильный ответ на вопрос ${i + 1}`);
+        if (quiz.questions[i].answer === -1 && newQuizStore.settings.mode !== "extended") errors.push(`Правильный ответ на вопрос ${i + 1}`);
         if (!quiz.questions[i].options.every((option) => option.score !== "" && !isNaN(Number(option.score)) && (option.score[0] !== "0" || option.score === "0"))) errors.push(`Баллы за вопрос ${i + 1}`)
       }
 
