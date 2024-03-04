@@ -87,8 +87,8 @@ export const Catalog = observer(() => {
       <div key={quiz.id} className="flex flex-col items-center text-center">
         <h2>{quiz.title}</h2>
         <div id={quiz.id.toString()} 
-             className="overflow-hidden h-[243px] w-[432px] rounded-md cursor-pointer hover:opacity-95 bg-cover" onClick={startQuiz}
-             style={{"backgroundImage": `url(http://localhost:8000/quiz/preview/${quiz.id})`}}
+             className="overflow-hidden h-[243px] w-[432px] rounded-md cursor-pointer hover:opacity-95" onClick={startQuiz}
+             style={{"backgroundImage": `url(http://localhost:8000/quiz/preview/${quiz.id})`, "backgroundSize": "100% 100%x"}}
              >
           {/* <img
             id={quiz.id.toString()}

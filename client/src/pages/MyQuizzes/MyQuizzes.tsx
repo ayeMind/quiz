@@ -98,13 +98,13 @@ export const MyQuizzes = observer(() => {
     return (
       <div
         key={quiz.id}
-        className="relative flex flex-col items-center text-center"
+        className="flex flex-col items-center text-center"
       >
         <h2>{quiz.title}</h2>
         <div id={quiz.id.toString()}
-             className="relative h-[243px] w-[432px] rounded-md hover:opacity-95 cursor-pointer bg-cover"
+             className="relative h-[243px] w-[432px] rounded-md hover:opacity-95 cursor-pointer]"
              onClick={startQuiz}
-             style={{"backgroundImage": `url("http://localhost:8000/quiz/preview/${quiz.id}")`}}>
+             style={{"backgroundImage": `url("http://localhost:8000/quiz/preview/${quiz.id}")`, "backgroundSize": "100% 100%"}}>
           <XCircle
             className="absolute text-red-600 cursor-pointer hover:text-red-900 top-2 right-2 hover:scale-105"
             onClick={() => {
@@ -117,7 +117,7 @@ export const MyQuizzes = observer(() => {
   });
 
   return (
-    <PageLayout>
+    <PageLayout className="h-auto min-h-screen">
       {loading ? ( // Если данные загружаются, отобразить крутящееся колесо
         <div className="flex items-center justify-center h-screen">
           <div className="w-32 h-32 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>

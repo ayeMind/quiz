@@ -103,6 +103,8 @@ export const CreateQuiz = observer(() => {
     newQuizStore.createQuiz();
 
     const quiz = newQuizStore.quiz;
+    console.log("quiz", quiz);
+    
     const errors = [];
 
     const isCorrectOptions = (question: Question) => {

@@ -16,7 +16,7 @@ const Quiz = observer(() => {
   const [quizMode, setQuizMode] = useState("");
 
   useEffect(() => {
-  
+      
     quizStore.resetScore();
 
 
@@ -27,6 +27,7 @@ const Quiz = observer(() => {
         } else {
           setQuestions(res.data.questions);
           setQuizMode(res.data.mode);
+          
         }
       });
 
@@ -73,6 +74,8 @@ const Quiz = observer(() => {
                 }
               }
 
+              console.log(quizMode);
+              
               if (quizMode === "standard") {
                 
                 if (optionIndex === question.answer) {
@@ -96,7 +99,6 @@ const Quiz = observer(() => {
 
                 quizStore.setMaxScore(quizStore.maxScore + maxQuestionScore);
                 quizStore.addScore(option.score);
-                finishQuestion();
               }
 
               setTimeout(() => {

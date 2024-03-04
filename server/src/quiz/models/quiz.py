@@ -9,6 +9,7 @@ class QuizCreate(BaseModel):
     description: str
     tags: list
     questions: list
+    mode: str
 
 
     class Config:
@@ -21,6 +22,7 @@ class ServerQuiz(BaseModel):
     description: str
     tags: list
     questions: list
+    mode: str
 
 
     class Config:

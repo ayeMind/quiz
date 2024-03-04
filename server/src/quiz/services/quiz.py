@@ -25,6 +25,7 @@ class QuizService:
             tags=quiz.tags,
             questions=quiz.questions,
             number_of_completions = 0,
+            mode = quiz.mode,
         )
 
         self.session.add(new_quiz)
@@ -71,7 +72,8 @@ class QuizService:
             "description": quiz.description,
             "tags": quiz.tags,
             "questions": quiz.questions,
-            "updated_at": datetime.now()
+            "updated_at": datetime.now(),
+            "mode": quiz.mode,
         })
         self.session.commit()
         return self.get_quiz(quiz_id)
