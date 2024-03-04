@@ -101,13 +101,10 @@ export const MyQuizzes = observer(() => {
         className="relative flex flex-col items-center text-center"
       >
         <h2>{quiz.title}</h2>
-        <div className="relative">
-          <img
-            id={quiz.id.toString()}
-            src={`http://localhost:8000/quiz/preview/${quiz.id}`}
-            className="block h-[243px] w-[432px] rounded-md hover:opacity-95 cursor-pointer object-center"
-            onClick={startQuiz}
-          />
+        <div id={quiz.id.toString()}
+             className="relative h-[243px] w-[432px] rounded-md hover:opacity-95 cursor-pointer bg-cover"
+             onClick={startQuiz}
+             style={{"backgroundImage": `url("http://localhost:8000/quiz/preview/${quiz.id}")`}}>
           <XCircle
             className="absolute text-red-600 cursor-pointer hover:text-red-900 top-2 right-2 hover:scale-105"
             onClick={() => {
