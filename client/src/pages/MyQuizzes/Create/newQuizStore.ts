@@ -49,6 +49,8 @@ function createNewQuizStore() {
       },
     ] as Question[],
 
+    result: [] as object[],
+
     quiz: {} as CreateQuiz,
 
     // ----------------- MainInfo -----------------
@@ -158,6 +160,10 @@ function createNewQuizStore() {
     changeQuestion(index: number, question: Question) {
       this.questions[index] = question;
     },
+
+    changeResult(result: object[]) {
+      this.result = result;
+    },
     
     createQuiz() {
       const quiz = {
@@ -165,6 +171,7 @@ function createNewQuizStore() {
         questions: this.questions,
         author_id: globalStore.user_id,
         mode: this.settings.mode,
+        result: this.result,
       };
 
       this.quiz = quiz;
@@ -212,8 +219,9 @@ function createNewQuizStore() {
       ] as Question[],
   
             this.quiz = {} as CreateQuiz;
-            
+            this.result = [] as object[];
           },
+
 
       });
 

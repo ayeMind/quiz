@@ -26,20 +26,20 @@ const Quiz = observer(() => {
           navigate("/PageNotFound");
         } else {
           setQuestions(res.data.questions);
-          setQuizMode(res.data.mode);
-          
+          setQuizMode(res.data.mode);          
         }
       });
-
-      
-  if (quizMode === "standard") {
-    quizStore.setMaxScore(questions.length);
-  } else {
-    quizStore.setMaxScore(0);
-  }
   
   }, []);
 
+
+  useEffect(() => {
+    if (quizMode === "standard") {
+      quizStore.setMaxScore(questions.length);
+    } else {
+      quizStore.setMaxScore(0);
+    }
+  }, [quizMode, questions])
 
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -73,8 +73,6 @@ const Quiz = observer(() => {
                   setIsFinished(true);
                 }
               }
-
-              console.log(quizMode);
               
               if (quizMode === "standard") {
                 
@@ -151,10 +149,11 @@ const Quiz = observer(() => {
           {options}
         </div>
 
-        {question.type === "multiple" && (
+        {question.type === "multiple" && !isFinished && (
           <button
             className="mt-[64px] hover:scale-105 px-[84px] bg-white dark:bg-[#060E24] rounded-3xl border-2"
             onClick={() => {
+
 
               const answers = question.answer as number[];
 
@@ -168,10 +167,6 @@ const Quiz = observer(() => {
                              
               const buttons = document.querySelectorAll(".btn");
               buttons.forEach((btn) => {
-
-                console.log(btn);
-                console.log(question.answer);
-                console.log(multipleAnswers);
                 
                 btn.classList.add("pointer-events-none");
                 if (btn.classList.contains("border-lime-400")) {

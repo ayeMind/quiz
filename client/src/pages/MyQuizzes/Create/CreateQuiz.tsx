@@ -76,7 +76,7 @@ export const CreateQuiz = observer(() => {
   function isCorrectFilled() {
     const quiz = newQuizStore.quiz;
 
-    if (quiz.title === "" || quiz.description === ""  || !newQuizStore.previewIsLoaded) {
+    if (quiz.title === "" || quiz.description === "" || !newQuizStore.previewIsLoaded) {
       return false;
     }
 

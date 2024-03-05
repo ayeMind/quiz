@@ -29,6 +29,7 @@ class Quiz(Base):
     tags = Column(ARRAY(String), nullable=False)
     questions = Column(ARRAY(JSON), nullable=False)
     mode = Column(String, nullable=False)
+    result = Column(ARRAY(JSON), nullable=False)
     author_id = Column(Integer, nullable=False)
     created_at = Column(TIMESTAMP, nullable=False, server_default=func.now())
     updated_at = Column(TIMESTAMP, nullable=False, server_default=func.now())

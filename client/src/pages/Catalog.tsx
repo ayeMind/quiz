@@ -88,7 +88,7 @@ export const Catalog = observer(() => {
         <h2>{quiz.title}</h2>
         <div id={quiz.id.toString()} 
              className="overflow-hidden h-[243px] w-[432px] rounded-md cursor-pointer hover:opacity-95" onClick={startQuiz}
-             style={{"backgroundImage": `url(http://localhost:8000/quiz/preview/${quiz.id})`, "backgroundSize": "100% 100%x"}}
+             style={{"backgroundImage": `url(http://localhost:8000/quiz/preview/${quiz.id})`, "backgroundSize": "100% 100%"}}
              >
           {/* <img
             id={quiz.id.toString()}

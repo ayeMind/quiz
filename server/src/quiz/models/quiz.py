@@ -10,6 +10,7 @@ class QuizCreate(BaseModel):
     tags: list
     questions: list
     mode: str
+    result: list
 
 
     class Config:
@@ -23,6 +24,7 @@ class ServerQuiz(BaseModel):
     tags: list
     questions: list
     mode: str
+    result: list
 
 
     class Config:
