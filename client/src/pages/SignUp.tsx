@@ -64,7 +64,7 @@ export default function LogIn() {
     if (!validateUserName(userName)) {
       setUserNameError("Username должен быть длиной не менее 3 символов и содержать только латинские буквы или цифры");
       return;
-    } else if (userNames.includes(userName)) {
+    } else if (userNames && userNames.includes(userName)) {
       setUserNameError("Такое имя уже занято");
       return;
     } else {
@@ -75,7 +75,7 @@ export default function LogIn() {
     if (!validateEmail(email)) {
       setEmailError("Введите корректный email");
       return;
-    } else if (emails.includes(email)) {
+    } else if (emails && emails.includes(email)) {
       setEmailError("Такой email уже занят");
       return;
     } else {
@@ -92,7 +92,7 @@ export default function LogIn() {
       setPasswordError("");
     }
 
-    // Отправка данных на сервер 
+    // Отправка данных на сервер  
     const { success_create, token } = await createUser({
       user_name: userName,
       email: email,

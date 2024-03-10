@@ -124,7 +124,7 @@ const Quiz = observer(() => {
 
       return (
         <button
-          className="btn hover:scale-105 px-[84px] bg-white dark:bg-[#060E24] rounded-3xl border-2"
+          className="btn hover:scale-105 px-[84px] bg-white dark:bg-[#060E24] rounded-3xl border-4 dark:border-2"
           onClick={() => handleClick()}
           key={optionIndex.toString()}
           id={optionIndex.toString()}
@@ -151,7 +151,7 @@ const Quiz = observer(() => {
 
         {question.type === "multiple" && !isFinished && (
           <button
-            className="mt-[64px] hover:scale-105 px-[84px] bg-white dark:bg-[#060E24] rounded-3xl border-2"
+            className="mt-[64px] hover:scale-105 px-[84px] bg-white dark:bg-[#060E24] rounded-3xl border-4 dark:border-2"
             onClick={() => {
 
 
@@ -177,7 +177,12 @@ const Quiz = observer(() => {
                 if (answers.includes(parseInt(btn.id))) {
                   btn.classList.add("bg-green-400", "dark:bg-green-400");
                   btn.classList.remove("bg-white", "dark:bg-[#060E24]");
-                  btn.classList.toggle("opacity-70")
+                  btn.classList.remove("opacity-70")
+
+                  if (!multipleAnswers.includes(parseInt(btn.id))) {
+                    btn.classList.add("border-red-400", "dark:border-red-400");
+                  }
+
                 } else if (multipleAnswers.includes(parseInt(btn.id))) {
                   btn.classList.add("bg-red-400", "dark:bg-red-400");
                   btn.classList.remove("bg-white", "dark:bg-[#060E24]");
