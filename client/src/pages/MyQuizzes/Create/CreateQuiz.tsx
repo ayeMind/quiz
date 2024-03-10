@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { FormCell } from "../../../shared/components/create/FormCell";
 import { PageLayout } from "../../../shared/ui/layouts/page-layout";
 import { observer } from "mobx-react-lite";
-import {FormMain} from "../../../shared/components/create/FormMain";
+import { FormMain } from "../../../shared/components/create/FormMain";
 import { useNavigate } from "react-router";
 
 import { sendPreview } from "../../../shared/api/sendPreview";
@@ -11,21 +11,21 @@ import createQuiz from "../../../shared/api/createQuiz";
 import newQuizStore from "./newQuizStore";
 import globalStore from "../../../app/globalStore";
 import { Question, Option } from "../../../app/interfaces";
-
+import { userCreateCount } from "../../../shared/api/updateUser";
 
 export const CreateQuiz = observer(() => {
-
-  const [questions, setQuestions] = useState(newQuizStore.questions.map(() => Math.random().toString()));
+  const [questions, setQuestions] = useState(
+    newQuizStore.questions.map(() => Math.random().toString())
+  );
   const [userId, setUserId] = useState(globalStore.user_id);
-  
-  console.log("userId", userId);
-  
+
+  // console.log("userId", userId);
+
   useEffect(() => {
     setUserId(globalStore.user_id);
-
   }, [globalStore.user_id]);
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
   const handleDeleteQuestion = (index: number) => {
     if (questions.length === 3) {
       alert("Викторина должна содержать минимум 3 вопроса");
@@ -37,18 +37,22 @@ export const CreateQuiz = observer(() => {
   };
 
   const questionForms = questions.map((question, index) => (
-    <FormCell key={question} index={index} questionId={question} onDelete={() => handleDeleteQuestion(index)} />
+    <FormCell
+      key={question}
+      index={index}
+      questionId={question}
+      onDelete={() => handleDeleteQuestion(index)}
+    />
   ));
 
   const endOfPageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-
     setTimeout(() => {
       if (globalStore.user_id === -1) {
-        navigate('/login')
+        navigate("/login");
       }
-    }, 500)
+    }, 500);
 
     if (endOfPageRef.current && questions.length !== 3) {
       endOfPageRef.current.scrollIntoView({ behavior: "smooth" });
@@ -65,7 +69,11 @@ export const CreateQuiz = observer(() => {
     newQuizStore.addQuestion({
       index: newQuestionIndex,
       question: "",
-      options: [{score: "1", text: ""}, {score: "1", text: ""}, {score: "1", text: ""}],
+      options: [
+        { score: "1", text: "" },
+        { score: "1", text: "" },
+        { score: "1", text: "" },
+      ],
       answer: -1,
       type: "standard",
     });
@@ -76,12 +84,20 @@ export const CreateQuiz = observer(() => {
   function isCorrectFilled() {
     const quiz = newQuizStore.quiz;
 
-    if (quiz.title === "" || quiz.description === "" || !newQuizStore.previewIsLoaded) {
+    if (
+      quiz.title === "" ||
+      quiz.description === "" ||
+      !newQuizStore.previewIsLoaded
+    ) {
       return false;
     }
 
     for (let i = 0; i < quiz.questions.length; i++) {
-      if ((quiz.questions[i].question.length < 5 || quiz.questions[i].answer === -1) && newQuizStore.settings.mode !== "extended") {
+      if (
+        (quiz.questions[i].question.length < 5 ||
+          quiz.questions[i].answer === -1) &&
+        newQuizStore.settings.mode !== "extended"
+      ) {
         return false;
       }
 
@@ -89,22 +105,27 @@ export const CreateQuiz = observer(() => {
         return false;
       }
 
-      if (!quiz.questions[i].options.every((option) => option.score !== "" && !isNaN(Number(option.score)) && (option.score[0] !== "0" || option.score === "0"))) {
+      if (
+        !quiz.questions[i].options.every(
+          (option) =>
+            option.score !== "" &&
+            !isNaN(Number(option.score)) &&
+            (option.score[0] !== "0" || option.score === "0")
+        )
+      ) {
         return false;
       }
     }
 
     return true;
   }
-    
 
   function handleCreateQuiz() {
-    
     newQuizStore.createQuiz();
 
     const quiz = newQuizStore.quiz;
     console.log("quiz", quiz);
-    
+
     const errors = [];
 
     const isCorrectOptions = (question: Question) => {
@@ -116,45 +137,57 @@ export const CreateQuiz = observer(() => {
       if (quiz.description === "") errors.push("Описание");
       if (!newQuizStore.previewIsLoaded) errors.push("Превью");
       for (let i = 0; i < quiz.questions.length; i++) {
-        if (quiz.questions[i].question.length < 5) errors.push(`Вопрос ${i + 1}`);
-        if (!isCorrectOptions(quiz.questions[i])) errors.push(`Варианты ответов на вопрос ${i + 1}`);
-        if (quiz.questions[i].answer === -1 && newQuizStore.settings.mode !== "extended") errors.push(`Правильный ответ на вопрос ${i + 1}`);
-        if (!quiz.questions[i].options.every((option) => option.score !== "" && !isNaN(Number(option.score)) && (option.score[0] !== "0" || option.score === "0"))) errors.push(`Баллы за вопрос ${i + 1}`)
+        if (quiz.questions[i].question.length < 5)
+          errors.push(`Вопрос ${i + 1}`);
+        if (!isCorrectOptions(quiz.questions[i]))
+          errors.push(`Варианты ответов на вопрос ${i + 1}`);
+        if (
+          quiz.questions[i].answer === -1 &&
+          newQuizStore.settings.mode !== "extended"
+        )
+          errors.push(`Правильный ответ на вопрос ${i + 1}`);
+        if (
+          !quiz.questions[i].options.every(
+            (option) =>
+              option.score !== "" &&
+              !isNaN(Number(option.score)) &&
+              (option.score[0] !== "0" || option.score === "0")
+          )
+        )
+          errors.push(`Баллы за вопрос ${i + 1}`);
       }
 
-      alert(`Вы не заполнили следующие поля:\n${errors.join('\n')}`);
+      alert(`Вы не заполнили следующие поля:\n${errors.join("\n")}`);
       return;
     }
 
     if (globalStore.user_id === -1) {
-      alert("Ошибка авторизации.\nПопробуйте выйти из аккаунта и зайти снова!")
+      alert("Ошибка авторизации.\nПопробуйте выйти из аккаунта и зайти снова!");
       return;
     }
 
     createQuiz(quiz)
       .then(() => {
-          alert("Викторина успешно создана!")
-          sendPreview()
-            .then(response => {
-              console.log(response),
-              newQuizStore.clear()
-              navigate("/my-quizzes")
-            })
-          
-      })  
+        alert("Викторина успешно создана!");
+        sendPreview().then((response) => {
+          console.log(response), newQuizStore.clear();
+          navigate("/my-quizzes");
+          userCreateCount(userId.toString());
+        });
+      })
       .catch((error) => {
         alert("Ошибка при создании викторины");
         console.error(error);
       });
   }
 
-
   return (
     <PageLayout showHeader={false} className="h-auto min-h-screen">
-
-      <button className="absolute top-4 left-4 text-[24px] flex justify-center items-center hover:scale-105 hover:underline gap-1"
-              onClick={() => newQuizStore.clear()}>
-        <ArrowLeft />   
+      <button
+        className="absolute top-4 left-4 text-[24px] flex justify-center items-center hover:scale-105 hover:underline gap-1"
+        onClick={() => newQuizStore.clear()}
+      >
+        <ArrowLeft />
         <p>Вернуться к выбору типа</p>
       </button>
 
@@ -173,8 +206,12 @@ export const CreateQuiz = observer(() => {
           <div ref={endOfPageRef} />
         </div>
 
-        <button className="p-2 mb-4 text-white bg-blue-500 rounded-2xl hover:bg-blue-700" 
-          onClick={handleCreateQuiz}>Создать викторину</button>
+        <button
+          className="p-2 mb-4 text-white bg-blue-500 rounded-2xl hover:bg-blue-700"
+          onClick={handleCreateQuiz}
+        >
+          Создать викторину
+        </button>
       </div>
     </PageLayout>
   );

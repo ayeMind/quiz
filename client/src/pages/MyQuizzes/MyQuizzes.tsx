@@ -7,7 +7,7 @@ import { Quiz } from "../../app/interfaces";
 import globalStore from "../../app/globalStore";
 
 import CatalogNavigate from "../../shared/components/catalog/CatalogNavigate";
-import QuizList from "../../shared/components/catalog/quizList";
+import QuizList from "../../shared/components/catalog/QuizList";
 import Search from "../../shared/components/catalog/Search";
 import CreateBtn from "../../shared/components/catalog/CreateBtn";
 
@@ -30,9 +30,9 @@ export const MyQuizzes = observer(() => {
 
     setTimeout(() => {
       if (!globalStore.isAutorized) {
-        navigate("/login");
+        navigate("/");
       }
-    }, 100);
+    }, 200);
 
     if (globalStore.user_id !== -1) {
       getAllQuizzesByUserId(globalStore.user_id.toString())
@@ -61,7 +61,7 @@ export const MyQuizzes = observer(() => {
         setPage(parseInt(param));
       }
     }
-  }, [globalStore.user_id, page, param]);
+  }, [page, param]);
 
   useEffect(() => {
     setQuizzesAmount(filteredQuizzes.length);
@@ -83,7 +83,7 @@ export const MyQuizzes = observer(() => {
 
           <CatalogNavigate
             currentPage={page}
-            totalPages={(quizzesAmount + 9) / 10}
+            totalPages={Math.ceil(quizzesAmount / 10)}
           />
         </div>
       ) : (

@@ -7,6 +7,8 @@ import { observer } from "mobx-react-lite";
 import { getQuizById } from "../../shared/api/getQuizzes";
 import { Question } from "../../app/interfaces";
 import quizStore from "./quizStore";
+import { updateUserCompletions } from "../../shared/api/updateUser";
+import globalStore from "../../app/globalStore";
 
 
 const Quiz = observer(() => {
@@ -46,6 +48,12 @@ const Quiz = observer(() => {
   const [btnIsClicked, setBtnIsClicked] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [multipleAnswers, setMultipleAnswers] = useState([] as number[]);
+
+  useEffect(() => {
+    if (isFinished) {
+      updateUserCompletions(globalStore.user_id.toString());      
+    }
+  }, [isFinished]);
 
   const quizQuestion = questions.map((question, questionIndex) => {
 

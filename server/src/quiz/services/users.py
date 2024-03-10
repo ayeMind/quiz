@@ -19,3 +19,27 @@ class UsersService:
             raise ValueError('User not found')
         return user
     
+    def complete_quiz(self, user_id: int) -> tables.User:
+        user = self.get_user(user_id)
+        user.completed_quizzes += 1
+        self.session.commit()
+        self.session.refresh(user)
+        return user
+    
+    def create_quiz(self, user_id: int) -> tables.User:
+        user = self.get_user(user_id)
+        user.number_of_quizzes += 1
+        self.session.commit()
+        self.session.refresh(user)
+        return user
+    
+    def remove_quiz(self, user_id: int) -> tables.User:
+        user = self.get_user(user_id)
+        
+        if user.number_of_quizzes == 0:
+            raise ValueError('User has no quizzes')
+        
+        user.number_of_quizzes -= 1
+        self.session.commit()
+        self.session.refresh(user)
+        return user

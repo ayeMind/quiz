@@ -12,8 +12,6 @@ class User(Base):
     password = Column(String, nullable=False)
     avatar = Column(String, server_default='default.png', nullable=False)
 
-    created_quizzes_ids = Column(ARRAY(Integer), nullable=False)
-
     number_of_quizzes = Column(Integer, server_default='0', nullable=False)
     completed_quizzes = Column(Integer, server_default='0', nullable=False)
 

@@ -6,6 +6,10 @@ class User(BaseModel):
     email: str
     avatar: str
 
+    number_of_quizzes: int
+    completed_quizzes: int
+
+
 
 class UserCreate(BaseModel):
     user_name: str

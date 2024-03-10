@@ -3,6 +3,10 @@ export interface User {
     user_name: string;
     email: string;
     avatar: string;
+
+    number_of_quizzes: number;
+    completed_quizzes: number;
+
 }
 
 export interface createUserData {

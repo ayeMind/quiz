@@ -2,6 +2,8 @@ import { useNavigate } from "react-router";
 import { Quiz } from "../../../app/interfaces";
 import { deleteQuiz } from "../../api/deleteQuiz";
 import { XCircle } from "lucide-react";
+import globalStore from "../../../app/globalStore";
+import { userRemoveCount } from "../../api/updateUser";
 
 interface Props {
   quizzes: Quiz[];
@@ -14,9 +16,15 @@ const QuizList = ({ quizzes, isOwner }: Props) => {
   const quizElements = quizzes.map((quiz) => {
     const handleDeleteQuiz = (quizId: string) => {
       deleteQuiz(quizId);
-      setTimeout(() => {
-        location.reload();
-      }, 50);
+      userRemoveCount(globalStore.user_id.toString())
+        .then((res) => {
+          if (res.success_user) {
+              location.reload();
+          } else {
+            console.log("Ошибка при удалении");
+          }
+        })
+      
     };
 
     const startQuiz = (e: React.MouseEvent) => {

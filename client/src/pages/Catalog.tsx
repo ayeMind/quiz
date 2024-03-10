@@ -8,7 +8,7 @@ import { Quiz } from "../app/interfaces";
 import globalStore from "../app/globalStore";
 import CatalogNavigate from "../shared/components/catalog/CatalogNavigate";
 import Search from "../shared/components/catalog/Search";
-import QuizList from "../shared/components/catalog/quizList";
+import QuizList from "../shared/components/catalog/QuizList";
 
 export const Catalog = observer(() => {
   const param = useParams().page;
@@ -73,7 +73,7 @@ export const Catalog = observer(() => {
             <QuizList quizzes={displayedQuizzes} isOwner={false}/>
             <CatalogNavigate
               currentPage={page}
-              totalPages={(quizzesAmount + 9) / 10}
+              totalPages={Math.ceil(quizzesAmount / 10)}
             />
         </>
       )}
