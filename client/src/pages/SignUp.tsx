@@ -152,10 +152,10 @@ export default function LogIn() {
 
   return (
     <PageLayout>
-      <div className="absolute flex flex-col items-center w-1/4 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-[#2d3449] opacity-[0.8] left-1/2 top-1/2 h-1/2 rounded-3xl">
-        <p className="mt-8">Регистрация</p>
+      <div className="absolute flex flex-col items-center p-5 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-[#2d3449] opacity-[0.8] left-1/2 top-1/2 rounded-3xl">
+        <p>Регистрация</p>
 
-        <form onSubmit={handleSubmit} className="flex flex-col items-center mt-12">
+        <form onSubmit={handleSubmit} className="flex flex-col items-center mt-8">
           <input
             type="text"
             className="h-8 w-72 text-[18px] pl-3 bg-slate-100 dark:bg-[#111931]"
@@ -201,10 +201,10 @@ export default function LogIn() {
           />
           <p id={hintPasswordId} className="text-[12px] text-red-800 mb-4 w-80 text-center">{passwordError}</p>
 
-          <button type="submit" className="text-[18px] bg-slate-200 py-2 px-4 rounded-2xl">Создать учётную запись</button>
+          <button type="submit" className="text-[18px] bg-slate-200 dark:bg-[#111931] hover:opacity-80 py-2 px-4 mt-4 rounded-2xl">Создать учётную запись</button>
         </form>
 
-        <p className="text-[18px] mt-8">Авторизация с помощью других сервисов:</p>
+        {/* <p className="text-[18px] mt-8">Авторизация с помощью других сервисов:</p> */}
       </div>
     </PageLayout>
   );

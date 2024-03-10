@@ -21,7 +21,11 @@ def get_quiz(quiz_id: int, service: QuizService = Depends()):
 def get_quizzes(skip: int = 0, limit: int = 10, service: QuizService = Depends()):
     return service.get_quizzes(skip, limit)
 
-@router.get('/user/{user_id}', response_model=list[quiz_model.ServerQuiz], tags=["QUIZ"], description="Get a list of quizzes by user id")
+@router.get('/user/{user_id}/all/', response_model=list[quiz_model.ServerQuiz], tags=["QUIZ"], description="Get a list of quizzes by user id")
+def get_all_user_quizzes(user_id: int, service: QuizService = Depends()):
+    return service.get_all_user_quizzes(user_id)
+
+@router.get('/user/{user_id}', response_model=list[quiz_model.ServerQuiz], tags=["QUIZ"], description="Get a list of quizzes by user id with skip and limit")
 def get_user_quizzes(user_id: int, skip: int = 0, limit: int = 10, service: QuizService = Depends()):
     return service.get_user_quizzes(user_id, skip, limit)
 
@@ -29,7 +33,7 @@ def get_user_quizzes(user_id: int, skip: int = 0, limit: int = 10, service: Quiz
 def update_quiz(quiz_id: int, quiz: quiz_model.QuizCreate, service: QuizService = Depends()):
     return service.update_quiz(quiz_id, quiz)
 
-@router.get('/all', response_model=list[quiz_model.ServerQuiz], tags=["QUIZ"], description="Get a list of all quizzes")
+@router.get('/all/', response_model=list[quiz_model.ServerQuiz], tags=["QUIZ"], description="Get a list of all quizzes")
 def get_all_quizzes(service: QuizService = Depends()):
     return service.get_all_quizzes()
 

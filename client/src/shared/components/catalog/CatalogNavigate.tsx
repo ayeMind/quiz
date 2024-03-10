@@ -32,8 +32,10 @@ export default function CatalogNavigate({ currentPage, totalPages }: { currentPa
   });
 
   return (
-    <div className="flex gap-2 mt-[32px] h-[100px]">
-      {pageElements}
+    <div className="flex items-center justify-center mb-1">   
+      <div className="flex gap-2 mt-[32px] h-[100px]">
+        {pageElements}
+      </div>
     </div>
   );
 }

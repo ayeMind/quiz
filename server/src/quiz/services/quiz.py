@@ -50,20 +50,24 @@ class QuizService:
     
 
     def get_quizzes(self, skip: int = 0, limit: int = 10) -> List[quiz_model.ServerQuiz]:
-        quizzes = self.session.query(tables.Quiz).offset(skip).limit(limit).all()
+        quizzes = self.session.query(tables.Quiz).order_by(tables.Quiz.id.desc()).offset(skip).limit(limit).all()
         return [quiz_model.ServerQuiz.from_orm(quiz) for quiz in quizzes]
     
     def get_all_quizzes(self) -> List[quiz_model.ServerQuiz]:
-        quizzes = self.session.query(tables.Quiz).all()
+        quizzes = self.session.query(tables.Quiz).order_by(tables.Quiz.id.desc()).all()
         return [quiz_model.ServerQuiz.from_orm(quiz) for quiz in quizzes]
     
+    def get_all_user_quizzes(self, user_id: int) -> List[quiz_model.ServerQuiz]:
+        quizzes = self.session.query(tables.Quiz).filter_by(author_id=user_id).order_by(tables.Quiz.id.desc()).all()
+        return [quiz_model.ServerQuiz.from_orm(quiz) for quiz in quizzes]
+
     def get_quizzes_by_tags(self, tags: str) -> List[quiz_model.ServerQuiz]:
         tag_list = tags.split(',')
-        quizzes = self.session.query(tables.Quiz).filter(tables.Quiz.tags.contains(tag_list)).all()
+        quizzes = self.session.query(tables.Quiz).filter(tables.Quiz.tags.contains(tag_list)).order_by(tables.Quiz.id.desc()).all()
         return [quiz_model.ServerQuiz.from_orm(quiz) for quiz in quizzes]
     
     def get_user_quizzes(self, user_id: int, skip: int, limit: int) -> List[quiz_model.ServerQuiz]:
-        quizzes = self.session.query(tables.Quiz).filter_by(author_id=user_id).offset(skip).limit(limit).all()
+        quizzes = self.session.query(tables.Quiz).filter_by(author_id=user_id).order_by(tables.Quiz.id.desc()).offset(skip).limit(limit).all()
         return [quiz_model.ServerQuiz.from_orm(quiz) for quiz in quizzes]
 
 
@@ -103,21 +107,21 @@ class QuizService:
  
 
     def get_preview(self, quiz_id: int):
+        try:
+            with open(f'../files/previews/{quiz_id}.png', 'rb') as preview_file:
+                preview_bytes = preview_file.read()
+                return StreamingResponse(io.BytesIO(preview_bytes), media_type="image/png")
         
-        with open(f'../files/previews/{quiz_id}.png', 'rb') as preview_file:
-            preview_bytes = preview_file.read()
-            return StreamingResponse(io.BytesIO(preview_bytes), media_type="image/png")
-        
+        except FileNotFoundError:
+            with open(f'../files/previews/default.jpg', 'rb') as preview_file:
+                preview_bytes = preview_file.read()
+                return StreamingResponse(io.BytesIO(preview_bytes), media_type="image/png")
+            
     def get_all_preview(self):
         previews = []
         for quiz in self.get_all_quizzes():
-            with open(f'../files/previews/{quiz.id}.png', 'rb') as preview_file:
-                preview_bytes = preview_file.read()
-                png = io.BytesIO(preview_bytes)
-                previews.append({
-                    "id": quiz.id,
-                    "preview": png
-                })
+           preview = self.get_preview(quiz.id)
+           previews.append(preview)
         return previews
     
     def delete_quiz(self, quiz_id: int):
